@@ -8,11 +8,11 @@ const App = () => {
 		api.get('/users')
 		.then((res) => setUsuarios(res.data))
 		.catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-	}, [])
+	}, [usuarios])
 
 	return (
 	usuarios.map((user) => (
-		<p className="ml-2">{user.username}</p>
+		<p className="ml-2">{user.fullName}</p>
 	))
 	);
 }

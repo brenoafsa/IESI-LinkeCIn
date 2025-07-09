@@ -15,12 +15,12 @@ async function getAllUsers (req, res) {
 }
 
 async function createUser(req, res){
-     const { username, email, password } = req.body;
+     const { fullName, email, password, role } = req.body;
      
      try{
         const senhaHashed = await bcrypt.hash(password, 10);
         const novoUsuario = await prisma.user.create({
-            data: { username, email, password: senhaHashed }
+            data: { fullName, email, password: senhaHashed, role }
         });
         res.status(200).json(novoUsuario);
      } catch (err) {
