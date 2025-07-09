@@ -122,9 +122,37 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  username: 'username',
+  fullName: 'fullName',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  role: 'role'
+};
+
+exports.Prisma.StudentRecordScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  complementaryHours: 'complementaryHours',
+  course: 'course',
+  entrance: 'entrance',
+  finishedSubjects: 'finishedSubjects'
+};
+
+exports.Prisma.TeacherRecordScalarFieldEnum = {
+  id: 'id',
+  teacherId: 'teacherId',
+  subjects: 'subjects'
+};
+
+exports.Prisma.OpportunityPostScalarFieldEnum = {
+  id: 'id',
+  tittle: 'tittle',
+  description: 'description',
+  type: 'type',
+  deadline: 'deadline',
+  city: 'city',
+  state: 'state',
+  hours: 'hours',
+  publisherId: 'publisherId'
 };
 
 exports.Prisma.SortOrder = {
@@ -136,10 +164,21 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+exports.UserRole = exports.$Enums.UserRole = {
+  STUDENT: 'STUDENT',
+  TEACHER: 'TEACHER'
+};
 
+exports.OpportunityTypes = exports.$Enums.OpportunityTypes = {
+  EXTENSION: 'EXTENSION',
+  COMPLEMENTARY: 'COMPLEMENTARY'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  StudentRecord: 'StudentRecord',
+  TeacherRecord: 'TeacherRecord',
+  OpportunityPost: 'OpportunityPost'
 };
 
 /**
