@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
 
-const HomePage = () => {
+const FeedPage = () => {
 	const [usuarios, setUsuarios] = useState([])
 
 	useEffect(() => {
@@ -11,9 +11,9 @@ const HomePage = () => {
 	}, [usuarios])
 
 	return (
-		<div> <section>Conecte-se às melhores oportunidades no maior <span className="text-red-500">Centro de Informática</span> do país.</section> 
+		<div> <h1>Feed Page</h1>
 		</div>
 	);
 }
 
-export default HomePage
+export default FeedPage
