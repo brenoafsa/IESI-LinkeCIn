@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
+import Header from "../components/header"
 
 const RegisterPage = () => {
 	const [usuarios, setUsuarios] = useState([])
@@ -11,7 +12,7 @@ const RegisterPage = () => {
 	}, [usuarios])
 
 	return (
-		<div> <h1>Register Page</h1>
+		<div>
 		</div>
 	);
 }
