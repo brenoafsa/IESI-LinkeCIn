@@ -18,7 +18,7 @@ const HomePage = () => {
 			<section className="text-extrabold bg-mainbg p-20">
 				<h1 className="text-4xl max-w-md">Conecte-se às melhores oportunidades no maior <span className="text-darkred">Centro de Informática</span> do país.</h1>
 				<Login />
-				<p className="pt-3 text-extrabold pl-4">Ainda não faz parte do LinkeCIn? <Link to="/register" className="text-darkred underline">Cadastre-se agora</Link></p>
+				<p className="pt-3 text-extrabold pl-4">Ainda não faz parte do LinkeCIn? <Link to="/register" className="text-darkred underline font-bold">Cadastre-se agora</Link></p>
 			</section>
 		</div>
 	);

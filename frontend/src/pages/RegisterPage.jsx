@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
-import Header from "../components/header"
+import Register from "../components/register"
+import { Link } from "react-router-dom"
 
 const RegisterPage = () => {
 	const [usuarios, setUsuarios] = useState([])
@@ -12,7 +13,14 @@ const RegisterPage = () => {
 	}, [usuarios])
 
 	return (
-		<div>
+		<div className="w-full min-h-screen bg-mainbg">
+			<section className="text-extrabold bg-mainbg p-20 pl-170">
+				<div className="w-100">
+					<h1 className="text-2xl max-w-md font-black text-darkred text-center">Crie sua conta! </h1>
+					<Register />
+					<p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/" className="text-darkred underline font-bold">Entrar</Link></p>
+				</div>
+			</section>
 		</div>
 	);
 }
