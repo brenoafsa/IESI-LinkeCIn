@@ -24,11 +24,6 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type StudentRecord = $Result.DefaultSelection<Prisma.$StudentRecordPayload>
 /**
- * Model TeacherRecord
- * 
- */
-export type TeacherRecord = $Result.DefaultSelection<Prisma.$TeacherRecordPayload>
-/**
  * Model OpportunityPost
  * 
  */
@@ -207,16 +202,6 @@ export class PrismaClient<
     * ```
     */
   get studentRecord(): Prisma.StudentRecordDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.teacherRecord`: Exposes CRUD operations for the **TeacherRecord** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more TeacherRecords
-    * const teacherRecords = await prisma.teacherRecord.findMany()
-    * ```
-    */
-  get teacherRecord(): Prisma.TeacherRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.opportunityPost`: Exposes CRUD operations for the **OpportunityPost** model.
@@ -669,7 +654,6 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     StudentRecord: 'StudentRecord',
-    TeacherRecord: 'TeacherRecord',
     OpportunityPost: 'OpportunityPost'
   };
 
@@ -689,7 +673,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentRecord" | "teacherRecord" | "opportunityPost"
+      modelProps: "user" | "studentRecord" | "opportunityPost"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -838,80 +822,6 @@ export namespace Prisma {
           count: {
             args: Prisma.StudentRecordCountArgs<ExtArgs>
             result: $Utils.Optional<StudentRecordCountAggregateOutputType> | number
-          }
-        }
-      }
-      TeacherRecord: {
-        payload: Prisma.$TeacherRecordPayload<ExtArgs>
-        fields: Prisma.TeacherRecordFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.TeacherRecordFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.TeacherRecordFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          findFirst: {
-            args: Prisma.TeacherRecordFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.TeacherRecordFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          findMany: {
-            args: Prisma.TeacherRecordFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>[]
-          }
-          create: {
-            args: Prisma.TeacherRecordCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          createMany: {
-            args: Prisma.TeacherRecordCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.TeacherRecordCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>[]
-          }
-          delete: {
-            args: Prisma.TeacherRecordDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          update: {
-            args: Prisma.TeacherRecordUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          deleteMany: {
-            args: Prisma.TeacherRecordDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.TeacherRecordUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.TeacherRecordUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>[]
-          }
-          upsert: {
-            args: Prisma.TeacherRecordUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TeacherRecordPayload>
-          }
-          aggregate: {
-            args: Prisma.TeacherRecordAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTeacherRecord>
-          }
-          groupBy: {
-            args: Prisma.TeacherRecordGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TeacherRecordGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.TeacherRecordCountArgs<ExtArgs>
-            result: $Utils.Optional<TeacherRecordCountAggregateOutputType> | number
           }
         }
       }
@@ -1075,7 +985,6 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     studentRecord?: StudentRecordOmit
-    teacherRecord?: TeacherRecordOmit
     opportunityPost?: OpportunityPostOmit
   }
 
@@ -1406,7 +1315,6 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     studentRecord?: boolean | User$studentRecordArgs<ExtArgs>
-    teacherRecord?: boolean | User$teacherRecordArgs<ExtArgs>
     publishedPosts?: boolean | User$publishedPostsArgs<ExtArgs>
     appliedPosts?: boolean | User$appliedPostsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1439,7 +1347,6 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentRecord?: boolean | User$studentRecordArgs<ExtArgs>
-    teacherRecord?: boolean | User$teacherRecordArgs<ExtArgs>
     publishedPosts?: boolean | User$publishedPostsArgs<ExtArgs>
     appliedPosts?: boolean | User$appliedPostsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1451,7 +1358,6 @@ export namespace Prisma {
     name: "User"
     objects: {
       studentRecord: Prisma.$StudentRecordPayload<ExtArgs> | null
-      teacherRecord: Prisma.$TeacherRecordPayload<ExtArgs> | null
       publishedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
       appliedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
     }
@@ -1856,7 +1762,6 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     studentRecord<T extends User$studentRecordArgs<ExtArgs> = {}>(args?: Subset<T, User$studentRecordArgs<ExtArgs>>): Prisma__StudentRecordClient<$Result.GetResult<Prisma.$StudentRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    teacherRecord<T extends User$teacherRecordArgs<ExtArgs> = {}>(args?: Subset<T, User$teacherRecordArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     publishedPosts<T extends User$publishedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$publishedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     appliedPosts<T extends User$appliedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$appliedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -2297,25 +2202,6 @@ export namespace Prisma {
      */
     include?: StudentRecordInclude<ExtArgs> | null
     where?: StudentRecordWhereInput
-  }
-
-  /**
-   * User.teacherRecord
-   */
-  export type User$teacherRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    where?: TeacherRecordWhereInput
   }
 
   /**
@@ -3483,1034 +3369,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: StudentRecordInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model TeacherRecord
-   */
-
-  export type AggregateTeacherRecord = {
-    _count: TeacherRecordCountAggregateOutputType | null
-    _min: TeacherRecordMinAggregateOutputType | null
-    _max: TeacherRecordMaxAggregateOutputType | null
-  }
-
-  export type TeacherRecordMinAggregateOutputType = {
-    id: string | null
-    teacherId: string | null
-  }
-
-  export type TeacherRecordMaxAggregateOutputType = {
-    id: string | null
-    teacherId: string | null
-  }
-
-  export type TeacherRecordCountAggregateOutputType = {
-    id: number
-    teacherId: number
-    subjects: number
-    _all: number
-  }
-
-
-  export type TeacherRecordMinAggregateInputType = {
-    id?: true
-    teacherId?: true
-  }
-
-  export type TeacherRecordMaxAggregateInputType = {
-    id?: true
-    teacherId?: true
-  }
-
-  export type TeacherRecordCountAggregateInputType = {
-    id?: true
-    teacherId?: true
-    subjects?: true
-    _all?: true
-  }
-
-  export type TeacherRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TeacherRecord to aggregate.
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TeacherRecords to fetch.
-     */
-    orderBy?: TeacherRecordOrderByWithRelationInput | TeacherRecordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: TeacherRecordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TeacherRecords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TeacherRecords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned TeacherRecords
-    **/
-    _count?: true | TeacherRecordCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: TeacherRecordMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: TeacherRecordMaxAggregateInputType
-  }
-
-  export type GetTeacherRecordAggregateType<T extends TeacherRecordAggregateArgs> = {
-        [P in keyof T & keyof AggregateTeacherRecord]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTeacherRecord[P]>
-      : GetScalarType<T[P], AggregateTeacherRecord[P]>
-  }
-
-
-
-
-  export type TeacherRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TeacherRecordWhereInput
-    orderBy?: TeacherRecordOrderByWithAggregationInput | TeacherRecordOrderByWithAggregationInput[]
-    by: TeacherRecordScalarFieldEnum[] | TeacherRecordScalarFieldEnum
-    having?: TeacherRecordScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: TeacherRecordCountAggregateInputType | true
-    _min?: TeacherRecordMinAggregateInputType
-    _max?: TeacherRecordMaxAggregateInputType
-  }
-
-  export type TeacherRecordGroupByOutputType = {
-    id: string
-    teacherId: string
-    subjects: string[]
-    _count: TeacherRecordCountAggregateOutputType | null
-    _min: TeacherRecordMinAggregateOutputType | null
-    _max: TeacherRecordMaxAggregateOutputType | null
-  }
-
-  type GetTeacherRecordGroupByPayload<T extends TeacherRecordGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<TeacherRecordGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof TeacherRecordGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], TeacherRecordGroupByOutputType[P]>
-            : GetScalarType<T[P], TeacherRecordGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type TeacherRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    teacherId?: boolean
-    subjects?: boolean
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["teacherRecord"]>
-
-  export type TeacherRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    teacherId?: boolean
-    subjects?: boolean
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["teacherRecord"]>
-
-  export type TeacherRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    teacherId?: boolean
-    subjects?: boolean
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["teacherRecord"]>
-
-  export type TeacherRecordSelectScalar = {
-    id?: boolean
-    teacherId?: boolean
-    subjects?: boolean
-  }
-
-  export type TeacherRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "teacherId" | "subjects", ExtArgs["result"]["teacherRecord"]>
-  export type TeacherRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type TeacherRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type TeacherRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    teacher?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $TeacherRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "TeacherRecord"
-    objects: {
-      teacher: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      teacherId: string
-      subjects: string[]
-    }, ExtArgs["result"]["teacherRecord"]>
-    composites: {}
-  }
-
-  type TeacherRecordGetPayload<S extends boolean | null | undefined | TeacherRecordDefaultArgs> = $Result.GetResult<Prisma.$TeacherRecordPayload, S>
-
-  type TeacherRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<TeacherRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TeacherRecordCountAggregateInputType | true
-    }
-
-  export interface TeacherRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeacherRecord'], meta: { name: 'TeacherRecord' } }
-    /**
-     * Find zero or one TeacherRecord that matches the filter.
-     * @param {TeacherRecordFindUniqueArgs} args - Arguments to find a TeacherRecord
-     * @example
-     * // Get one TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends TeacherRecordFindUniqueArgs>(args: SelectSubset<T, TeacherRecordFindUniqueArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one TeacherRecord that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {TeacherRecordFindUniqueOrThrowArgs} args - Arguments to find a TeacherRecord
-     * @example
-     * // Get one TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends TeacherRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, TeacherRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first TeacherRecord that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordFindFirstArgs} args - Arguments to find a TeacherRecord
-     * @example
-     * // Get one TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends TeacherRecordFindFirstArgs>(args?: SelectSubset<T, TeacherRecordFindFirstArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first TeacherRecord that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordFindFirstOrThrowArgs} args - Arguments to find a TeacherRecord
-     * @example
-     * // Get one TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends TeacherRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, TeacherRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more TeacherRecords that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all TeacherRecords
-     * const teacherRecords = await prisma.teacherRecord.findMany()
-     * 
-     * // Get first 10 TeacherRecords
-     * const teacherRecords = await prisma.teacherRecord.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const teacherRecordWithIdOnly = await prisma.teacherRecord.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends TeacherRecordFindManyArgs>(args?: SelectSubset<T, TeacherRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a TeacherRecord.
-     * @param {TeacherRecordCreateArgs} args - Arguments to create a TeacherRecord.
-     * @example
-     * // Create one TeacherRecord
-     * const TeacherRecord = await prisma.teacherRecord.create({
-     *   data: {
-     *     // ... data to create a TeacherRecord
-     *   }
-     * })
-     * 
-     */
-    create<T extends TeacherRecordCreateArgs>(args: SelectSubset<T, TeacherRecordCreateArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many TeacherRecords.
-     * @param {TeacherRecordCreateManyArgs} args - Arguments to create many TeacherRecords.
-     * @example
-     * // Create many TeacherRecords
-     * const teacherRecord = await prisma.teacherRecord.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends TeacherRecordCreateManyArgs>(args?: SelectSubset<T, TeacherRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many TeacherRecords and returns the data saved in the database.
-     * @param {TeacherRecordCreateManyAndReturnArgs} args - Arguments to create many TeacherRecords.
-     * @example
-     * // Create many TeacherRecords
-     * const teacherRecord = await prisma.teacherRecord.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many TeacherRecords and only return the `id`
-     * const teacherRecordWithIdOnly = await prisma.teacherRecord.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends TeacherRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, TeacherRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a TeacherRecord.
-     * @param {TeacherRecordDeleteArgs} args - Arguments to delete one TeacherRecord.
-     * @example
-     * // Delete one TeacherRecord
-     * const TeacherRecord = await prisma.teacherRecord.delete({
-     *   where: {
-     *     // ... filter to delete one TeacherRecord
-     *   }
-     * })
-     * 
-     */
-    delete<T extends TeacherRecordDeleteArgs>(args: SelectSubset<T, TeacherRecordDeleteArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one TeacherRecord.
-     * @param {TeacherRecordUpdateArgs} args - Arguments to update one TeacherRecord.
-     * @example
-     * // Update one TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends TeacherRecordUpdateArgs>(args: SelectSubset<T, TeacherRecordUpdateArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more TeacherRecords.
-     * @param {TeacherRecordDeleteManyArgs} args - Arguments to filter TeacherRecords to delete.
-     * @example
-     * // Delete a few TeacherRecords
-     * const { count } = await prisma.teacherRecord.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends TeacherRecordDeleteManyArgs>(args?: SelectSubset<T, TeacherRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TeacherRecords.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many TeacherRecords
-     * const teacherRecord = await prisma.teacherRecord.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends TeacherRecordUpdateManyArgs>(args: SelectSubset<T, TeacherRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TeacherRecords and returns the data updated in the database.
-     * @param {TeacherRecordUpdateManyAndReturnArgs} args - Arguments to update many TeacherRecords.
-     * @example
-     * // Update many TeacherRecords
-     * const teacherRecord = await prisma.teacherRecord.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more TeacherRecords and only return the `id`
-     * const teacherRecordWithIdOnly = await prisma.teacherRecord.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends TeacherRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, TeacherRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one TeacherRecord.
-     * @param {TeacherRecordUpsertArgs} args - Arguments to update or create a TeacherRecord.
-     * @example
-     * // Update or create a TeacherRecord
-     * const teacherRecord = await prisma.teacherRecord.upsert({
-     *   create: {
-     *     // ... data to create a TeacherRecord
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the TeacherRecord we want to update
-     *   }
-     * })
-     */
-    upsert<T extends TeacherRecordUpsertArgs>(args: SelectSubset<T, TeacherRecordUpsertArgs<ExtArgs>>): Prisma__TeacherRecordClient<$Result.GetResult<Prisma.$TeacherRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of TeacherRecords.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordCountArgs} args - Arguments to filter TeacherRecords to count.
-     * @example
-     * // Count the number of TeacherRecords
-     * const count = await prisma.teacherRecord.count({
-     *   where: {
-     *     // ... the filter for the TeacherRecords we want to count
-     *   }
-     * })
-    **/
-    count<T extends TeacherRecordCountArgs>(
-      args?: Subset<T, TeacherRecordCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], TeacherRecordCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a TeacherRecord.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends TeacherRecordAggregateArgs>(args: Subset<T, TeacherRecordAggregateArgs>): Prisma.PrismaPromise<GetTeacherRecordAggregateType<T>>
-
-    /**
-     * Group by TeacherRecord.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TeacherRecordGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends TeacherRecordGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TeacherRecordGroupByArgs['orderBy'] }
-        : { orderBy?: TeacherRecordGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, TeacherRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeacherRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the TeacherRecord model
-   */
-  readonly fields: TeacherRecordFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for TeacherRecord.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__TeacherRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    teacher<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the TeacherRecord model
-   */
-  interface TeacherRecordFieldRefs {
-    readonly id: FieldRef<"TeacherRecord", 'String'>
-    readonly teacherId: FieldRef<"TeacherRecord", 'String'>
-    readonly subjects: FieldRef<"TeacherRecord", 'String[]'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * TeacherRecord findUnique
-   */
-  export type TeacherRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter, which TeacherRecord to fetch.
-     */
-    where: TeacherRecordWhereUniqueInput
-  }
-
-  /**
-   * TeacherRecord findUniqueOrThrow
-   */
-  export type TeacherRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter, which TeacherRecord to fetch.
-     */
-    where: TeacherRecordWhereUniqueInput
-  }
-
-  /**
-   * TeacherRecord findFirst
-   */
-  export type TeacherRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter, which TeacherRecord to fetch.
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TeacherRecords to fetch.
-     */
-    orderBy?: TeacherRecordOrderByWithRelationInput | TeacherRecordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TeacherRecords.
-     */
-    cursor?: TeacherRecordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TeacherRecords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TeacherRecords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TeacherRecords.
-     */
-    distinct?: TeacherRecordScalarFieldEnum | TeacherRecordScalarFieldEnum[]
-  }
-
-  /**
-   * TeacherRecord findFirstOrThrow
-   */
-  export type TeacherRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter, which TeacherRecord to fetch.
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TeacherRecords to fetch.
-     */
-    orderBy?: TeacherRecordOrderByWithRelationInput | TeacherRecordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TeacherRecords.
-     */
-    cursor?: TeacherRecordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TeacherRecords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TeacherRecords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TeacherRecords.
-     */
-    distinct?: TeacherRecordScalarFieldEnum | TeacherRecordScalarFieldEnum[]
-  }
-
-  /**
-   * TeacherRecord findMany
-   */
-  export type TeacherRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter, which TeacherRecords to fetch.
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TeacherRecords to fetch.
-     */
-    orderBy?: TeacherRecordOrderByWithRelationInput | TeacherRecordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing TeacherRecords.
-     */
-    cursor?: TeacherRecordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TeacherRecords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TeacherRecords.
-     */
-    skip?: number
-    distinct?: TeacherRecordScalarFieldEnum | TeacherRecordScalarFieldEnum[]
-  }
-
-  /**
-   * TeacherRecord create
-   */
-  export type TeacherRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * The data needed to create a TeacherRecord.
-     */
-    data: XOR<TeacherRecordCreateInput, TeacherRecordUncheckedCreateInput>
-  }
-
-  /**
-   * TeacherRecord createMany
-   */
-  export type TeacherRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many TeacherRecords.
-     */
-    data: TeacherRecordCreateManyInput | TeacherRecordCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * TeacherRecord createManyAndReturn
-   */
-  export type TeacherRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * The data used to create many TeacherRecords.
-     */
-    data: TeacherRecordCreateManyInput | TeacherRecordCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * TeacherRecord update
-   */
-  export type TeacherRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * The data needed to update a TeacherRecord.
-     */
-    data: XOR<TeacherRecordUpdateInput, TeacherRecordUncheckedUpdateInput>
-    /**
-     * Choose, which TeacherRecord to update.
-     */
-    where: TeacherRecordWhereUniqueInput
-  }
-
-  /**
-   * TeacherRecord updateMany
-   */
-  export type TeacherRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update TeacherRecords.
-     */
-    data: XOR<TeacherRecordUpdateManyMutationInput, TeacherRecordUncheckedUpdateManyInput>
-    /**
-     * Filter which TeacherRecords to update
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * Limit how many TeacherRecords to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * TeacherRecord updateManyAndReturn
-   */
-  export type TeacherRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * The data used to update TeacherRecords.
-     */
-    data: XOR<TeacherRecordUpdateManyMutationInput, TeacherRecordUncheckedUpdateManyInput>
-    /**
-     * Filter which TeacherRecords to update
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * Limit how many TeacherRecords to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * TeacherRecord upsert
-   */
-  export type TeacherRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * The filter to search for the TeacherRecord to update in case it exists.
-     */
-    where: TeacherRecordWhereUniqueInput
-    /**
-     * In case the TeacherRecord found by the `where` argument doesn't exist, create a new TeacherRecord with this data.
-     */
-    create: XOR<TeacherRecordCreateInput, TeacherRecordUncheckedCreateInput>
-    /**
-     * In case the TeacherRecord was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<TeacherRecordUpdateInput, TeacherRecordUncheckedUpdateInput>
-  }
-
-  /**
-   * TeacherRecord delete
-   */
-  export type TeacherRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
-    /**
-     * Filter which TeacherRecord to delete.
-     */
-    where: TeacherRecordWhereUniqueInput
-  }
-
-  /**
-   * TeacherRecord deleteMany
-   */
-  export type TeacherRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TeacherRecords to delete
-     */
-    where?: TeacherRecordWhereInput
-    /**
-     * Limit how many TeacherRecords to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * TeacherRecord without action
-   */
-  export type TeacherRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TeacherRecord
-     */
-    select?: TeacherRecordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TeacherRecord
-     */
-    omit?: TeacherRecordOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeacherRecordInclude<ExtArgs> | null
   }
 
 
@@ -5725,15 +4583,6 @@ export namespace Prisma {
   export type StudentRecordScalarFieldEnum = (typeof StudentRecordScalarFieldEnum)[keyof typeof StudentRecordScalarFieldEnum]
 
 
-  export const TeacherRecordScalarFieldEnum: {
-    id: 'id',
-    teacherId: 'teacherId',
-    subjects: 'subjects'
-  };
-
-  export type TeacherRecordScalarFieldEnum = (typeof TeacherRecordScalarFieldEnum)[keyof typeof TeacherRecordScalarFieldEnum]
-
-
   export const OpportunityPostScalarFieldEnum: {
     id: 'id',
     tittle: 'tittle',
@@ -5867,7 +4716,6 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     studentRecord?: XOR<StudentRecordNullableScalarRelationFilter, StudentRecordWhereInput> | null
-    teacherRecord?: XOR<TeacherRecordNullableScalarRelationFilter, TeacherRecordWhereInput> | null
     publishedPosts?: OpportunityPostListRelationFilter
     appliedPosts?: OpportunityPostListRelationFilter
   }
@@ -5879,7 +4727,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     studentRecord?: StudentRecordOrderByWithRelationInput
-    teacherRecord?: TeacherRecordOrderByWithRelationInput
     publishedPosts?: OpportunityPostOrderByRelationAggregateInput
     appliedPosts?: OpportunityPostOrderByRelationAggregateInput
   }
@@ -5894,7 +4741,6 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     studentRecord?: XOR<StudentRecordNullableScalarRelationFilter, StudentRecordWhereInput> | null
-    teacherRecord?: XOR<TeacherRecordNullableScalarRelationFilter, TeacherRecordWhereInput> | null
     publishedPosts?: OpportunityPostListRelationFilter
     appliedPosts?: OpportunityPostListRelationFilter
   }, "id" | "email">
@@ -5981,51 +4827,6 @@ export namespace Prisma {
     course?: StringWithAggregatesFilter<"StudentRecord"> | string
     entrance?: StringWithAggregatesFilter<"StudentRecord"> | string
     finishedSubjects?: StringNullableListFilter<"StudentRecord">
-  }
-
-  export type TeacherRecordWhereInput = {
-    AND?: TeacherRecordWhereInput | TeacherRecordWhereInput[]
-    OR?: TeacherRecordWhereInput[]
-    NOT?: TeacherRecordWhereInput | TeacherRecordWhereInput[]
-    id?: StringFilter<"TeacherRecord"> | string
-    teacherId?: StringFilter<"TeacherRecord"> | string
-    subjects?: StringNullableListFilter<"TeacherRecord">
-    teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type TeacherRecordOrderByWithRelationInput = {
-    id?: SortOrder
-    teacherId?: SortOrder
-    subjects?: SortOrder
-    teacher?: UserOrderByWithRelationInput
-  }
-
-  export type TeacherRecordWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    teacherId?: string
-    AND?: TeacherRecordWhereInput | TeacherRecordWhereInput[]
-    OR?: TeacherRecordWhereInput[]
-    NOT?: TeacherRecordWhereInput | TeacherRecordWhereInput[]
-    subjects?: StringNullableListFilter<"TeacherRecord">
-    teacher?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "teacherId">
-
-  export type TeacherRecordOrderByWithAggregationInput = {
-    id?: SortOrder
-    teacherId?: SortOrder
-    subjects?: SortOrder
-    _count?: TeacherRecordCountOrderByAggregateInput
-    _max?: TeacherRecordMaxOrderByAggregateInput
-    _min?: TeacherRecordMinOrderByAggregateInput
-  }
-
-  export type TeacherRecordScalarWhereWithAggregatesInput = {
-    AND?: TeacherRecordScalarWhereWithAggregatesInput | TeacherRecordScalarWhereWithAggregatesInput[]
-    OR?: TeacherRecordScalarWhereWithAggregatesInput[]
-    NOT?: TeacherRecordScalarWhereWithAggregatesInput | TeacherRecordScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"TeacherRecord"> | string
-    teacherId?: StringWithAggregatesFilter<"TeacherRecord"> | string
-    subjects?: StringNullableListFilter<"TeacherRecord">
   }
 
   export type OpportunityPostWhereInput = {
@@ -6115,7 +4916,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
   }
@@ -6127,7 +4927,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordUncheckedCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
   }
@@ -6139,7 +4938,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUpdateOneWithoutTeacherNestedInput
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
   }
@@ -6151,7 +4949,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUncheckedUpdateOneWithoutTeacherNestedInput
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
   }
@@ -6240,47 +5037,6 @@ export namespace Prisma {
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
-  }
-
-  export type TeacherRecordCreateInput = {
-    id?: string
-    subjects?: TeacherRecordCreatesubjectsInput | string[]
-    teacher: UserCreateNestedOneWithoutTeacherRecordInput
-  }
-
-  export type TeacherRecordUncheckedCreateInput = {
-    id?: string
-    teacherId: string
-    subjects?: TeacherRecordCreatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
-    teacher?: UserUpdateOneRequiredWithoutTeacherRecordNestedInput
-  }
-
-  export type TeacherRecordUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    teacherId?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordCreateManyInput = {
-    id?: string
-    teacherId: string
-    subjects?: TeacherRecordCreatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    teacherId?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
   }
 
   export type OpportunityPostCreateInput = {
@@ -6395,11 +5151,6 @@ export namespace Prisma {
   export type StudentRecordNullableScalarRelationFilter = {
     is?: StudentRecordWhereInput | null
     isNot?: StudentRecordWhereInput | null
-  }
-
-  export type TeacherRecordNullableScalarRelationFilter = {
-    is?: TeacherRecordWhereInput | null
-    isNot?: TeacherRecordWhereInput | null
   }
 
   export type OpportunityPostListRelationFilter = {
@@ -6537,22 +5288,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type TeacherRecordCountOrderByAggregateInput = {
-    id?: SortOrder
-    teacherId?: SortOrder
-    subjects?: SortOrder
-  }
-
-  export type TeacherRecordMaxOrderByAggregateInput = {
-    id?: SortOrder
-    teacherId?: SortOrder
-  }
-
-  export type TeacherRecordMinOrderByAggregateInput = {
-    id?: SortOrder
-    teacherId?: SortOrder
-  }
-
   export type EnumOpportunityTypesFilter<$PrismaModel = never> = {
     equals?: $Enums.OpportunityTypes | EnumOpportunityTypesFieldRefInput<$PrismaModel>
     in?: $Enums.OpportunityTypes[] | ListEnumOpportunityTypesFieldRefInput<$PrismaModel>
@@ -6655,12 +5390,6 @@ export namespace Prisma {
     connect?: StudentRecordWhereUniqueInput
   }
 
-  export type TeacherRecordCreateNestedOneWithoutTeacherInput = {
-    create?: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-    connectOrCreate?: TeacherRecordCreateOrConnectWithoutTeacherInput
-    connect?: TeacherRecordWhereUniqueInput
-  }
-
   export type OpportunityPostCreateNestedManyWithoutPublisherInput = {
     create?: XOR<OpportunityPostCreateWithoutPublisherInput, OpportunityPostUncheckedCreateWithoutPublisherInput> | OpportunityPostCreateWithoutPublisherInput[] | OpportunityPostUncheckedCreateWithoutPublisherInput[]
     connectOrCreate?: OpportunityPostCreateOrConnectWithoutPublisherInput | OpportunityPostCreateOrConnectWithoutPublisherInput[]
@@ -6678,12 +5407,6 @@ export namespace Prisma {
     create?: XOR<StudentRecordCreateWithoutStudentInput, StudentRecordUncheckedCreateWithoutStudentInput>
     connectOrCreate?: StudentRecordCreateOrConnectWithoutStudentInput
     connect?: StudentRecordWhereUniqueInput
-  }
-
-  export type TeacherRecordUncheckedCreateNestedOneWithoutTeacherInput = {
-    create?: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-    connectOrCreate?: TeacherRecordCreateOrConnectWithoutTeacherInput
-    connect?: TeacherRecordWhereUniqueInput
   }
 
   export type OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput = {
@@ -6715,16 +5438,6 @@ export namespace Prisma {
     delete?: StudentRecordWhereInput | boolean
     connect?: StudentRecordWhereUniqueInput
     update?: XOR<XOR<StudentRecordUpdateToOneWithWhereWithoutStudentInput, StudentRecordUpdateWithoutStudentInput>, StudentRecordUncheckedUpdateWithoutStudentInput>
-  }
-
-  export type TeacherRecordUpdateOneWithoutTeacherNestedInput = {
-    create?: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-    connectOrCreate?: TeacherRecordCreateOrConnectWithoutTeacherInput
-    upsert?: TeacherRecordUpsertWithoutTeacherInput
-    disconnect?: TeacherRecordWhereInput | boolean
-    delete?: TeacherRecordWhereInput | boolean
-    connect?: TeacherRecordWhereUniqueInput
-    update?: XOR<XOR<TeacherRecordUpdateToOneWithWhereWithoutTeacherInput, TeacherRecordUpdateWithoutTeacherInput>, TeacherRecordUncheckedUpdateWithoutTeacherInput>
   }
 
   export type OpportunityPostUpdateManyWithoutPublisherNestedInput = {
@@ -6762,16 +5475,6 @@ export namespace Prisma {
     delete?: StudentRecordWhereInput | boolean
     connect?: StudentRecordWhereUniqueInput
     update?: XOR<XOR<StudentRecordUpdateToOneWithWhereWithoutStudentInput, StudentRecordUpdateWithoutStudentInput>, StudentRecordUncheckedUpdateWithoutStudentInput>
-  }
-
-  export type TeacherRecordUncheckedUpdateOneWithoutTeacherNestedInput = {
-    create?: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-    connectOrCreate?: TeacherRecordCreateOrConnectWithoutTeacherInput
-    upsert?: TeacherRecordUpsertWithoutTeacherInput
-    disconnect?: TeacherRecordWhereInput | boolean
-    delete?: TeacherRecordWhereInput | boolean
-    connect?: TeacherRecordWhereUniqueInput
-    update?: XOR<XOR<TeacherRecordUpdateToOneWithWhereWithoutTeacherInput, TeacherRecordUpdateWithoutTeacherInput>, TeacherRecordUncheckedUpdateWithoutTeacherInput>
   }
 
   export type OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput = {
@@ -6830,29 +5533,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutStudentRecordInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudentRecordInput, UserUpdateWithoutStudentRecordInput>, UserUncheckedUpdateWithoutStudentRecordInput>
-  }
-
-  export type TeacherRecordCreatesubjectsInput = {
-    set: string[]
-  }
-
-  export type UserCreateNestedOneWithoutTeacherRecordInput = {
-    create?: XOR<UserCreateWithoutTeacherRecordInput, UserUncheckedCreateWithoutTeacherRecordInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTeacherRecordInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type TeacherRecordUpdatesubjectsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type UserUpdateOneRequiredWithoutTeacherRecordNestedInput = {
-    create?: XOR<UserCreateWithoutTeacherRecordInput, UserUncheckedCreateWithoutTeacherRecordInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTeacherRecordInput
-    upsert?: UserUpsertWithoutTeacherRecordInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeacherRecordInput, UserUpdateWithoutTeacherRecordInput>, UserUncheckedUpdateWithoutTeacherRecordInput>
   }
 
   export type UserCreateNestedOneWithoutPublishedPostsInput = {
@@ -7064,21 +5744,6 @@ export namespace Prisma {
     create: XOR<StudentRecordCreateWithoutStudentInput, StudentRecordUncheckedCreateWithoutStudentInput>
   }
 
-  export type TeacherRecordCreateWithoutTeacherInput = {
-    id?: string
-    subjects?: TeacherRecordCreatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordUncheckedCreateWithoutTeacherInput = {
-    id?: string
-    subjects?: TeacherRecordCreatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordCreateOrConnectWithoutTeacherInput = {
-    where: TeacherRecordWhereUniqueInput
-    create: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-  }
-
   export type OpportunityPostCreateWithoutPublisherInput = {
     id?: string
     tittle: string
@@ -7169,27 +5834,6 @@ export namespace Prisma {
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
   }
 
-  export type TeacherRecordUpsertWithoutTeacherInput = {
-    update: XOR<TeacherRecordUpdateWithoutTeacherInput, TeacherRecordUncheckedUpdateWithoutTeacherInput>
-    create: XOR<TeacherRecordCreateWithoutTeacherInput, TeacherRecordUncheckedCreateWithoutTeacherInput>
-    where?: TeacherRecordWhereInput
-  }
-
-  export type TeacherRecordUpdateToOneWithWhereWithoutTeacherInput = {
-    where?: TeacherRecordWhereInput
-    data: XOR<TeacherRecordUpdateWithoutTeacherInput, TeacherRecordUncheckedUpdateWithoutTeacherInput>
-  }
-
-  export type TeacherRecordUpdateWithoutTeacherInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
-  }
-
-  export type TeacherRecordUncheckedUpdateWithoutTeacherInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    subjects?: TeacherRecordUpdatesubjectsInput | string[]
-  }
-
   export type OpportunityPostUpsertWithWhereUniqueWithoutPublisherInput = {
     where: OpportunityPostWhereUniqueInput
     update: XOR<OpportunityPostUpdateWithoutPublisherInput, OpportunityPostUncheckedUpdateWithoutPublisherInput>
@@ -7243,7 +5887,6 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    teacherRecord?: TeacherRecordCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
   }
@@ -7254,7 +5897,6 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    teacherRecord?: TeacherRecordUncheckedCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
   }
@@ -7281,7 +5923,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    teacherRecord?: TeacherRecordUpdateOneWithoutTeacherNestedInput
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
   }
@@ -7292,67 +5933,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    teacherRecord?: TeacherRecordUncheckedUpdateOneWithoutTeacherNestedInput
-    publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
-    appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
-  }
-
-  export type UserCreateWithoutTeacherRecordInput = {
-    id?: string
-    fullName: string
-    email: string
-    password: string
-    role: $Enums.UserRole
-    studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
-    publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
-    appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
-  }
-
-  export type UserUncheckedCreateWithoutTeacherRecordInput = {
-    id?: string
-    fullName: string
-    email: string
-    password: string
-    role: $Enums.UserRole
-    studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
-    publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
-    appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
-  }
-
-  export type UserCreateOrConnectWithoutTeacherRecordInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutTeacherRecordInput, UserUncheckedCreateWithoutTeacherRecordInput>
-  }
-
-  export type UserUpsertWithoutTeacherRecordInput = {
-    update: XOR<UserUpdateWithoutTeacherRecordInput, UserUncheckedUpdateWithoutTeacherRecordInput>
-    create: XOR<UserCreateWithoutTeacherRecordInput, UserUncheckedCreateWithoutTeacherRecordInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutTeacherRecordInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutTeacherRecordInput, UserUncheckedUpdateWithoutTeacherRecordInput>
-  }
-
-  export type UserUpdateWithoutTeacherRecordInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
-    publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
-    appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutTeacherRecordInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
   }
@@ -7364,7 +5944,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordCreateNestedOneWithoutTeacherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
   }
 
@@ -7375,7 +5954,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordUncheckedCreateNestedOneWithoutTeacherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
   }
 
@@ -7391,7 +5969,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
   }
 
@@ -7402,7 +5979,6 @@ export namespace Prisma {
     password: string
     role: $Enums.UserRole
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
-    teacherRecord?: TeacherRecordUncheckedCreateNestedOneWithoutTeacherInput
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
   }
 
@@ -7429,7 +6005,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUpdateOneWithoutTeacherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
   }
 
@@ -7440,7 +6015,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUncheckedUpdateOneWithoutTeacherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
   }
 
@@ -7560,7 +6134,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUpdateOneWithoutTeacherNestedInput
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
   }
 
@@ -7571,7 +6144,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
-    teacherRecord?: TeacherRecordUncheckedUpdateOneWithoutTeacherNestedInput
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
   }
 

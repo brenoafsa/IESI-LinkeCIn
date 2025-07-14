@@ -137,12 +137,6 @@ exports.Prisma.StudentRecordScalarFieldEnum = {
   finishedSubjects: 'finishedSubjects'
 };
 
-exports.Prisma.TeacherRecordScalarFieldEnum = {
-  id: 'id',
-  teacherId: 'teacherId',
-  subjects: 'subjects'
-};
-
 exports.Prisma.OpportunityPostScalarFieldEnum = {
   id: 'id',
   tittle: 'tittle',
@@ -177,7 +171,6 @@ exports.OpportunityTypes = exports.$Enums.OpportunityTypes = {
 exports.Prisma.ModelName = {
   User: 'User',
   StudentRecord: 'StudentRecord',
-  TeacherRecord: 'TeacherRecord',
   OpportunityPost: 'OpportunityPost'
 };
 

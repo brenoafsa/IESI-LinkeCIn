@@ -32,14 +32,13 @@ model User {
   role     UserRole
 
   studentRecord StudentRecord?
-  teacherRecord TeacherRecord?
 
   publishedPosts OpportunityPost[] @relation("Publisher")
   appliedPosts   OpportunityPost[] @relation("Candidates")
 }
 
 model StudentRecord {
-  id        String @id @default(ulid())
+  id        String @id @default(uuid())
   student   User   @relation(fields: [studentId], references: [id])
   studentId String @unique
 
@@ -47,14 +46,6 @@ model StudentRecord {
   course             String
   entrance           String
   finishedSubjects   String[]
-}
-
-model TeacherRecord {
-  id        String @id @default(ulid())
-  teacher   User   @relation(fields: [teacherId], references: [id])
-  teacherId String @unique
-
-  subjects String[]
 }
 
 model OpportunityPost {
