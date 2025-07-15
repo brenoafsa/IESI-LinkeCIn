@@ -1,13 +1,9 @@
 export default function Login() {
     return (
-        <form className="pt-10">
-            <div className="mb-4">
-                <input type="email" id="email" className="p-2 rounded-xl w-100 border-3 border-darkred focus:outline-none" placeholder="Email" />
-            </div>
-            <div className="mb-4">
-                <input type="password" id="password" className="p-2 rounded-xl w-100 border-3 border-darkred focus:outline-none" placeholder="Senha" />
-            </div>
-            <button type="submit" className="bg-white text-darkred p-2 rounded-xl font-black w-100 h-12">Continuar</button>
+        <form className="pt-10 space-y-4">
+            <input type="email" id="email" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Email" />
+            <input type="password" id="password" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Senha" />
+            <button type="submit" className="bg-white text-darkred p-2 rounded-xl font-black w-full h-12">Continuar</button>
         </form>
     );
 }
