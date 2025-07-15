@@ -13,10 +13,10 @@ const RegisterPage = () => {
 	}, [usuarios])
 
 	return (
-		<div className="w-full min-h-screen bg-mainbg flex ml-auto">
-			<section className="text-extrabold bg-mainbg">
+		<div className="w-full min-h-screen bg-mainbg flex p-[40px] sm:p-[48px] md:p-[64px] lg:p-[96px] xl:p-[128px]">
+			<section className="text-extrabold bg-mainbg ml-auto">
 				<div className="w-max-md mx-auto">
-					<h1 className="text-2xl max-w-md font-black text-darkred text-center">Crie sua conta! </h1>
+					<h1 className="text-2xl max-w-2xl font-black text-darkred text-center">Crie sua conta! </h1>
 					<Register />
 					<p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/" className="text-darkred underline font-bold">Entrar</Link></p>
 				</div>
