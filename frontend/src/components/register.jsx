@@ -30,7 +30,8 @@ export default function Register() {
 
         // se selecionar aluno, vai pra página de registro de aluno
         if (role === "STUDENT") {
-          navigate("/student-register");
+          const userId = response.data.id;
+          navigate(`/student-register/${userId}`);
         } else {
           navigate("/feed");
         }
