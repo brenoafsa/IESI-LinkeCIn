@@ -36,7 +36,7 @@ const StudentRegisterPage = () => {
     const handleStudentSignUp = async (event) => {
         event.preventDefault();
 
-        const formData = { userId: id, horas: horas, curso: curso, entrada: entrada, selecionadas: selecionadas }
+        const formData = { userId: id, horas: horas, curso: curso, entrada: entrada, disciplinas: selecionadas }
 
         try {
             const response = await api.post("/student", formData);
