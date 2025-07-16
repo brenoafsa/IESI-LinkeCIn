@@ -14,6 +14,7 @@ async function getAllUsers (req, res) {
 	}
 }
 
+// criar usuário, recebe o email, nome, senha e o role
 async function createUser(req, res){
      const { fullName, email, password, role } = req.body;
      
