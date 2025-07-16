@@ -30,10 +30,10 @@ export default function StudentRegister() {
     }, []);
 
     return (
-        <form className="pt-4 w-100">
+        <form className="pt-4 w-full">
             <div className="mb-4">
                 <select
-                    className="rounded-xl w-100 border-3 pl-2 placeholder:text-xs border-darkred h-8 focus:outline-none text-gray-500"
+                    className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
                     value={curso}
                     onChange={(e) => setCurso(e.target.value)}
                     id="curso-select"
@@ -47,7 +47,7 @@ export default function StudentRegister() {
             </div>
             <div className="mb-4">
                 <select
-                    className="rounded-xl w-100 border-3 pl-2 placeholder:text-xs border-darkred h-8 focus:outline-none text-gray-500"
+                    className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
                     value={entrada}
                     onChange={(e) => setEntrada(e.target.value)}
                     id="entrada-select"
@@ -66,17 +66,17 @@ export default function StudentRegister() {
                     <option value="2020.1">2020.1</option>
                 </select>
             </div>
-            <div className="w-100" ref={dropdownRef}>
+            <div className="w-full" ref={dropdownRef}>
                 <div
-                    className="rounded-xl w-100 border-3 pl-2 placeholder:text-xs border-darkred h-8 focus:outline-none"
+                    className="relative rounded-xl w-full border-3 pl-2 text-sm md:text-base lg:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none"
                     onClick={() => setAberto(!aberto)}
                 >
-                    <span className="text-gray-500">Selecione suas disciplinas já cursadas</span>
+                    <span className="text-gray-500 absolute top-1/2 -translate-y-1/2">Selecione suas disciplinas já cursadas</span>
                 </div>
 
 
                 {aberto && (
-                    <div className="mt-1 w-100 bg-white border border-gray-300 rounded shadow max-h-60 overflow-y-auto">
+                    <div className="mt-1 w-full bg-white border border-gray-300 rounded shadow max-h-60 overflow-y-auto">
                         {disciplinas.map((opcao) => (
                             <label
                                 key={opcao}
@@ -96,9 +96,9 @@ export default function StudentRegister() {
             </div>
             <p className="text-bold text-center mt-3">Quantas horas de carga horária complementar obrigatória você já cumpriu?</p>
             <div className="flex items-center mt-2">
-                <input type="number" id="horas" className="rounded-2xl w-100 h-10 border-3 pl-2 placeholder:text-xs focus:outline-none bg-darkred text-white" placeholder="Adicione aqui suas horas. Ex: 60" />
+                <input type="number" id="horas" className="rounded-2xl w-full h-10 border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg focus:outline-none bg-darkred text-white" placeholder="Adicione aqui suas horas. Ex: 60" />
             </div>
-            <button type="submit" className="bg-white text-darkred rounded-xl font-black w-100 h-9 mt-4">Continuar</button>
+            <button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 mt-4">Continuar</button>
         </form >
     );
 }

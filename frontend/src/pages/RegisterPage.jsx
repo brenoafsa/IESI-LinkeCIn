@@ -13,7 +13,7 @@ const RegisterPage = () => {
 	}, [usuarios])
 
 	return (
-		<div className="w-full min-h-screen bg-mainbg flex p-[40px] sm:p-[48px] md:p-[64px] lg:p-[96px] xl:p-[128px]">
+		<div className="w-full min-h-screen bg-mainbg flex p-[20px] sm:p-[24px] md:p-[32px] lg:p-[48px] xl:p-[64px]">
 			<section className="text-extrabold bg-mainbg ml-auto">
 				<div className="w-max-md mx-auto">
 					<h1 className="text-2xl max-w-2xl font-black text-darkred text-center">Crie sua conta! </h1>
