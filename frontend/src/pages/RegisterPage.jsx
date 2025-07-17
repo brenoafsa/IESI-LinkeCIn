@@ -27,7 +27,7 @@ const RegisterPage = () => {
 						</div>
 						<button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 sm:h-10 md:h-12 lg:h-14  mt-4">Continuar</button>
 					</form>
-					<p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/" className="text-darkred underline font-bold">Entrar</Link></p>
+					<p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/login" className="text-darkred underline font-bold">Entrar</Link></p>
 				</div>
 			</section>
 		</div>
