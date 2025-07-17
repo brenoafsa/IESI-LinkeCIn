@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
+import { Link } from "react-router-dom"
+import Opportunity from "../components/opportunity"
 
 const FeedPage = () => {
 	const [usuarios, setUsuarios] = useState([])
 
 	useEffect(() => {
 		api.get('/users')
-		.then((res) => setUsuarios(res.data))
-		.catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
+			.then((res) => setUsuarios(res.data))
+			.catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
 	}, [usuarios])
 
 	return (
-		<div> <h1>Feed Page</h1>
+		<div className="min-h-screen bg-mainbg lg:flex">
+			<section className="lg:w-1/4 w-full flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
+				<div className="p-4">
+					<h2 className="text-xl font-bold text-darkred mt-5">Informações Adicionais</h2>
+					<p className="text-gray-600">Aqui você pode adicionar informações adicionais sobre o usuário.</p>
+				</div>
+			</section>
+			<section className="lg:w-2/3 w-full lg:flex xl:flex h-full flex-col gap-1 p-2 m-10 self-stretch rounded-xl">
+				<Opportunity />
+			</section>
 		</div>
 	);
 }
