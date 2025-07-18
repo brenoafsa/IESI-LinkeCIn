@@ -7,7 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import StudentRegisterPage from './pages/StudentRegisterPage';
 import NotFound from './pages/NotFound';
 import Header from './components/header';
-import OpportunityPage from './pages/opportunityPage'
+import OpportunityPage from './pages/OpportunityPage'
 import UserAnalyticsPage from './pages/DataPage'
 import Favorites from './pages/FavoritesPage';
 
