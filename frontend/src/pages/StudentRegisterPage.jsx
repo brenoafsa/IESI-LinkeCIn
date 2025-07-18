@@ -6,7 +6,6 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 const StudentRegisterPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [usuarios, setUsuarios] = useState([])
     const [curso, setCurso] = useState('');
     const [entrada, setEntrada] = useState('');
     const [aberto, setAberto] = useState(false);

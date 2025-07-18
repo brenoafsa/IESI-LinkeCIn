@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import api from '../services/api'
 import Opportunity from "../components/opportunity"
 import { Folder } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const FeedPage = () => {
     const [posts, setPosts] = useState([])
@@ -38,7 +39,9 @@ const FeedPage = () => {
                     </form>
                 </div>
                 {posts.map((post) => (
-                    <Opportunity key={post.id} opportunity={post} />
+					<Link key={post.id} to={`/opportunity/${post.id}`}>
+                    	<Opportunity key={post.id} opportunity={post} />
+					</Link>
                 ))}
             </section >
         </div >

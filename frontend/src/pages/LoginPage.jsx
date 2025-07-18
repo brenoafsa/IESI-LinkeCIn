@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import api from '../services/api'
 import { userAuth } from "../services/userAuth";
 import { Link, useNavigate } from "react-router-dom"
@@ -30,7 +29,7 @@ const HomePage = () => {
 				}
 			} catch (error) {
 				console.error("Erro:", error);
-				alert("Erro logar. Tente novamente.");
+				alert("Erro ao logar. Tente novamente.");
 			}
 		};
 
