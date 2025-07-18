@@ -3,7 +3,6 @@ import api from '../services/api'
 import { Link, useNavigate } from "react-router-dom"
 
 const RegisterPage = () => {
-    const [usuarios, setUsuarios] = useState([])
     const [role, setRole] = useState("") // Estado para o role
     const navigate = useNavigate()
 
