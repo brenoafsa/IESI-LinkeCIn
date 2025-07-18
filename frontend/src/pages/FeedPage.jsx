@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
-import { Link } from "react-router-dom"
 import Opportunity from "../components/opportunity"
 import { Folder } from "lucide-react"
 
 const FeedPage = () => {
-    const [usuarios, setUsuarios] = useState([])
     const [posts, setPosts] = useState([])
     const [tipo, setTipo] = useState('');
-
-    useEffect(() => {
-        api.get('/users')
-            .then((res) => setUsuarios(res.data))
-            .catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-    }, [usuarios])
 
     useEffect(() => {
         api.get('/post')

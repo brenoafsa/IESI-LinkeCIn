@@ -30,7 +30,7 @@ const HomePage = () => {
 				}
 			} catch (error) {
 				console.error("Erro:", error);
-				alert("Erro ao criar usuário. Tente novamente.");
+				alert("Erro logar. Tente novamente.");
 			}
 		};
 
