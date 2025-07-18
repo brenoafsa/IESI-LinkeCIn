@@ -1,5 +1,10 @@
+import imagem from '../assets/img_NotFound.png';
+
 function NotFound() {
-  return <h1>Erro 404 - Página não encontrada</h1>
+  return <>
+  <div className=" bg-mainbg flex justify-center items-center ">
+  <img src={imagem} alt="Logo" className="h-200" />
+</div></>
 }
 
 export default NotFound
