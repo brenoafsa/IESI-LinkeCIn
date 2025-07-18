@@ -110,9 +110,32 @@ async function getOpportunityById(req, res) {
 }
 
 async function applyToOpportunity(req, res) {
-    const { opportunityId, userId } = req.body
+    const { opportunityId, accessToken } = req.body
 
     try {
+        const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        
+        const userId = decodificado.id
+        
+        if (!userId) {
+            return res.status(401).json({ error: 'Token inválido - ID do usuário não encontrado' })
+        }
+
+        const existingCandidate = await prisma.opportunityPost.findFirst({
+            where: {
+                id: opportunityId,
+                candidates: {
+                    some: {
+                        id: userId
+                    }
+                }
+            }
+        })
+
+        if (existingCandidate) {
+            return res.status(400).json({ error: 'Você já se candidatou a esta oportunidade' })
+        }
+
         const opportunity = await prisma.opportunityPost.update({
             where: { id: opportunityId },
             data: {
@@ -134,6 +157,14 @@ async function applyToOpportunity(req, res) {
         res.status(200).json({ message: 'Candidatura realizada com sucesso', opportunity })
     } catch (err) {
         console.error('Erro ao se candidatar à oportunidade:', err)
+        
+        if (err.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' })
+        }
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' })
+        }
+        
         res.status(500).json({ error: 'Erro ao se candidatar à oportunidade' })
     }
 }

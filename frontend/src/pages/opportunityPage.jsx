@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { userAuth } from '../services/userAuth';
 
 function OpportunityPage() {
    const navigate = useNavigate();
    const [information, setInformation] = useState(null);
    const { id } = useParams();
+   const token = userAuth.getAccessToken();
 
     useEffect(() => {
         api.get(`/post/${id}`)
@@ -13,7 +15,6 @@ function OpportunityPage() {
             .catch((err) => console.error({ error: "Erro ao buscar post", err }))
     }, [id])
 
-    // Helper function to format deadline
     const formatDeadline = (deadline) => {
         const date = new Date(deadline);
         const now = new Date();
@@ -29,7 +30,6 @@ function OpportunityPage() {
         }
     };
 
-    // Helper function to get opportunity type in Portuguese
     const getTypeInPortuguese = (type) => {
         switch(type) {
             case 'COMPLEMENTARY':
@@ -43,12 +43,37 @@ function OpportunityPage() {
         }
     };
 
-    // Helper function to check if opportunity is open
     const isOpportunityOpen = (deadline) => {
         const now = new Date();
         const deadlineDate = new Date(deadline);
         return deadlineDate > now;
     };
+
+    const handleInterest = async () => {
+      const formData = { 
+        opportunityId: id, 
+        accessToken: token
+      }
+
+      try {
+        const response = await api.post('/post/apply', formData)
+
+        if (response.status === 200) {
+          alert("Você se candidatou à essa Oportunidade!")
+        }
+      } catch (error) {
+        console.error("Erro ao se candidatar:", error);
+        
+        if (error.response) {
+          const errorMessage = error.response.data.error || "Erro desconhecido";
+          alert(`Erro: ${errorMessage}`);
+        } else if (error.request) {
+          alert("Erro de conexão. Tente novamente.");
+        } else {
+          alert("Algo deu errado. Tente novamente");
+        }
+      }
+    }
 
     if (!information) {
         return (
@@ -98,6 +123,9 @@ function OpportunityPage() {
             {/* botão para apagar a oportunidade! */}
             <button className="bg-white border border-red-600 text-darkred px-6 py-2 rounded-[15px] font-bold">
               Apagar Oportunidade
+            </button>
+            <button onClick={handleInterest} className="bg-darkred border border-red-600 text-white px-6 py-2 rounded-[15px] font-bold">
+              Tenho Interesse
             </button>
           </div>
         </div>
