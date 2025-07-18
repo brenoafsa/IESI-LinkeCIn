@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 @theme {
     --color-darkred: #af0421;
@@ -9,6 +8,7 @@
     --color-textbody: #333333;
     --color-info: #666666;
     --color-divider: #e6e6e6;
+    --color-whitered: #FDEBED;  
 }
 
 html, body {
