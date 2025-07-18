@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import api from '../services/api'
 import { Link, useNavigate } from "react-router-dom"
 
@@ -46,12 +46,6 @@ const RegisterPage = () => {
             alert("Erro ao criar usuário. Tente novamente.");
         }
     };
-
-    useEffect(() => {
-        api.get('/users')
-            .then((res) => setUsuarios(res.data))
-            .catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-    }, [usuarios])
 
     return (
         <div className="w-full min-h-screen bg-mainbg flex p-[20px] sm:p-[24px] md:p-[32px] lg:p-[48px] xl:p-[64px]">

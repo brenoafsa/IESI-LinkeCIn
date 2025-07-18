@@ -35,12 +35,6 @@ const StudentRegisterPage = () => {
         return () => document.removeEventListener("mousedown", fecharDropdown);
     }, []);
 
-    useEffect(() => {
-        api.get('/users')
-            .then((res) => setUsuarios(res.data))
-            .catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-    }, [usuarios])
-
     const handleStudentSignUp = async (event) => {
         event.preventDefault();
 

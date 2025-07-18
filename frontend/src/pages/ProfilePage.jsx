@@ -1,15 +1,4 @@
-import { useEffect, useState } from "react"
-import api from '../services/api'
-
 const ProfilePage = () => {
-	const [usuarios, setUsuarios] = useState([])
-
-	useEffect(() => {
-		api.get('/users')
-			.then((res) => setUsuarios(res.data))
-			.catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-	}, [usuarios])
-
 	return (
 		<div className="min-h-screen bg-mainbg lg:flex">
 			<section className="lg:w-2/3 w-full lg:flex xl:flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
