@@ -18,7 +18,7 @@ const App = () => {
 				<Route path="/profile" element={<ProfilePage />} />
 				<Route path="/publish" element={<PublishPage />} />
 				<Route path="/register" element={<RegisterPage />} />
-				<Route path="/student-register" element={<StudentRegisterPage />} />
+				<Route path="/student-register/:id" element={<StudentRegisterPage />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
