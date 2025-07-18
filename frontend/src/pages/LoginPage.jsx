@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
+import { userAuth } from "../services/userAuth";
 import { Link, useNavigate } from "react-router-dom"
 import imagem from '../assets/img_HomePage.png';
   
 const HomePage = () => {
-	const [usuarios, setUsuarios] = useState([])
 	const navigate = useNavigate()
-
-	useEffect(() => {
-		api.get('/users')
-			.then((res) => setUsuarios(res.data))
-			.catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-	}, [usuarios])
 
 	const handleLoginTry = async (event) => {
 			event.preventDefault();
@@ -24,22 +18,18 @@ const HomePage = () => {
 				return;
 			}
 	
-			// envia os dados do formulário
+			//envia os dados do formulário
 			const formData = { email, password };
 	
 			try {
 				const response = await api.post("/login", formData);
 	
 				if (response.status === 200 ) {
-					alert("Você logou com sucesso!");
+					userAuth.setAccessToken(response.data.accessToken)
 					navigate("/feed");
 				}
 			} catch (error) {
 				console.error("Erro:", error);
-				if (error.response) {
-					console.error("Dados da resposta:", error.response.data);
-					console.error("Status:", error.response.status);
-				}
 				alert("Erro ao criar usuário. Tente novamente.");
 			}
 		};
@@ -52,7 +42,7 @@ const HomePage = () => {
 			<section className="text-extrabold bg-mainbg ">
 				<h1 className="max-w-2xl max-h-10xl text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Conecte-se às melhores oportunidades no maior <span className="text-darkred">Centro de Informática</span> do país.</h1>
 				<div className="max-w-2xl max-h-10xl">
-					<form className="pt-10 space-y-4">
+					<form className="pt-10 space-y-4" onSubmit={handleLoginTry}>
 						<input type="email" id="email-login" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Email" />
 						<input type="password" id="password-login" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Senha" />
 						<button type="submit" className="bg-white text-darkred p-2 rounded-xl font-black w-full h-12">Continuar</button>

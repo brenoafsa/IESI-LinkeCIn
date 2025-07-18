@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import api from '../services/api'
+import { userAuth } from "../services/userAuth"
 import { Link, useParams, useNavigate } from "react-router-dom"
 
 const StudentRegisterPage = () => {
@@ -49,7 +50,7 @@ const StudentRegisterPage = () => {
             const response = await api.post("/student", formData);
 
             if (response.status === 201) {
-                alert("Parabéns! Você está logado como um estudante!");
+                userAuth.setAccessToken(response.data.accessToken)
                 navigate("/feed");
             }
         } catch (err) {
