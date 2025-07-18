@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.use(userRoutes)
+app.use('/', userRoutes)
 
 app.listen(3001, () => {
   console.log(`App de exemplo esta rodando na porta 3001`)
