@@ -7,7 +7,7 @@ function OpportunityPage() {
     <>
       {/* botao voltar */}
       <div className="bg-mainbg w-full">
-        <button onClick={() => navigate('/feed')} className= "px-10 ml-10 bg-white rounded-[15px] py-2 text-black shadow text-xl font-bold text-darkred mt-5">
+        <button onClick={() => navigate('/feed')} className= "px-10 ml-10 bg-white rounded-[15px] py-2 shadow text-xl font-bold text-darkred mt-5">
           Voltar
         </button>
       </div>
