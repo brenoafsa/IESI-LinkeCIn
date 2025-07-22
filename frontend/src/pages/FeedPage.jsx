@@ -18,8 +18,8 @@ const FeedPage = () => {
         <div className="min-h-screen bg-mainbg lg:flex">
             <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
                 <div className="p-4">
-                    <h2 className="text-xl font-bold text-darkred mt-5">Informações Adicionais</h2>
-                    <p className="text-gray-600">Aqui você pode adicionar informações adicionais sobre o usuário.</p>
+                    <h3 className="text-xl font-bold text-darkred mt-5">Nome Completo</h3>
+					<p className="text-gray-600">Estudante de {'{curso}'} {'{entrada}'} </p>
                 </div>
             </section>
             <section className="lg:w-2/3 w-full lg:flex xl:flex h-full flex-col gap-1 m-10 self-stretch rounded-xl">

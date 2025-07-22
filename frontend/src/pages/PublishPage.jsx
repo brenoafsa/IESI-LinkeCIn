@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import api from '../services/api'
 import { userAuth } from "../services/userAuth"
 import { useNavigate } from "react-router-dom"
+import imagem from '../assets/img_PublishingPage.png';
 
 const PublishPage = () => {
 	const [tokenAcesso, setTokenAcesso] = useState("")
@@ -55,11 +56,14 @@ const PublishPage = () => {
     }
 
 	return (
-		<div className="w-full min-h-screen bg-mainbg flex p-[20px] sm:p-[24px] md:p-[32px] lg:p-[48px] xl:p-[64px]">
-			<section className="text-extrabold bg-mainbg w-1/2 ml-auto">
+		<div className="w-full min-h-screen flex justify-center bg-mainbg">
+			<section className="max-w-xl max-h-md flex items-center pl-10 sm:pl-12 md:pl-16 lg:pl-20 xl:pl-24 mt-25">
+				<img src={imagem} alt="" className="h-auto pointer-events-none w-xl self-start" />
+			</section>
+			<section className="text-extrabold bg-mainbg p-[20px] sm:p-[24px] md:p-[32px] lg:p-[48px] xl:p-[64px] mt-10">
 				<div>
 					<h1 className="text-2xl w-full font-black text-darkred text-center">Adicione sua oportunidade! </h1>
-					<form className="pt-4 w-full space-y-4" onSubmit={handleOpportunityCreation}>
+					<form className="pt-4 w-[80vh] space-y-4" onSubmit={handleOpportunityCreation}>
 						<input type="text" id="titulo-oportunidade" className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred focus:outline-none h-8 sm:h-10 md:h-12 lg:h-14" placeholder="Título da Oportunidade" />
 						<div className="flex items-center space-x-2 mt-2">
 							<select id="tipo-oportunidade" className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred focus:outline-none h-8 sm:h-10 md:h-12 lg:h-14">

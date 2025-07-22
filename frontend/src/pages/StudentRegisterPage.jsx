@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import api from '../services/api'
 import { userAuth } from "../services/userAuth"
 import { Link, useParams, useNavigate } from "react-router-dom"
+import imagem from '../assets/img_StudentRegisterPage.png';
 
 const StudentRegisterPage = () => {
     const { id } = useParams();
@@ -53,14 +54,17 @@ const StudentRegisterPage = () => {
     }
 
     return (
-        <div className="w-full min-h-screen bg-mainbg flex p-[40px] sm:p-[48px] md:p-[64px] lg:p-[96px] xl:p-[128px]">
-            <section className="text-extrabold bg-mainbg ml-auto">
-                <div className="w-max-md mx-auto">
-                    <h1 className="text-2xl max-w-2xl font-black text-darkred text-center">Continue seu cadastro! </h1>
+        <div className="w-full min-h-screen bg-mainbg flex justify-center">
+            <section className="w-1/2 max-h-md flex items-center">
+                <img src={imagem} alt="" className="h-auto pointer-events-none max-w-2xl self-start" />
+            </section>
+            <section className="max-h-md max-w-6xl text-extrabold bg-mainbg p-[10px] sm:p-[12px] md:p-[16px] lg:p-[24px] xl:p-[32px] mt-25">
+                <div className="w-full">
+                    <h1 className="text-2xl font-black text-darkred text-center">Continue seu cadastro! </h1>
                     <form className="pt-4 w-full" onSubmit={handleStudentSignUp}>
                         <div className="mb-4">
                             <select
-                                className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
+                                className="rounded-xl block mx-auto w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
                                 value={curso}
                                 onChange={(e) => setCurso(e.target.value)}
                                 id="curso-select"
@@ -74,7 +78,7 @@ const StudentRegisterPage = () => {
                         </div>
                         <div className="mb-4">
                             <select
-                                className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
+                                className="rounded-xl block mx-auto w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred h-8 sm:h-10 md:h-12 lg:h-14 focus:outline-none text-gray-500"
                                 value={entrada}
                                 onChange={(e) => setEntrada(e.target.value)}
                                 id="entrada-select"
@@ -123,10 +127,10 @@ const StudentRegisterPage = () => {
                         </div>
                         <p className="text-bold text-center mt-3">Quantas horas de carga horária complementar obrigatória você já cumpriu?</p>
                         <div className="flex items-center mt-2">
-                            <input 
-                                type="number" 
-                                id="horas" 
-                                className="rounded-2xl w-full h-10 border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg focus:outline-none bg-darkred text-white" 
+                            <input
+                                type="number"
+                                id="horas"
+                                className="rounded-2xl w-full h-10 border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg focus:outline-none bg-darkred text-white"
                                 placeholder="Adicione aqui suas horas. Ex: 60"
                                 value={horas}
                                 onChange={(e) => setHoras(Number(e.target.value))}
@@ -134,7 +138,7 @@ const StudentRegisterPage = () => {
                         </div>
                         <button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 mt-4">Continuar</button>
                     </form >
-                    <p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/" className="text-darkred underline font-bold">Entrar</Link></p>
+                    <p className="pt-3 text-extrabold pl-4 text-center">Já faz parte do LinkeCIn? <Link to="/login" className="text-darkred underline font-bold">Entrar</Link></p>
                 </div>
             </section>
         </div>
