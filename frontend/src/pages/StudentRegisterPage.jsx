@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react"
 import api from '../services/api'
+import { userAuth } from "../services/userAuth"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import imagem from '../assets/img_StudentRegisterPage.png';
 
 const StudentRegisterPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [usuarios, setUsuarios] = useState([])
     const [curso, setCurso] = useState('');
     const [entrada, setEntrada] = useState('');
     const [aberto, setAberto] = useState(false);
@@ -35,12 +35,6 @@ const StudentRegisterPage = () => {
         return () => document.removeEventListener("mousedown", fecharDropdown);
     }, []);
 
-    useEffect(() => {
-        api.get('/users')
-            .then((res) => setUsuarios(res.data))
-            .catch((err) => console.error({ error: "Erro ao buscar usuários", err }))
-    }, [usuarios])
-
     const handleStudentSignUp = async (event) => {
         event.preventDefault();
 
@@ -50,7 +44,7 @@ const StudentRegisterPage = () => {
             const response = await api.post("/student", formData);
 
             if (response.status === 201) {
-                alert("Parabéns! Você está logado como um estudante!");
+                userAuth.setAccessToken(response.data.accessToken)
                 navigate("/feed");
             }
         } catch (err) {

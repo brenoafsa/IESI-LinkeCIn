@@ -23,7 +23,7 @@ const App = () => {
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/student-register/:id" element={<StudentRegisterPage />} />
 				<Route path="*" element={<NotFound />} />
-				<Route path="/opportunity" element={<OpportunityPage/>}/>
+				<Route path="/opportunity/:id" element={<OpportunityPage/>}/>
 				<Route path="/data" element={<UserAnalyticsPage/>}/>
 				<Route path="/favorites" element={<Favorites/>}/>
 			</Routes>
