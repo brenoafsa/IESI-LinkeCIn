@@ -31,35 +31,6 @@ const HomePage = () => {
 				console.error("Erro:", error);
 				alert("Erro ao logar. Tente novamente.");
 			}
-		};
-		event.preventDefault();
-
-		const email = document.getElementById("email-login").value;
-		const password = document.getElementById("password-login").value;
-
-		if (!email || !password) {
-			alert("Por favor, preencha todos os campos e selecione um cargo.");
-			return;
-		}
-
-		// envia os dados do formulário
-		const formData = { email, password };
-
-		try {
-			const response = await api.post("/login", formData);
-
-			if (response.status === 200) {
-				alert("Você logou com sucesso!");
-				navigate("/feed");
-			}
-		} catch (error) {
-			console.error("Erro:", error);
-			if (error.response) {
-				console.error("Dados da resposta:", error.response.data);
-				console.error("Status:", error.response.status);
-			}
-			alert("Erro ao logar. Tente novamente.");
-		}
 	};
 
 	return (
