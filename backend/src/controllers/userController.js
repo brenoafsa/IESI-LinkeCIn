@@ -1,7 +1,11 @@
 // src/controllers/userController.js
 import prisma from '../../prismaClient.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 import tokenController from './tokenController.js'
+
+dotenv.config();
 
 async function getAllUsers (req, res) {
     try {
@@ -78,7 +82,7 @@ async function setStudentRecord(req, res){
     const { userId, horas, curso, entrada, disciplinas } = req.body;
 
     try {
-        const historicoEscolar = await prisma.studentRecord.create({
+        await prisma.studentRecord.create({
             data: { studentId: userId, complementaryHours: horas, course: curso, entrance: entrada, finishedSubjects: disciplinas}
         })
 
@@ -94,9 +98,82 @@ async function setStudentRecord(req, res){
     }
 }
 
+async function getSpecificUser (req, res) {
+    const { accessToken } = req.body;
+
+    if (!accessToken) {
+            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+        }
+
+    const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+    try {
+		const specificUser = await prisma.user.findFirst({
+            where: {
+                id: decodificado.id
+            },
+            include: {
+                studentRecord: true
+            }
+        })
+		res.status(200).json(specificUser)
+	} catch (err) {
+		console.error('Erro ao buscar usuário específico:', err)
+	}
+}
+
+async function userOpportunityHistory(req, res) {
+    try {
+        const { accessToken } = req.body;
+        
+        if (!accessToken) {
+            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+        }
+        const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        
+        const oportunidadesUser = await prisma.opportunityPost.findMany({
+            where: {
+                candidates: {
+                    some: {
+                        id: decodificado.id
+                    }
+                }
+            },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+            },
+            orderBy: {
+                deadline: 'desc'
+            }
+        });
+
+        res.status(200).json(oportunidadesUser);
+    } catch (error) {
+        console.error("Erro ao buscar histórico de oportunidades do usuário:", error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
 export default {
     getAllUsers,
     createUser,
     checkUserExists,
-    setStudentRecord
+    setStudentRecord,
+    getSpecificUser,
+    userOpportunityHistory
 }

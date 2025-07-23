@@ -70,10 +70,10 @@ const StudentRegisterPage = () => {
                                 id="curso-select"
                             >
                                 <option value="">Selecione seu Curso</option>
-                                <option value="cc">Ciência da Computação</option>
-                                <option value="ec">Engenharia da Computação</option>
-                                <option value="si">Sistemas de Informação</option>
-                                <option value="ia">Inteligência Artificial</option>
+                                <option value="Ciência da Computação">Ciência da Computação</option>
+                                <option value="Engenharia da Computação">Engenharia da Computação</option>
+                                <option value="Sistemas de Informação">Sistemas de Informação</option>
+                                <option value="Inteligência Artificial">Inteligência Artificial</option>
                             </select>
                         </div>
                         <div className="mb-4">
