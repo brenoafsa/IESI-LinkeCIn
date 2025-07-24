@@ -36,8 +36,17 @@ async function createUser(req, res){
         const novoUsuario = await prisma.user.create({
             data: { fullName, email, password: senhaHashed, role }
         });
-    
-        res.status(201).json(novoUsuario); // Retorna status 201 (Created) para criação bem-sucedida
+
+        const token = tokenController.generateAccessToken(novoUsuario.id, novoUsuario.email)
+        
+        if (role === "STUDENT"){
+            res.status(201).json(novoUsuario); // Retorna status 201 (Created) para criação bem-sucedida
+        } else {
+            res.status(200).json({
+                message: 'Login bem-sucedido',
+                accessToken: token
+            });
+        }
     } catch (err) {
         console.error('Erro ao criar usuário:', err); // MUITO IMPORTANTE: Loga o erro completo no console
         res.status(500).json({
@@ -98,7 +107,7 @@ async function setStudentRecord(req, res){
     }
 }
 
-async function getSpecificUser (req, res) {
+async function getSpecificStudent (req, res) {
     const { accessToken } = req.body;
 
     if (!accessToken) {
@@ -122,7 +131,7 @@ async function getSpecificUser (req, res) {
 	}
 }
 
-async function userOpportunityHistory(req, res) {
+async function studentOpportunityHistory(req, res) {
     try {
         const { accessToken } = req.body;
         
@@ -131,32 +140,66 @@ async function userOpportunityHistory(req, res) {
         }
         const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
         
-        const oportunidadesUser = await prisma.opportunityPost.findMany({
-            where: {
-                candidates: {
-                    some: {
-                        id: decodificado.id
+        const userComCandidatura = await prisma.user.findUnique({
+            where: { id: decodificado.id },
+            include: {
+                appliedPosts: {
+                    include: {
+                        publisher: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                                email: true,
+                                role: true
+                            }
+                        }
+                    },
+                    orderBy: {
+                        deadline: 'desc'
                     }
                 }
-            },
-            include: {
-                publisher: {
-                    select: {
-                        id: true,
-                        fullName: true,
-                        email: true,
-                        role: true
-                    }
-                },
-            },
-            orderBy: {
-                deadline: 'desc'
             }
         });
+        const oportunidadesUser = userComCandidatura?.appliedPosts || [];
 
         res.status(200).json(oportunidadesUser);
     } catch (error) {
         console.error("Erro ao buscar histórico de oportunidades do usuário:", error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
+async function teacherHistoryInformation(req, res) {
+    try {
+        const { accessToken } = req.body;
+        
+        if (!accessToken) {
+            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+        }
+        const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        
+        const information = await prisma.user.findFirst({
+            where: { id: decodificado.id },
+            include: { publishedPosts: { 
+                include: { candidates: {
+                    include: {
+                        studentRecord: true
+                    }
+                }}
+            }}
+        })
+
+        res.status(200).json(information);
+    } catch (error) {
+        console.error("Erro ao buscar informações do professor:", error);
 
         if (error.name === 'JsonWebTokenError') {
             return res.status(401).json({ error: 'Token inválido' });
@@ -174,6 +217,7 @@ export default {
     createUser,
     checkUserExists,
     setStudentRecord,
-    getSpecificUser,
-    userOpportunityHistory
+    getSpecificStudent,
+    studentOpportunityHistory,
+    teacherHistoryInformation
 }

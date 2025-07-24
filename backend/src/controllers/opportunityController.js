@@ -153,6 +153,15 @@ async function applyToOpportunity(req, res) {
                 }
             }
         })
+        
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                appliedPosts: {
+                    connect: { id: opportunityId }
+                }
+            }
+        })
 
         res.status(200).json({ message: 'Candidatura realizada com sucesso', opportunity })
     } catch (err) {
