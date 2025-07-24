@@ -8,30 +8,23 @@ const PieChart = ({ dadosCursos }) => {
     return <div className="flex justify-center items-center h-64 text-gray-500">Nenhum dado disponível</div>;
   }
 
-  const labels = Object.keys(dadosCursos);
-  const data = Object.values(dadosCursos);
-
-  const colors = [
-    'rgba(255, 99, 132, 0.9)',
-    'rgba(54, 162, 235, 0.9)',
-    'rgba(255, 205, 86, 0.9)',
-    'rgba(75, 192, 192, 0.9)',
-  ];
-
-  const borderColors = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 205, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-  ];
-
   const chartData = {
-    labels: labels,
+    labels: Object.keys(dadosCursos),
     datasets: [{
       label: 'Candidatos por Curso',
-      data: data,
-      backgroundColor: colors.slice(0, labels.length),
-      borderColor: borderColors.slice(0, labels.length),
+      data: Object.values(dadosCursos),
+      backgroundColor: [
+            'rgba(255, 99, 132, 0.9)',
+            'rgba(54, 162, 235, 0.9)',
+            'rgba(255, 205, 86, 0.9)',
+            'rgba(75, 192, 192, 0.9)',
+      ],
+      borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 205, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+      ],
       borderWidth: 1
     }]
   };
@@ -40,7 +33,7 @@ const PieChart = ({ dadosCursos }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        display: false
       },
       tooltip: {
         callbacks: {
