@@ -95,10 +95,28 @@ function TeacherAnalyticsPage() {
           </div>
         </div>
 
-        <div className="w-90 bg-white p-6 rounded-[15px] shadow-md h-full justify-center flex">
-          <p className='text-lg font-semibold'>por tipos:</p>
-          <div className="">
+        <div className="w-full max-w-xl bg-white p-6 rounded-[15px] shadow-md flex flex-col md:flex-row justify-center items-center gap-8">
+          <div className="flex flex-col items-center">
+            <p className='text-lg font-semibold mb-4'>por tipos:</p>
             <PieChart dadosCursos={dadosCursos} />
+          </div>
+          <div className="flex flex-col gap-6 pr-2">
+            <div className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded bg-[#FF6384]"></span>
+              <span className="text-sm font-medium text-black">Sistemas de Informação</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded bg-[#36A2EB]"></span>
+              <span className="text-sm font-medium text-black">Ciência da Computação</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded bg-[#FFCD56]"></span>
+              <span className="text-sm font-medium text-black">Inteligência Artificial</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded bg-[#4BC0C0]"></span>
+              <span className="text-sm font-medium text-black">Engenharia da Computação</span>
+            </div>
           </div>
         </div>
       </div>
