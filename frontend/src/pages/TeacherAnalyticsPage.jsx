@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; 
 import api from '../services/api';
 import { userAuth } from '../services/userAuth';
-import PieChart from '../components/PieChart';
+import DoughnutChart from '../components/DoughnutChart';
 
 function TeacherAnalyticsPage() {
      const navigate = useNavigate();
@@ -110,7 +110,7 @@ function TeacherAnalyticsPage() {
          <div className="w-full max-w-xl bg-white p-6 rounded-[15px] shadow-md flex flex-col md:flex-row justify-center items-center gap-8">
           <div className="flex flex-col items-center">
             <p className='text-lg font-semibold mb-4'>por tipos:</p>
-            <PieChart dadosCursos={dadosCursos} />
+            <DoughnutChart dadosCursos={dadosCursos} />
           </div>
           <div className="flex flex-col gap-6 pr-2">
             {cursosComCores.map((curso, index) => (

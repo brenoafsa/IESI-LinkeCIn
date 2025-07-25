@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-const PieChart = ({ dadosCursos }) => {
+const DoughnutChart = ({ dadosCursos }) => {
   if (!dadosCursos || Object.keys(dadosCursos).length === 0) {
     return (
       <div 
@@ -66,4 +66,4 @@ const PieChart = ({ dadosCursos }) => {
   );
 };
 
-export default PieChart;
+export default DoughnutChart;
