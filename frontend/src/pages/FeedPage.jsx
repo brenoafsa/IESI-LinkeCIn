@@ -28,13 +28,13 @@ const FeedPage = () => {
                         <Folder size={16} className="text-darkred inline-block" />
                         <select className="text-darkred font-normal pl-3" value={tipo}
                                 onChange={(e) => setTipo(e.target.value)}
-                                id="curso-select"
-                            >
-                                <option value="">Oportunidade 1</option>
-                                <option value="cc">Oportunidade 2</option>
-                                <option value="ec">Oportunidade 3</option>
-                                <option value="si">Oportunidade 4</option>
-                                <option value="ia">Oportunidade 5</option>
+                                id="tipo-select">
+								<option disabled hidden selected value="">Tipo</option>
+								<option value="mon">Monitoria</option>
+								<option value="pe">Projeto de extensão</option>
+								<option value="pp">Projeto de pesquisa</option>
+								<option value="est">Estágio</option>
+								<option value="eve">Evento</option>
                             </select>
                     </form>
                 </div>

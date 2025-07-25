@@ -1,6 +1,15 @@
 import { Bookmark, Clock4, MapPin, Users } from 'lucide-react';
+import {useState} from 'react';
+import { Heart, HeartOff} from 'lucide-react';
 
 export default function Opportunity({ opportunity }) {
+    const [favoritado, setFavoritado] = useState(false);
+
+    const alternarFavoritado = () => {
+        setFavoritado(!favoritado);
+
+        // backend adicionar logica para oportunidades marcadas com favoritado ir para pagina FavoritesPage
+    }
     const formataData = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('pt-BR', {
@@ -21,8 +30,14 @@ export default function Opportunity({ opportunity }) {
     return (
         <div className="w-full bg-white rounded-xl flex">
             <div className="lg:w-2/4 w-full flex h-full flex-col bg-white p-4 self-stretch rounded-xl">
-                <h2 className="text-lg font-bold mb-2 text-darkred">
-                    <Bookmark className="text-darkred inline-block mr-1" />
+                <h2 className="text-lg font-bold mb-2 text-darkred flex items-centes gap-2">
+                    <button onClick={alternarFavoritado} className="focus:outline-none">
+                        {favoritado ? (
+                             <Heart className="stroke-darkred fill-darkred" />
+                        ) : (
+                            <Heart className="stroke-darkred fill-none" />
+                        )}
+                    </button>
                     {opportunity?.tittle || 'Título da Oportunidade'}
                 </h2>
                 <p className="text-gray-600 mb-4">
