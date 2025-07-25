@@ -13,6 +13,13 @@ function TeacherAnalyticsPage() {
      const [oportunidadeMaisInteresse, setOportunidadeMaisInteresse] = useState(null);
      const token = userAuth.getAccessToken();
 
+     const coresPieChart = [
+       '#FF6384',
+       '#36A2EB', 
+       '#FFCD56',
+       '#4BC0C0'
+     ];
+
      useEffect(() => {
         api.post('/teacher/posts', { accessToken: token })
         .then((res) => {
@@ -68,6 +75,11 @@ function TeacherAnalyticsPage() {
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 4);
 
+     const cursosComCores = Object.keys(dadosCursos).map((curso, index) => ({
+       nome: curso,
+       cor: coresPieChart[index % coresPieChart.length]
+     }));
+
   return (
     <div className="bg-mainbg min-h-screen w-full p-10">
       <div className="flex justify-start mb-8">
@@ -95,28 +107,21 @@ function TeacherAnalyticsPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-xl bg-white p-6 rounded-[15px] shadow-md flex flex-col md:flex-row justify-center items-center gap-8">
+         <div className="w-full max-w-xl bg-white p-6 rounded-[15px] shadow-md flex flex-col md:flex-row justify-center items-center gap-8">
           <div className="flex flex-col items-center">
             <p className='text-lg font-semibold mb-4'>por tipos:</p>
             <PieChart dadosCursos={dadosCursos} />
           </div>
           <div className="flex flex-col gap-6 pr-2">
-            <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded bg-[#FF6384]"></span>
-              <span className="text-sm font-medium text-black">Sistemas de Informação</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded bg-[#36A2EB]"></span>
-              <span className="text-sm font-medium text-black">Ciência da Computação</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded bg-[#FFCD56]"></span>
-              <span className="text-sm font-medium text-black">Inteligência Artificial</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-5 h-5 rounded bg-[#4BC0C0]"></span>
-              <span className="text-sm font-medium text-black">Engenharia da Computação</span>
-            </div>
+            {cursosComCores.map((curso, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span 
+                  className="w-5 h-5 rounded" 
+                  style={{ backgroundColor: curso.cor }}
+                ></span>
+                <span className="text-sm font-medium text-black">{curso.nome}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
