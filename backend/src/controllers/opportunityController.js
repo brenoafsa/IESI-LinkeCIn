@@ -169,9 +169,62 @@ async function applyToOpportunity(req, res) {
     }
 }
 
+async function listarOportunidadesFiltradas(req, res) {
+    const { tipo, prazo } = req.query;
+
+    try {
+        const filtros = {};
+
+        if (tipo) {
+            filtros.type = tipo.toUpperCase();
+        }
+
+        const hoje = new Date();
+
+        if (prazo === 'hoje') {
+            const inicioHoje = new Date();
+            inicioHoje.setHours(0, 0, 0, 0);
+
+            const fimHoje = new Date();
+            fimHoje.setHours(23, 59, 59, 999);
+
+            filtros.deadline = {
+                gte: inicioHoje,
+                lte: fimHoje,
+            };
+        } else if (prazo === 'ultimaSemana') {
+            const fimSemana = new Date();
+            fimSemana.setDate(hoje.getDate() + 7);
+            filtros.deadline = {
+                gte: hoje,
+                lte: fimSemana,
+            };
+        } else if (prazo === 'ultimoMes') {
+            const fimMes = new Date();
+            fimMes.setDate(hoje.getDate() + 30); // ou use setMonth se preferir mais exato
+            filtros.deadline = {
+                gte: hoje,
+                lte: fimMes,
+            };
+        }
+
+        const oportunidades = await prisma.opportunityPost.findMany({
+            where: filtros,
+            orderBy: prazo === 'maisRecente' ? { id: 'desc' } : undefined,
+        });
+
+        res.status(200).json(oportunidades);
+    } catch (error) {
+        console.error('Erro ao filtrar oportunidades:', error);
+        res.status(500).json({ error: 'Erro ao filtrar oportunidades' });
+    }
+}
+
+
 export default {
     getAllOpportunities,
     createOpportunity,
     getOpportunityById,
-    applyToOpportunity
+    applyToOpportunity,
+    listarOportunidadesFiltradas
 }

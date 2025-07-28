@@ -1,65 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+  // This is your Prisma schema file,
+  // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+  // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+  // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
-}
+  generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+  }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
 
-enum UserRole {
-  STUDENT
-  TEACHER
-}
+  enum UserRole {
+    STUDENT
+    TEACHER
+  }
 
-enum OpportunityTypes {
-  EXTENSION
-  COMPLEMENTARY
-}
+  enum OpportunityTypes {
+    EXTENSION
+    COMPLEMENTARY
+  }
 
-model User { 
-  id                 String @id @default(uuid())
-  fullName           String
-  email              String @unique 
-  password           String
-  role               UserRole
+  model User { 
+    id                 String @id @default(uuid())
+    fullName           String
+    email              String @unique 
+    password           String
+    role               UserRole
 
-  studentRecord      StudentRecord?
-  
-  publishedPosts     OpportunityPost[] @relation("Publisher")
-  appliedPosts       OpportunityPost[] @relation("Candidates")
-}
+    studentRecord      StudentRecord?
+    
+    publishedPosts     OpportunityPost[] @relation("Publisher")
+    appliedPosts       OpportunityPost[] @relation("Candidates")
+  }
 
-model StudentRecord {
-  id                 String @id @default(uuid())
-  student            User @relation(fields: [studentId], references: [id])
-  studentId          String @unique
+  model StudentRecord {
+    id                 String @id @default(uuid())
+    student            User @relation(fields: [studentId], references: [id])
+    studentId          String @unique
 
-  complementaryHours Int
-  course             String
-  entrance           String 
-  finishedSubjects   String[]
-}
+    complementaryHours Int
+    course             String
+    entrance           String 
+    finishedSubjects   String[]
+  }
 
-model OpportunityPost {
-  id                String @id @default(uuid())
-  tittle            String 
-  description       String
-  type              OpportunityTypes
-  deadline          DateTime
-  city              String
-  state             String
-  hours             Int
-  
-  publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
-  publisherId       String
+  model OpportunityPost {
+    id                String @id @default(uuid())
+    tittle            String 
+    description       String
+    type              OpportunityTypes
+    deadline          DateTime
+    city              String
+    state             String
+    hours             Int
+    
+    publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
+    publisherId       String
 
-  candidates        User[] @relation("Candidates")
-}
+    candidates        User[] @relation("Candidates")
+  }
