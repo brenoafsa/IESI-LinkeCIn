@@ -7,7 +7,7 @@ function UserAnalyticsPage() {
     <div className="bg-mainbg min-h-screen w-full p-10">
       
       {/* Botão Voltar */}
-      <div className="flex justify-end mb-6">
+      <div className="flex justify-home mb-6">
         <button onClick={() => navigate('/feed')} className="bg-white text-black font-semibold px-6 py-2 rounded-[15px] shadow-md hover:bg-gray-100 transition ">
           Voltar
         </button>
