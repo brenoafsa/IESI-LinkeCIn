@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import api from '../services/api'
 import Opportunity from "../components/opportunity"
-import { Folder, Clock, Check, User } from "lucide-react"
+import { Folder, Clock, Check, User, CirclePlus } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const FeedPage = () => {
     const [posts, setPosts] = useState([])
@@ -19,6 +20,12 @@ const FeedPage = () => {
 
     const handleClick = () => {
         setAtivo(!ativo);
+    };
+
+    const navigate = useNavigate();
+
+    const handleClick1 = () => {
+        navigate("/publish");
     };
 
     return (
@@ -39,8 +46,8 @@ const FeedPage = () => {
                     Relatório de Horas Complementares
                 </button>
             </section>
-            <section className="lg:w-2/3 w-full lg:flex xl:flex h-full flex-col gap-1 m-10 self-stretch rounded-xl">
-                <div className="w-full bg-white rounded-xl flex p-3">
+            <section className="lg:w-2/3 w-full h-full flex m-10 self-stretch rounded-xl">
+                <div className="w-3/4 bg-white rounded-xl flex p-3">
                     <form className="flex items-center gap-2 w-full">
                         <Folder size={16} className="text-black inline-block" />
                         <select className="text-darkred font-normal w-32" value={tipo}
@@ -70,6 +77,12 @@ const FeedPage = () => {
                         </button>
                     </form>
                 </div>
+                <button onClick={handleClick1} className="w-1/4 flex items-center ml-3 gap-2 bg-primaryred rounded-lg text-white font-semibold hover:bg-darkred transition-colors">
+                    <CirclePlus size={32} className="ml-5"/>
+                    <span className="pr-5">
+                        Publicar nova oportunidade
+                    </span>
+                </button>
                 {posts.map((post) => (
                     <Link key={post.id} to={`/opportunity/${post.id}`}>
                         <Opportunity key={post.id} opportunity={post} />
