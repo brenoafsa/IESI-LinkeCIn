@@ -57,6 +57,7 @@ model OpportunityPost {
   city        String
   state       String
   hours       Int
+  createdAt   DateTime         @default(now())
 
   publisher   User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId String

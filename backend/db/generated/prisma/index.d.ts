@@ -74,7 +74,7 @@ export const OpportunityTypes: typeof $Enums.OpportunityTypes
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -270,8 +270,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.1
-   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+   * Prisma Client JS version: 6.13.0
+   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
    */
   export type PrismaVersion = {
     client: string
@@ -942,16 +942,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -995,10 +1003,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -3401,6 +3414,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    createdAt: Date | null
     publisherId: string | null
   }
 
@@ -3413,6 +3427,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    createdAt: Date | null
     publisherId: string | null
   }
 
@@ -3425,6 +3440,7 @@ export namespace Prisma {
     city: number
     state: number
     hours: number
+    createdAt: number
     publisherId: number
     _all: number
   }
@@ -3447,6 +3463,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    createdAt?: true
     publisherId?: true
   }
 
@@ -3459,6 +3476,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    createdAt?: true
     publisherId?: true
   }
 
@@ -3471,6 +3489,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    createdAt?: true
     publisherId?: true
     _all?: true
   }
@@ -3570,6 +3589,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt: Date
     publisherId: string
     _count: OpportunityPostCountAggregateOutputType | null
     _avg: OpportunityPostAvgAggregateOutputType | null
@@ -3601,6 +3621,7 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     hours?: boolean
+    createdAt?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
@@ -3616,6 +3637,7 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     hours?: boolean
+    createdAt?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3629,6 +3651,7 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     hours?: boolean
+    createdAt?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3642,10 +3665,11 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     hours?: boolean
+    createdAt?: boolean
     publisherId?: boolean
   }
 
-  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "publisherId", ExtArgs["result"]["opportunityPost"]>
+  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "createdAt" | "publisherId", ExtArgs["result"]["opportunityPost"]>
   export type OpportunityPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
@@ -3673,6 +3697,7 @@ export namespace Prisma {
       city: string
       state: string
       hours: number
+      createdAt: Date
       publisherId: string
     }, ExtArgs["result"]["opportunityPost"]>
     composites: {}
@@ -4107,6 +4132,7 @@ export namespace Prisma {
     readonly city: FieldRef<"OpportunityPost", 'String'>
     readonly state: FieldRef<"OpportunityPost", 'String'>
     readonly hours: FieldRef<"OpportunityPost", 'Int'>
+    readonly createdAt: FieldRef<"OpportunityPost", 'DateTime'>
     readonly publisherId: FieldRef<"OpportunityPost", 'String'>
   }
     
@@ -4592,6 +4618,7 @@ export namespace Prisma {
     city: 'city',
     state: 'state',
     hours: 'hours',
+    createdAt: 'createdAt',
     publisherId: 'publisherId'
   };
 
@@ -4841,6 +4868,7 @@ export namespace Prisma {
     city?: StringFilter<"OpportunityPost"> | string
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
+    createdAt?: DateTimeFilter<"OpportunityPost"> | Date | string
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
@@ -4855,6 +4883,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    createdAt?: SortOrder
     publisherId?: SortOrder
     publisher?: UserOrderByWithRelationInput
     candidates?: UserOrderByRelationAggregateInput
@@ -4872,6 +4901,7 @@ export namespace Prisma {
     city?: StringFilter<"OpportunityPost"> | string
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
+    createdAt?: DateTimeFilter<"OpportunityPost"> | Date | string
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
@@ -4886,6 +4916,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    createdAt?: SortOrder
     publisherId?: SortOrder
     _count?: OpportunityPostCountOrderByAggregateInput
     _avg?: OpportunityPostAvgOrderByAggregateInput
@@ -4906,6 +4937,7 @@ export namespace Prisma {
     city?: StringWithAggregatesFilter<"OpportunityPost"> | string
     state?: StringWithAggregatesFilter<"OpportunityPost"> | string
     hours?: IntWithAggregatesFilter<"OpportunityPost"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"OpportunityPost"> | Date | string
     publisherId?: StringWithAggregatesFilter<"OpportunityPost"> | string
   }
 
@@ -5048,6 +5080,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
   }
@@ -5061,6 +5094,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     publisherId: string
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
   }
@@ -5074,6 +5108,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
   }
@@ -5087,6 +5122,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisherId?: StringFieldUpdateOperationsInput | string
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
   }
@@ -5100,6 +5136,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     publisherId: string
   }
 
@@ -5112,6 +5149,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OpportunityPostUncheckedUpdateManyInput = {
@@ -5123,6 +5161,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5325,6 +5364,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    createdAt?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5341,6 +5381,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    createdAt?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5353,6 +5394,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    createdAt?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5753,6 +5795,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
   }
 
@@ -5765,6 +5808,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
   }
 
@@ -5787,6 +5831,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
   }
 
@@ -5799,6 +5844,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
     publisherId: string
   }
 
@@ -5862,6 +5908,7 @@ export namespace Prisma {
     city?: StringFilter<"OpportunityPost"> | string
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
+    createdAt?: DateTimeFilter<"OpportunityPost"> | Date | string
     publisherId?: StringFilter<"OpportunityPost"> | string
   }
 
@@ -6054,6 +6101,7 @@ export namespace Prisma {
     city: string
     state: string
     hours: number
+    createdAt?: Date | string
   }
 
   export type OpportunityPostUpdateWithoutPublisherInput = {
@@ -6065,6 +6113,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
   }
 
@@ -6077,6 +6126,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
   }
 
@@ -6089,6 +6139,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OpportunityPostUpdateWithoutCandidatesInput = {
@@ -6100,6 +6151,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
   }
 
@@ -6112,6 +6164,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6124,6 +6177,7 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 

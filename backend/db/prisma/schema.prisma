@@ -48,6 +48,7 @@
     finishedSubjects   String[]
   }
 
+<<<<<<< Updated upstream
   model OpportunityPost {
     id                String @id @default(uuid())
     tittle            String 
@@ -60,6 +61,21 @@
     
     publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
     publisherId       String
+=======
+model OpportunityPost {
+  id                String @id @default(uuid())
+  tittle            String 
+  description       String
+  type              OpportunityTypes
+  deadline          DateTime
+  city              String
+  state             String
+  hours             Int
+  createdAt         DateTime @default(now())
+  
+  publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
+  publisherId       String
+>>>>>>> Stashed changes
 
     candidates        User[] @relation("Candidates")
   }
