@@ -30,8 +30,8 @@ const FeedPage = () => {
 
     return (
         <div className="min-h-screen bg-mainbg lg:flex">
-            <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 p-2 m-10 self-stretch">
-                <div className="p-4 items-center flex flex-col justify-center  bg-white rounded-xl">
+            <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 p-2 mt-8 ml-10 mr-5 self-stretch">
+                <div className="p-4 items-center flex flex-col justify-center bg-white rounded-xl">
                     <User size={50} className="text-darkred bg-gray-100 inline-block rounded-full" />
                     <h3 className="text-xl font-bold text-darkred mt-5 text-center">Nome Completo</h3>
                     <p className="text-gray-600 text-center">Estudante de {'{curso}'} {'{entrada}'} </p>
@@ -46,7 +46,8 @@ const FeedPage = () => {
                     Relatório de Horas Complementares
                 </button>
             </section>
-            <section className="lg:w-2/3 w-full h-full flex m-10 self-stretch rounded-xl">
+           <div className="lg:w-2/3 w-full flex flex-col gap-4  mt-10 ">
+            <section className="flex rounded-xl">
                 <div className="w-3/4 bg-white rounded-xl flex p-3">
                     <form className="flex items-center gap-2 w-full">
                         <Folder size={16} className="text-black inline-block" />
@@ -83,12 +84,16 @@ const FeedPage = () => {
                         Publicar nova oportunidade
                     </span>
                 </button>
-                {posts.map((post) => (
+                
+            </section >
+                <div className="flex flex-col gap-4 mt-4">
+                    {posts.map((post) => (
                     <Link key={post.id} to={`/opportunity/${post.id}`}>
                         <Opportunity key={post.id} opportunity={post} />
                     </Link>
-                ))}
-            </section >
+                    ))}
+                </div>
+            </div>
         </div >
     );
 }

@@ -31,7 +31,12 @@ export default function Opportunity({ opportunity }) {
         <div className="w-full bg-white rounded-xl flex">
             <div className="lg:w-2/4 w-full flex h-full flex-col bg-white p-4 self-stretch rounded-xl">
                 <h2 className="text-lg font-bold mb-2 text-darkred flex items-centes gap-2">
-                    <button onClick={alternarFavoritado} className="focus:outline-none">
+                    <button onClick={(event) => { 
+                            event.preventDefault(); // ← impede o clique de "vazar" para o Link pai
+                            event.stopPropagation();
+    
+                            alternarFavoritado();
+                            }}className="focus:outline-none">
                         {favoritado ? (
                              <Heart className="stroke-darkred fill-darkred" />
                         ) : (
@@ -66,12 +71,10 @@ export default function Opportunity({ opportunity }) {
                         {traduzTipo(opportunity?.type) || 'TIPO'}
                     </p>
                 </span>
-                <button className='bg-darkred text-white rounded-l-xl rounded-r-none hover:bg-red-700 flex items-center text-center justify-center mt-2'>
+                <button className='bg-darkred h-8 text-white rounded-l-xl rounded-r-none hover:bg-red-700 flex items-center text-center justify-center mt-2'>
                     Saber mais
                 </button>
-                <button className='bg-primaryred text-white rounded-tl-xl rounded-br-xl hover:bg-red-700 flex items-center text-center justify-center mt-2'>
-                    Tenho interesse
-                </button>
+               
             </div>
         </div>
     );
