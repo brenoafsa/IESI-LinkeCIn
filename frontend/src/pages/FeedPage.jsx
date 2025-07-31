@@ -5,6 +5,7 @@ import { Folder, Clock, Check, User, CirclePlus } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
+
 const FeedPage = () => {
     const [posts, setPosts] = useState([])
     const [tipo, setTipo] = useState('');
@@ -37,7 +38,7 @@ const FeedPage = () => {
                     <p className="text-gray-600 text-center">Estudante de {'{curso}'} {'{entrada}'} </p>
                 </div>
                 <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
-                    Oportunidades Salvas
+                    Oportunidades Favoritadas
                 </button>
                 <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
                     Histórico de Participação
