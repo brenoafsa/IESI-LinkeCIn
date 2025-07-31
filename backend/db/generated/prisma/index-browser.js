@@ -146,6 +146,7 @@ exports.Prisma.OpportunityPostScalarFieldEnum = {
   city: 'city',
   state: 'state',
   hours: 'hours',
+  requiredSubjects: 'requiredSubjects',
   publisherId: 'publisherId'
 };
 

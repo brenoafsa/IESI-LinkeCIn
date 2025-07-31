@@ -10,6 +10,7 @@ function OpportunityPage() {
   const token = userAuth.getAccessToken();
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     api
@@ -114,6 +115,27 @@ function OpportunityPage() {
     return deadlineDate > now;
   };
 
+  const handleInterestClick = async () => {
+    try {
+      const response = await api.post("/reqcheck", {
+        accessToken: token,
+        postId: id,
+      });
+
+      if (response.status === 200) {
+        setShowModal(true);
+      }
+    } catch (error) {
+      console.error("Erro ao verificar pré-requisitos:", error);
+
+      if (error.response?.status === 403) {
+        alert("Você não tem os requerimentos necessários");
+      } else {
+        alert("Erro ao verificar pré-requisitos. Tente novamente.");
+      }
+    }
+  };
+
   const handleInterest = async () => {
     const formData = {
       opportunityId: id,
@@ -125,6 +147,7 @@ function OpportunityPage() {
 
       if (response.status === 200) {
         alert("Você se candidatou à essa Oportunidade!");
+        setShowModal(false);
       }
     } catch (error) {
       console.error("Erro ao se candidatar:", error);
@@ -137,6 +160,7 @@ function OpportunityPage() {
       } else {
         alert("Algo deu errado. Tente novamente");
       }
+      setShowModal(false);
     }
   };
 
@@ -150,6 +174,34 @@ function OpportunityPage() {
 
   return (
     <>
+      {/* Modal de confirmação */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h2 className="text-xl font-bold text-darkred mb-4">
+              Confirmar Interesse
+            </h2>
+            <p className="mb-6">
+              Você tem certeza que quer mostrar interesse?
+            </p>
+            <div className="flex space-x-4 justify-end">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded font-bold"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleInterest}
+                className="bg-darkred text-white px-4 py-2 rounded font-bold"
+              >
+                Sim
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* botao voltar */}
       <div className="bg-mainbg w-full">
         <button
@@ -313,7 +365,9 @@ function OpportunityPage() {
               <h2 className="text-xl font-bold text-red-700 mb-2">
                 Pré-Requisitos
               </h2>
-              <p>A definir conforme necessário</p>
+              {(information.requiredSubjects).map((each, index) => (
+                <p className="mb-2" key={index}>{each}</p>
+              ))}
 
               <div className="flex space-x-4">
                 {/* botão para editar as informações*/}
@@ -333,7 +387,7 @@ function OpportunityPage() {
                 </button>
 
                 <button
-                  onClick={handleInterest}
+                  onClick={handleInterestClick}
                   className="bg-darkred border border-red-600 text-white px-6 py-2 rounded-[15px] font-bold"
                 >
                   Tenho Interesse
