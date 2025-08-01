@@ -16,9 +16,9 @@ const App = () => {
 		<BrowserRouter>
 			<Header />
 			<Routes>
-				<Route path="/" element={<RegisterPage />} />
+				<Route path="/" element={<LoginPage />} />
 				<Route path="*" element={<NotFound />} />
-				<Route path="/login" element={<LoginPage />} />
+				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/student-register/:id" element={<StudentRegisterPage />} />
 				<Route path="/feed" element={<FeedPage />} />
 				<Route path="/profile" element={<ProfilePage />} />

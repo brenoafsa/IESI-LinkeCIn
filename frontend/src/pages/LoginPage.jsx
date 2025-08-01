@@ -47,7 +47,7 @@ const HomePage = () => {
 						<p className="pt-3 text-extrabold pl-4 text-center">Ainda não faz parte do LinkeCIn? <Link to="/register" className="text-darkred underline font-bold">Cadastre-se agora</Link></p>
 					</div>
 					<div className="w-1/2 max-h-md flex items-center justify-center	">
-						<img src={imagem} alt="" className="h-auto mx-auto pointer-events-none max-w-2xl self-start" />
+						<img src={imagem} alt="" className="h-auto mx-auto pointer-events-none max-w-3xl self-start" />
 					</div>
 				</section>
 			</div>
