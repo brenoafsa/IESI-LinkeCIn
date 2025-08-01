@@ -8,7 +8,12 @@ const getAccessToken = (): string | null => {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
 };
 
+const removeAccessToken = (): void => {
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+};
+
 export const userAuth = {
     setAccessToken,
-    getAccessToken
-}
+    getAccessToken,
+    removeAccessToken
+};

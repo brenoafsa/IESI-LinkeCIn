@@ -1,5 +1,6 @@
 import { useState } from "react"
 import api from '../services/api'
+import { userAuth } from "../services/userAuth";
 import { Link, useNavigate } from "react-router-dom"
 import imagem from '../assets/img_RegisterPage.png';
 
@@ -34,6 +35,7 @@ const RegisterPage = () => {
                     const userId = response.data.id;
                     navigate(`/student-register/${userId}`);
                 } else {
+                    userAuth.setAccessToken(response.data.accessToken)
                     navigate("/feed");
                 }
             }

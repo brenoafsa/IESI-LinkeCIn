@@ -1,7 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import api from '../services/api';
-import { userAuth } from '../services/userAuth';
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import api from "../services/api";
+import { userAuth } from "../services/userAuth";
 
 function OpportunityPage() {
   const navigate = useNavigate();
@@ -96,9 +96,12 @@ function OpportunityPage() {
       <div className="bg-mainbg flex justify-center gap-8 px-10 mt-8">
         {/* o bloco do meio */}
         <div className="flex-1 flex flex-col space-y-10 bg-white rounded-[12px] p-6 shadow-md">
-          <h1 className="text-xl font-bold text-red-700 mb-2">{information.tittle}</h1>
-          <h2>{getTypeInPortuguese(information.type)}</h2>
-
+          {/* SE ESTIVER EDITANDO, MOSTRA FORMULÁRIO */}
+          {isEditing ? (
+            <form onSubmit={handleEditOpportunity} className="space-y-4">
+              <h1 className="text-xl font-bold text-red-700 mb-4">
+                Editando Oportunidade
+              </h1>
           <h2 className="text-xl font-bold text-red-700 mb-2">Descrição Completa:</h2>
           <p>{information.description}</p>
 

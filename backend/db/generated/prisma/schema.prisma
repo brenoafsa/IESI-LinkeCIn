@@ -49,14 +49,15 @@ model StudentRecord {
 }
 
 model OpportunityPost {
-  id          String           @id @default(uuid())
-  tittle      String
-  description String
-  type        OpportunityTypes
-  deadline    DateTime
-  city        String
-  state       String
-  hours       Int
+  id               String           @id @default(uuid())
+  tittle           String
+  description      String
+  type             OpportunityTypes
+  deadline         DateTime
+  city             String
+  state            String
+  hours            Int
+  requiredSubjects String[]
 
   publisher   User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId String

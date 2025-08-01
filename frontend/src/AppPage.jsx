@@ -7,8 +7,8 @@ import RegisterPage from './pages/RegisterPage';
 import StudentRegisterPage from './pages/StudentRegisterPage';
 import NotFound from './pages/NotFound';
 import Header from './components/header';
-import OpportunityPage from './pages/OpportunityPage'
-import UserAnalyticsPage from './pages/DataPage'
+import OpportunityPage from './pages/OpportunityPage';
+import TeacherAnalyticsPage from './pages/TeacherAnalyticsPage'
 import Favorites from './pages/FavoritesPage';
 
 const App = () => {
@@ -17,14 +17,14 @@ const App = () => {
 			<Header />
 			<Routes>
 				<Route path="/" element={<LoginPage />} />
+				<Route path="*" element={<NotFound />} />
+				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/student-register/:id" element={<StudentRegisterPage />} />
 				<Route path="/feed" element={<FeedPage />} />
 				<Route path="/profile" element={<ProfilePage />} />
 				<Route path="/publish" element={<PublishPage />} />
-				<Route path="/register" element={<RegisterPage />} />
-				<Route path="/student-register/:id" element={<StudentRegisterPage />} />
-				<Route path="*" element={<NotFound />} />
 				<Route path="/opportunity/:id" element={<OpportunityPage/>}/>
-				<Route path="/data" element={<UserAnalyticsPage/>}/>
+				<Route path="/teacher/data" element={<TeacherAnalyticsPage/>}/>
 				<Route path="/favorites" element={<Favorites/>}/>
 			</Routes>
 		</BrowserRouter>

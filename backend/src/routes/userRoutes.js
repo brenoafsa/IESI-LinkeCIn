@@ -6,8 +6,11 @@ const router = express.Router()
 router.get('/users', userController.getAllUsers)
 router.post('/users', userController.createUser)
 router.post('/login', userController.checkUserExists)
+
 router.post('/student', userController.setStudentRecord)
-router.post('/user/specific', userController.getSpecificUser)
-router.post('/user/posts', userController.userOpportunityHistory)
+router.post('/student/specific', userController.getSpecificStudent)
+router.post('/student/posts', userController.studentOpportunityHistory)
+
+router.post('/teacher/posts', userController.teacherHistoryInformation)
 
 export default router

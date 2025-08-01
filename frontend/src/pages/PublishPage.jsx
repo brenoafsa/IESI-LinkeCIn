@@ -1,57 +1,82 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import api from '../services/api'
 import { userAuth } from "../services/userAuth"
 import { useNavigate } from "react-router-dom"
 import imagem from '../assets/img_PublishingPage.png';
 
 const PublishPage = () => {
-	const [tokenAcesso, setTokenAcesso] = useState("")
-	const navigate = useNavigate();
+    const [tokenAcesso, setTokenAcesso] = useState("")
+    const [aberto, setAberto] = useState(false);
+    const [preRequisitos, setPreRequisitos] = useState([]);
+    const navigate = useNavigate();
+    const dropdownRef = useRef(null);
 
-	useEffect(() => {
-		const token = userAuth.getAccessToken();
-		setTokenAcesso(token)
-	}, [])
+    const disciplinas = ["Concepção dos Artefatos Digitais", "Sistemas Digitais", "Matemática Discreta", "Introdução à Programação", "Cálculo 1", "Estrutura de Dados Orientadas a Objetos", "Desenvolvimento de Software", "Arquitetura de Computadores e Sistemas Operacionais", "Banco de Dados", "Algoritmos", "Álgebra Vetorial e Linear para Computação"];
 
-	const handleOpportunityCreation = async (event) => {
+    useEffect(() => {
+        const token = userAuth.getAccessToken();
+        setTokenAcesso(token)
+    }, [])
+
+    const toggleOpcao = (valor) => {
+        setPreRequisitos((atual) =>
+            atual.includes(valor)
+                ? atual.filter((item) => item !== valor)
+                : [...atual, valor]
+        );
+    };
+
+    const fecharDropdown = (e) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+            setAberto(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", fecharDropdown);
+        return () => document.removeEventListener("mousedown", fecharDropdown);
+    }, []);
+
+    const handleOpportunityCreation = async (event) => {
         event.preventDefault();
 
-		const titulo = document.getElementById("titulo-oportunidade").value;
-		const descricao = document.getElementById("descricao").value;
-		const tipo = document.getElementById("tipo-oportunidade").value;
-		const prazoInput = document.getElementById("prazo-inscricao").value;
-		const prazo = new Date(prazoInput).toISOString();
-		const cidade = document.getElementById("cidade-inscricao").value;
-		const estado = document.getElementById("estado-inscricao").value;
-		const horas = parseInt(document.getElementById("carga-horaria").value, 10)
-		
-		if (!titulo || !descricao || !tipo || !prazoInput || !cidade || !estado || !horas ){
-			alert("Por favor, preencha todos os campos e selecione um cargo.");
-			return;
-		}
+        const titulo = document.getElementById("titulo-oportunidade").value;
+        const descricao = document.getElementById("descricao").value;
+        const tipo = document.getElementById("tipo-oportunidade").value;
+        const prazoInput = document.getElementById("prazo-inscricao").value;
+        const prazo = new Date(prazoInput).toISOString();
+        const cidade = document.getElementById("cidade-inscricao").value;
+        const estado = document.getElementById("estado-inscricao").value;
+        const horas = parseInt(document.getElementById("carga-horaria").value, 10)
+        
+        if (!titulo || !descricao || !tipo || !prazoInput || !cidade || !estado || !horas ){
+            alert("Por favor, preencha todos os campos e selecione um cargo.");
+            return;
+        }
 
         const formData = { 
-			tittle: titulo, 
-			description: descricao,
-			type: tipo, 
-			deadline: prazo, 
-			city: cidade,
-			state: estado,
-			hours: horas, 
-			tokenAcesso: tokenAcesso
-		}
+            tittle: titulo, 
+            description: descricao,
+            type: tipo, 
+            deadline: prazo, 
+            city: cidade,
+            state: estado,
+            hours: horas,
+            requiredSubjects: preRequisitos, 
+            tokenAcesso: tokenAcesso
+        }
 
-		try {
-			const response = await api.post("/post", formData)
+        try {
+            const response = await api.post("/post", formData)
 
-			if (response.status === 201){
-				alert("Postagem criada!")
-				navigate("/feed");
-			}
-		} catch (err) {
-			console.error("Erro:", err);
-			alert("Erro ao criar post. Tente novamente.");
-		}
+            if (response.status === 201){
+                alert("Postagem criada!")
+                navigate("/feed");
+            }
+        } catch (err) {
+            console.error("Erro:", err);
+            alert("Erro ao criar post. Tente novamente.");
+        }
         
     }
 
