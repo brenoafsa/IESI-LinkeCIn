@@ -82,7 +82,7 @@ const PublishPage = () => {
 						<div className="flex items-center space-x-2 mt-2">
 							<input type="text" id="carga-horaria" className="rounded-xl w-full border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg border-darkred focus:outline-none h-8 sm:h-10 md:h-12 lg:h-14" placeholder="Carga horária estimada" />
 						</div>
-						<button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 sm:h-10 md:h-12 lg:h-14  mt-4">Publicar</button>
+						<button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 sm:h-10 md:h-12 lg:h-14 mt-4 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">Publicar</button>
 					</form>
 				</div>
 			</section>

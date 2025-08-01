@@ -6,13 +6,11 @@ function Favorites() {
 
   return (
     <div className="w-full min-h-screen bg-mainbg px-6 py-10 flex flex-col items-center">
-      
-      
 
       <div className="w-full flex justify-start mb-6">
         <button
           onClick={() => navigate(-1)} 
-          className="bg-white text-darkred font-bold px-10 py-3 rounded-xl shadow-md hover:bg-darkred hover:text-white transition"
+          className="bg-white text-darkred font-bold px-10 py-2 rounded-xl shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40"
         >
           Voltar
         </button>
