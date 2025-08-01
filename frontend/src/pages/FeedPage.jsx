@@ -37,7 +37,7 @@ const FeedPage = () => {
                     <h3 className="text-xl font-bold text-darkred mt-5 text-center">Nome Completo</h3>
                     <p className="text-gray-600 text-center">Estudante de {'{curso}'} {'{entrada}'} </p>
                 </div>
-                <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
+                <button onClick={() => navigate('/favorites')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
                     Oportunidades Favoritadas
                 </button>
                 <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">

@@ -1,8 +1,10 @@
 import logo from '../assets/logo_linkeCIn.png';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Header() {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const mostrarOpcoes = location.pathname === '/profile' || location.pathname === '/publish' || location.pathname === '/opportunity/:id' || location.pathname === '/data' || location.pathname === 'favorites' || location.pathname === '/feed';
@@ -15,7 +17,7 @@ export default function Header() {
     {mostrarOpcoes && (
       <div className="flex gap-4 font-bold text-[darkred] ">
         <button className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Saber Mais</button>
-        <button className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Perfil</button>
+        <button onClick={() => navigate('/profile')} className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Perfil</button>
       </div>
     )}
   </div>

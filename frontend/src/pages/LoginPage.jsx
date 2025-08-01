@@ -42,9 +42,9 @@ const HomePage = () => {
 						<form className="pt-10 space-y-4" onSubmit={handleLoginTry}>
 							<input type="email" id="email-login" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Email" />
 							<input type="password" id="password-login" className="p-2 rounded-xl w-full border-3 border-darkred focus:outline-none" placeholder="Senha" />
-							<button type="submit" className="bg-white text-darkred p-2 rounded-xl font-black w-full h-12">Continuar</button>
+							<button type="submit" className="bg-white text-darkred p-2 rounded-xl font-black w-full h-12  hover:text-primaryred transition hover:shadow-md hover:shadow-darkred/40">Continuar</button>
 						</form>
-						<p className="pt-3 text-extrabold pl-4 text-center">Ainda não faz parte do LinkeCIn? <Link to="/register" className="text-darkred underline font-bold">Cadastre-se agora</Link></p>
+						<p className="pt-3 text-extrabold pl-4 text-center">Ainda não faz parte do LinkeCIn? <Link to="/register" className="text-darkred underline font-bold hover:text-primaryred">Cadastre-se agora</Link></p>
 					</div>
 					<div className="w-1/2 max-h-md flex items-center justify-center	">
 						<img src={imagem} alt="" className="h-auto mx-auto pointer-events-none max-w-3xl self-start" />
