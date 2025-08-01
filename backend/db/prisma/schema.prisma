@@ -57,6 +57,7 @@ model OpportunityPost {
   city              String
   state             String
   hours             Int
+  requiredSubjects  String[]
   
   publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId       String

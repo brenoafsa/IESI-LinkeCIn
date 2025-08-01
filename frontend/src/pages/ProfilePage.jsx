@@ -13,10 +13,13 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (token) {
-
-            api.post('/user/specific', { accessToken: token })
-                .then((res) => setAluno(res.data))
-                .catch((err) => console.error("Erro ao buscar informações do aluno", err))
+            api.post('/student/posts', { accessToken: token })
+                .then((res) => setHistorico(res.data))
+                .catch((err) => console.error("Erro ao buscar histórico de oportunidades do usuário", err))
+			
+			api.post('/student/specific', { accessToken: token })
+				.then((res) => setAluno(res.data))
+				.catch((err) => console.error("Erro ao buscar informações do aluno", err))
         }
     }, [token])
 
