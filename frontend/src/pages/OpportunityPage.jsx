@@ -201,7 +201,7 @@ function OpportunityPage() {
           </div>
         </div>
       )}
-
+      
       <div className="bg-mainbg min-h-screen">
         {/* botao voltar */}
         <div className="w-full">
