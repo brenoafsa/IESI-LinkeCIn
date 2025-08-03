@@ -39,8 +39,14 @@ const ProfilePage = () => {
 
     return (
         <div className="min-h-screen bg-mainbg lg:flex justify-center items-start">
+            {/* botao voltar */}
+       
+          <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
+            Voltar
+          </button>
+
            
-            <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white  p-2 mr-1 m-10 self-stretch rounded-xl ">
+            <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white p-2 mr-1 m-10 self-stretch rounded-xl ">
                 <div className="w-full h-40 bg-darkred rounded-lg">
                     <img src={imagem} alt="" className="object-cover w-full h-40 bg-darkred rounded-lg" />
 
@@ -60,7 +66,7 @@ const ProfilePage = () => {
                         <button onClick={LogOut} className="bg-[white] text-[darkred] border-3 border-indigo- border-t-indigo  w-50  rounded-full font-bold ">sair da conta</button>
                     </div>
                     <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
-                    <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
+                    <button type="button" onClick={() => navigate('/favorites')} class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
                     <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Relatório de Horas Complementares</button>
                 </div>
             </section>
@@ -76,7 +82,7 @@ const ProfilePage = () => {
                     </p>
                     <div className="flex justify-between items-center mb-1">
 
-                        <button className="text-xl font-bold text-darkred mt-2 mr-2">+</button>
+                        <button className="text-xl font-bold text-darkred mt-2 mr-2 hover:">+</button>
                         <div className="w-full bg-gray-300 rounded-full h-2 mt-2 relative">
                             <div
                                 className="bg-darkred h-2 rounded-full"
