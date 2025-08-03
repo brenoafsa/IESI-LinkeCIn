@@ -170,55 +170,54 @@ async function applyToOpportunity(req, res) {
 }
 
 async function listarOportunidadesFiltradas(req, res) {
-    const { tipo, prazo } = req.query;
+    const { tipo, prazo } = req.query
 
     try {
-        const filtros = {};
+        const filtros = {}
 
         if (tipo) {
-            filtros.type = tipo.toUpperCase();
+            filtros.type = tipo.toUpperCase()
         }
 
-        const hoje = new Date();
+        const hoje = new Date()
+        const inicioHoje = new Date()
+        inicioHoje.setHours(0, 0, 0, 0)
 
         if (prazo === 'hoje') {
-            const inicioHoje = new Date();
-            inicioHoje.setHours(0, 0, 0, 0);
-
-            const fimHoje = new Date();
-            fimHoje.setHours(23, 59, 59, 999);
-
-            filtros.deadline = {
+            const fimHoje = new Date()
+            fimHoje.setHours(23, 59, 59, 999)
+            filtros.createdAt = {
                 gte: inicioHoje,
-                lte: fimHoje,
-            };
-        } else if (prazo === 'ultimaSemana') {
-            const fimSemana = new Date();
-            fimSemana.setDate(hoje.getDate() + 7);
-            filtros.deadline = {
-                gte: hoje,
-                lte: fimSemana,
-            };
-        } else if (prazo === 'ultimoMes') {
-            const fimMes = new Date();
-            fimMes.setDate(hoje.getDate() + 30); // ou use setMonth se preferir mais exato
-            filtros.deadline = {
-                gte: hoje,
-                lte: fimMes,
-            };
+                lte: fimHoje
+            }
+        } else if (prazo === 'ultimos7dias') {
+            const seteDiasAtras = new Date()
+            seteDiasAtras.setDate(hoje.getDate() - 7)
+            filtros.createdAt = {
+                gte: seteDiasAtras
+            }
+        } else if (prazo === 'ultimos30dias') {
+            const trintaDiasAtras = new Date()
+            trintaDiasAtras.setDate(hoje.getDate() - 30)
+            filtros.createdAt = {
+                gte: trintaDiasAtras
+            }
         }
 
         const oportunidades = await prisma.opportunityPost.findMany({
             where: filtros,
-            orderBy: prazo === 'maisRecente' ? { id: 'desc' } : undefined,
-        });
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
 
-        res.status(200).json(oportunidades);
+        res.status(200).json(oportunidades)
     } catch (error) {
-        console.error('Erro ao filtrar oportunidades:', error);
-        res.status(500).json({ error: 'Erro ao filtrar oportunidades' });
+        console.error('Erro ao filtrar oportunidades:', error)
+        res.status(500).json({ error: 'Erro ao filtrar oportunidades' })
     }
 }
+
 
 
 export default {
