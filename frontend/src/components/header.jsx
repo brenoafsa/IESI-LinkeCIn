@@ -16,7 +16,7 @@ export default function Header() {
 
     {mostrarOpcoes && (
       <div className="flex gap-4 font-bold text-[darkred] ">
-        <button className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Saber Mais</button>
+        <button onClick={() => navigate('/more-info')} className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Saber Mais</button>
         <button onClick={() => navigate('/profile')} className="transition-transform duration-200 hover:scale-105 rounded-md p-2 hover:bg-darkred hover:text-white">Perfil</button>
       </div>
     )}

@@ -10,6 +10,7 @@ import Header from './components/header';
 import OpportunityPage from './pages/OpportunityPage';
 import TeacherAnalyticsPage from './pages/TeacherAnalyticsPage'
 import Favorites from './pages/FavoritesPage';
+import MoreInfo from './pages/ViewMorePage';
 
 const App = () => {
 	return (
@@ -26,6 +27,7 @@ const App = () => {
 				<Route path="/opportunity/:id" element={<OpportunityPage/>}/>
 				<Route path="/teacher/data" element={<TeacherAnalyticsPage/>}/>
 				<Route path="/favorites" element={<Favorites/>}/>
+				<Route path="/more-info" element={<MoreInfo/>}/>
 			</Routes>
 		</BrowserRouter>
 	);
