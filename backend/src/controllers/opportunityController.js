@@ -183,20 +183,20 @@ async function listarOportunidadesFiltradas(req, res) {
         const inicioHoje = new Date()
         inicioHoje.setHours(0, 0, 0, 0)
 
-        if (prazo === 'hoje') {
+        if (prazo === 'hj') {
             const fimHoje = new Date()
             fimHoje.setHours(23, 59, 59, 999)
             filtros.createdAt = {
                 gte: inicioHoje,
                 lte: fimHoje
             }
-        } else if (prazo === 'ultimos7dias') {
+        } else if (prazo === 'use') {
             const seteDiasAtras = new Date()
             seteDiasAtras.setDate(hoje.getDate() - 7)
             filtros.createdAt = {
                 gte: seteDiasAtras
             }
-        } else if (prazo === 'ultimos30dias') {
+        } else if (prazo === 'ume') {
             const trintaDiasAtras = new Date()
             trintaDiasAtras.setDate(hoje.getDate() - 30)
             filtros.createdAt = {
