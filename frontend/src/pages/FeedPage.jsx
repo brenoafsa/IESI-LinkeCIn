@@ -16,7 +16,7 @@ const FeedPage = () => {
 
 
     useEffect(() => {
-        api.get('/post')
+        api.get('/post/open')
             .then((res) => setPosts(res.data))
             .catch((err) => console.error({ error: "Erro ao buscar posts", err }))
 

@@ -58,6 +58,7 @@ model OpportunityPost {
   state             String
   hours             Int
   requiredSubjects  String[]
+  isClosed          Boolean @default(false)
   
   publisher         User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId       String

@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-async function getAllOpportunities(req, res) {
+async function getAllPosts(req, res) {
     try {
         const opportunities = await prisma.opportunityPost.findMany({
             include: {
@@ -33,6 +33,74 @@ async function getAllOpportunities(req, res) {
         res.status(200).json(opportunities)
     } catch (err) {
         console.error('Erro ao buscar oportunidades:', err)
+        res.status(500).json({ error: 'Erro interno no servidor' })
+    }
+}
+
+async function getAllOpenPosts(req, res) {
+    try {
+        const opportunities = await prisma.opportunityPost.findMany({
+            where: { isClosed: false },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true
+                    }
+                },
+                _count: {
+                    select: {
+                        candidates: true
+                    }
+                }
+            }
+        })
+        res.status(200).json(opportunities)
+    } catch (err) {
+        console.error('Erro ao buscar oportunidades:', err)
+        res.status(500).json({ error: 'Erro interno no servidor' })
+    }
+}
+
+async function getAllClosedPosts(req, res) {
+    try {
+        const opportunities = await prisma.opportunityPost.findMany({
+            where: { isClosed: true },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true
+                    }
+                },
+                _count: {
+                    select: {
+                        candidates: true
+                    }
+                }
+            }
+        })
+        res.status(200).json(opportunities)
+    } catch (err) {
+        console.error('Erro ao buscar oportunidades fechadas:', err)
         res.status(500).json({ error: 'Erro interno no servidor' })
     }
 }
@@ -394,12 +462,58 @@ async function CheckRequiredSubjects(req, res) {
     }
 }
 
+async function closePost(req, res) {
+    const { postId, tokenAcesso } = req.body;
+    const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
+    const userId = decoded.id;
+
+    if (!(postId || tokenAcesso)){
+        return res.status(400).json("ID do post ou token de acesso não foi fornecido")
+    }
+    
+    const postagem = await prisma.opportunityPost.findUnique({
+        where: { id: postId },
+        include: {
+            publisher:{
+                select:{
+                    id: true,
+                    fullName: true,
+                    email: true,
+                    role: true
+                }
+            }
+        }
+    })
+
+    if (!postagem) {
+        return res.status(404).json("Oportunidade não encontrada");
+    }
+
+    if (postagem.publisher.id != userId){
+        return res.status(403).json("Você não tem permissão para fazer isso")
+    }
+
+    try { 
+        await prisma.opportunityPost.update({
+            where: { id: postId },
+            data: { isClosed: true }
+        })
+        res.status(200).json("Post atualizado com sucesso!")
+    } catch (err) {
+        console.error('Erro ao fechar o post:', err);
+        res.status(500).json({ error: 'Erro ao fechar o post' });
+    }
+}
+
 export default {
-    getAllOpportunities,
+    getAllPosts,
+    getAllOpenPosts,
+    getAllClosedPosts,
     createOpportunity,
     getOpportunityById,
     applyToOpportunity,
     deleteOpportunity, // essa foi a func delete do crud :)
     updateOpportunity, // essa foi a func update do crud
-    CheckRequiredSubjects
+    CheckRequiredSubjects,
+    closePost
 }
