@@ -131,7 +131,7 @@ function OpportunityPage() {
       if (error.response?.status === 403) {
         alert("Você não tem os requerimentos necessários");
       } else {
-        alert("Erro ao verificar pré-requisitos. Tente novamente.");
+        alert("Você é professor, não pode se candidatar!");
       }
     }
   };
