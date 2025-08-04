@@ -3401,6 +3401,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    isClosed: boolean | null
     publisherId: string | null
   }
 
@@ -3413,6 +3414,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    isClosed: boolean | null
     publisherId: string | null
   }
 
@@ -3426,6 +3428,7 @@ export namespace Prisma {
     state: number
     hours: number
     requiredSubjects: number
+    isClosed: number
     publisherId: number
     _all: number
   }
@@ -3448,6 +3451,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    isClosed?: true
     publisherId?: true
   }
 
@@ -3460,6 +3464,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    isClosed?: true
     publisherId?: true
   }
 
@@ -3473,6 +3478,7 @@ export namespace Prisma {
     state?: true
     hours?: true
     requiredSubjects?: true
+    isClosed?: true
     publisherId?: true
     _all?: true
   }
@@ -3573,6 +3579,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects: string[]
+    isClosed: boolean
     publisherId: string
     _count: OpportunityPostCountAggregateOutputType | null
     _avg: OpportunityPostAvgAggregateOutputType | null
@@ -3605,6 +3612,7 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
@@ -3621,6 +3629,7 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3635,6 +3644,7 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3649,10 +3659,11 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
   }
 
-  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "requiredSubjects" | "publisherId", ExtArgs["result"]["opportunityPost"]>
+  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "requiredSubjects" | "isClosed" | "publisherId", ExtArgs["result"]["opportunityPost"]>
   export type OpportunityPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
@@ -3681,6 +3692,7 @@ export namespace Prisma {
       state: string
       hours: number
       requiredSubjects: string[]
+      isClosed: boolean
       publisherId: string
     }, ExtArgs["result"]["opportunityPost"]>
     composites: {}
@@ -4116,6 +4128,7 @@ export namespace Prisma {
     readonly state: FieldRef<"OpportunityPost", 'String'>
     readonly hours: FieldRef<"OpportunityPost", 'Int'>
     readonly requiredSubjects: FieldRef<"OpportunityPost", 'String[]'>
+    readonly isClosed: FieldRef<"OpportunityPost", 'Boolean'>
     readonly publisherId: FieldRef<"OpportunityPost", 'String'>
   }
     
@@ -4602,6 +4615,7 @@ export namespace Prisma {
     state: 'state',
     hours: 'hours',
     requiredSubjects: 'requiredSubjects',
+    isClosed: 'isClosed',
     publisherId: 'publisherId'
   };
 
@@ -4696,6 +4710,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4852,6 +4873,7 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
@@ -4867,6 +4889,7 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
     publisher?: UserOrderByWithRelationInput
     candidates?: UserOrderByRelationAggregateInput
@@ -4885,6 +4908,7 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
@@ -4900,6 +4924,7 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
     _count?: OpportunityPostCountOrderByAggregateInput
     _avg?: OpportunityPostAvgOrderByAggregateInput
@@ -4921,6 +4946,7 @@ export namespace Prisma {
     state?: StringWithAggregatesFilter<"OpportunityPost"> | string
     hours?: IntWithAggregatesFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolWithAggregatesFilter<"OpportunityPost"> | boolean
     publisherId?: StringWithAggregatesFilter<"OpportunityPost"> | string
   }
 
@@ -5064,6 +5090,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
   }
@@ -5078,6 +5105,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
   }
@@ -5092,6 +5120,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
   }
@@ -5106,6 +5135,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
   }
@@ -5120,6 +5150,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
   }
 
@@ -5133,6 +5164,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OpportunityPostUncheckedUpdateManyInput = {
@@ -5145,6 +5177,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5328,6 +5361,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -5348,6 +5386,7 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5364,6 +5403,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5376,6 +5416,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5405,6 +5446,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StudentRecordCreateNestedOneWithoutStudentInput = {
@@ -5593,6 +5642,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type UserUpdateOneRequiredWithoutPublishedPostsNestedInput = {
     create?: XOR<UserCreateWithoutPublishedPostsInput, UserUncheckedCreateWithoutPublishedPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPublishedPostsInput
@@ -5731,6 +5784,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumOpportunityTypesWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.OpportunityTypes | EnumOpportunityTypesFieldRefInput<$PrismaModel>
     in?: $Enums.OpportunityTypes[] | ListEnumOpportunityTypesFieldRefInput<$PrismaModel>
@@ -5753,6 +5811,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StudentRecordCreateWithoutStudentInput = {
@@ -5786,6 +5852,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
   }
 
@@ -5799,6 +5866,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
   }
 
@@ -5822,6 +5890,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
   }
 
@@ -5835,6 +5904,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
   }
 
@@ -5899,6 +5969,7 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
   }
 
@@ -6092,6 +6163,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
   }
 
   export type OpportunityPostUpdateWithoutPublisherInput = {
@@ -6104,6 +6176,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
   }
 
@@ -6117,6 +6190,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
   }
 
@@ -6130,6 +6204,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OpportunityPostUpdateWithoutCandidatesInput = {
@@ -6142,6 +6217,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
   }
 
@@ -6155,6 +6231,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6168,6 +6245,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 

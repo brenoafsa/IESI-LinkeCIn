@@ -164,6 +164,26 @@ function OpportunityPage() {
     }
   };
 
+  const handleClosePost = async () => {
+  const formData = { postId: id, tokenAcesso: token }
+
+    try {
+      const response = await api.post('/post/close', formData)
+
+      if (response.status === 200){ 
+        alert('Postagem fechada com sucesso!')
+      }
+    } catch (error) {
+      console.error("Erro ao fechar post:", error);
+      
+      if (error.response?.status === 403){
+        alert('Você não tem permissão para efetuar essa ação.')
+      } else {
+        alert('Algo deu errado. Tente novamente')
+      }
+    }
+  }
+
   if (!information) {
     return (
       <div className="bg-mainbg min-h-screen flex items-center justify-center">
@@ -391,6 +411,14 @@ function OpportunityPage() {
                     className="bg-darkred border border-primaryred text-white px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40 hover:bg-primaryred"
                   >
                     Tenho Interesse
+                  </button>
+
+                  
+                   <button
+                    onClick={handleClosePost}
+                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
+                  >
+                    Fechar Inscrições
                   </button>
                 </div>
               </>

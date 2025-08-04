@@ -147,6 +147,7 @@ exports.Prisma.OpportunityPostScalarFieldEnum = {
   state: 'state',
   hours: 'hours',
   requiredSubjects: 'requiredSubjects',
+  isClosed: 'isClosed',
   publisherId: 'publisherId'
 };
 
