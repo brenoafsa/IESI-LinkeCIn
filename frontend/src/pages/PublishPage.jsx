@@ -10,8 +10,6 @@ const PublishPage = () => {
     const [preRequisitos, setPreRequisitos] = useState([]);
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
-    const [temRequisito, setTemRequisito] = useState(""); // 'sim' ou 'nao'
-    const [requisitos, setRequisitos] = useState("");
 
     const disciplinas = ["Concepção dos Artefatos Digitais", "Sistemas Digitais", "Matemática Discreta", "Introdução à Programação", "Cálculo 1", "Estrutura de Dados Orientadas a Objetos", "Desenvolvimento de Software", "Arquitetura de Computadores e Sistemas Operacionais", "Banco de Dados", "Algoritmos", "Álgebra Vetorial e Linear para Computação"];
 
@@ -101,68 +99,54 @@ const PublishPage = () => {
                         <div className="flex items-center space-x-2 mt-2">
 
                             {/* Tipo da Oportunidade */}
-                            <div className="relative z-0 w-full">
+                            <div className="relative z-0 w-1/2">
                                 <select id="tipo-oportunidade" defaultValue="" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-darkred appearance-none focus:outline-none focus:ring-0 focus:border-darkred peer">
-                                    <option disabled value="">Selecione o tipo da Oportunidade</option>
                                     <option value="EXTENSION">Extensão</option>
                                     <option value="COMPLEMENTARY">Complementar</option>
                                 </select>
                                 <label htmlFor="tipo-oportunidade" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:scale-75 peer-focus:-translate-y-6">Tipo da Oportunidade</label>
                             </div>
 
-                            {/* Pré-requisito */}
-                            <div className="w-1/2">
-                                <p className="w-80 text-sm text-gray-500 mb-2">Tem pré-requisito?</p>
-
-                                <div className="flex items-center mb-2">
-                                    <input
-                                        id="requisito-sim"
-                                        type="radio"
-                                        value="sim"
-                                        name="temRequisito"
-                                        checked={temRequisito === "sim"}
-                                        onChange={(e) => setTemRequisito(e.target.value)}
-                                        className="w-4 h-4 text-[darkred] bg-[darkred]-100 border-[darkred] focus:ring-[darkred]"
-                                    />
-                                    <label htmlFor="requisito-sim" className="ms-2 text-sm font-medium text-gray-900">
-                                        Sim
-                                    </label>
+                            {/* Pré-requisitos - Nova implementação com dropdown */}
+                            <div className="w-1/2" ref={dropdownRef}>
+                                <div
+                                    className="relative border-b-2 border-darkred w-full min-h-[2.5rem] cursor-pointer"
+                                    onClick={() => setAberto(!aberto)}
+                                >
+                                    <div className="py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent">
+                                        {preRequisitos.length > 0 ? (
+                                            <span className="bg-darkred text-white px-2 py-1 rounded text-xs">
+                                                {preRequisitos.length} disciplinas adicionadas
+                                            </span>
+                                        ) : (
+                                            <span className="text-gray-500">Selecione os pré-requisitos</span>
+                                        )}
+                                    </div>
                                 </div>
 
-                                <div className="flex items-center mb-4">
-                                    <input
-                                        id="requisito-nao"
-                                        type="radio"
-                                        value="nao"
-                                        name="temRequisito"
-                                        checked={temRequisito === "nao"}
-                                        onChange={(e) => setTemRequisito(e.target.value)}
-                                        className="w-4 h-4 text-[darkred] bg-[darkred]-100 border-[darkred] focus:ring-[darkred]"
-                                    />
-                                    <label htmlFor="requisito-nao" className="ms-2 text-sm font-medium text-gray-900">
-                                        Não
-                                    </label>
-                                </div>
-
-                                {temRequisito === "sim" && (
-                                    <div className="mb-4">
-                                        <label htmlFor="requisitos" className="block mb-1 text-sm font-medium text-[darkred]-900">
-                                            Quais são os pré-requisitos?
-                                        </label>
-                                        <textarea
-                                            id="requisitos"
-                                            value={requisitos}
-                                            onChange={(e) => setRequisitos(e.target.value)}
-                                            rows="4"
-                                            className="block p-2.5 w-full text-sm text-[darkred] bg-[darkred]-50 rounded-lg border border-[darkred] focus:ring-[darkred] "
-                                            placeholder="Descreva os pré-requisitos aqui..."
-                                        ></textarea>
+                                {aberto && (
+                                    <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded shadow max-h-60 overflow-y-auto z-50">
+                                        {disciplinas.map((opcao) => (
+                                            <label
+                                                key={opcao}
+                                                className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    className="mr-2"
+                                                    checked={preRequisitos.includes(opcao)}
+                                                    onChange={() => toggleOpcao(opcao)}
+                                                />
+                                                {opcao}
+                                            </label>
+                                        ))}
                                     </div>
                                 )}
                             </div>
 
                         </div>
 
+                        {/* ...existing code... (resto do formulário permanece igual) */}
                         <div className="flex items-center space-x-2 mt-2">
                             {/* Prazo de Inscrição */}
                             <div className="relative z-0 w-full">
