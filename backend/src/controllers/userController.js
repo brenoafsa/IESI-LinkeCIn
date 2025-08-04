@@ -212,10 +212,6 @@ async function teacherHistoryInformation(req, res) {
     }
 }
 
-
-
-// Localize a função simulateHours e substitua pela versão abaixo
-
 async function simulateHours(req, res) {
     try {
         const { accessToken, hours, type } = req.body;
@@ -260,7 +256,6 @@ async function simulateHours(req, res) {
                     requiredHours = 300;
                     break;
                 default:
-                    // Valor padrão caso não encontre o curso específico
                     requiredHours = 300;
             }
         } else if (type === "COMPLEMENTARY") {
