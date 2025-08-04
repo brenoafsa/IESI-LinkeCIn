@@ -37,6 +37,69 @@ async function getAllOpportunities(req, res) {
     }
 }
 
+async function getCompatibleOpportunities(req, res) {
+    const { accessToken } = req.body;
+
+    try {
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { studentRecord: true }
+        });
+
+        if (!user || !user.studentRecord) {
+            return res.status(404).json({ error: 'Informações do estudante não encontradas' });
+        }
+
+        const finishedSubjects = user.studentRecord.finishedSubjects;
+
+        const allOpportunities = await prisma.opportunityPost.findMany({
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true
+                    }
+                },
+                _count: {
+                    select: {
+                        candidates: true
+                    }
+                }
+            }
+        });
+
+        const compatibles = allOpportunities.filter(opportunity => {
+            return opportunity.requiredSubjects.every(subject =>
+                finishedSubjects.includes(subject)
+            );
+        });
+
+        res.status(200).json(compatibles);
+
+    } catch (error) {
+        console.error('Erro ao buscar oportunidades compatíveis:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
+
 async function createOpportunity(req, res) {
     const { tittle, description, type, deadline, city, state, hours, requiredSubjects, tokenAcesso } = req.body
 
@@ -401,5 +464,6 @@ export default {
     applyToOpportunity,
     deleteOpportunity, // essa foi a func delete do crud :)
     updateOpportunity, // essa foi a func update do crud
-    CheckRequiredSubjects
+    CheckRequiredSubjects,
+    getCompatibleOpportunities
 }
