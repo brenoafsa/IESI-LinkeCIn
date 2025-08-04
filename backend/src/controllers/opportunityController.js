@@ -394,6 +394,146 @@ async function CheckRequiredSubjects(req, res) {
     }
 }
 
+async function saveOpportunity(req, res) {
+    const { opportunityId, accessToken } = req.body;
+
+    try {
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+        
+        if (!userId) {
+            return res.status(401).json({ error: 'Token inválido - ID do usuário não encontrado' });
+        }
+
+        // verifica se já está salvo
+        const alreadySaved = await prisma.opportunityPost.findFirst({
+            where: {
+                id: opportunityId,
+                savedBy: {
+                    some: {
+                        id: userId
+                    }
+                }
+            }
+        });
+
+        if (alreadySaved) {
+            return res.status(400).json({ error: 'Oportunidade já está salva' });
+        }
+
+        // salva a oportunidade
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                savedPosts: {
+                    connect: { id: opportunityId }
+                }
+            }
+        });
+
+        res.status(200).json({ message: 'Oportunidade salva com sucesso' });
+    } catch (error) {
+        console.error('Erro ao salvar oportunidade:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
+async function unsaveOpportunity(req, res) {
+    const { opportunityId, accessToken } = req.body;
+
+    try {
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+        
+        if (!userId) {
+            return res.status(401).json({ error: 'Token inválido - ID do usuário não encontrado' });
+        }
+
+        // Remover a oportunidade dos salvos
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                savedPosts: {
+                    disconnect: { id: opportunityId }
+                }
+            }
+        });
+
+        res.status(200).json({ message: 'Oportunidade removida dos salvos com sucesso' });
+    } catch (error) {
+        console.error('Erro ao remover oportunidade dos salvos:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
+async function getSavedOpportunities(req, res) {
+    const { accessToken } = req.body;
+
+    try {
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+        
+        if (!userId) {
+            return res.status(401).json({ error: 'Token inválido - ID do usuário não encontrado' });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                savedPosts: {
+                    include: {
+                        publisher: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                                email: true,
+                                role: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.status(200).json(user.savedPosts);
+    } catch (error) {
+        console.error('Erro ao buscar oportunidades salvas:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
+
+
+
+
 export default {
     getAllOpportunities,
     createOpportunity,
@@ -401,5 +541,8 @@ export default {
     applyToOpportunity,
     deleteOpportunity, // essa foi a func delete do crud :)
     updateOpportunity, // essa foi a func update do crud
-    CheckRequiredSubjects
+    CheckRequiredSubjects,
+    saveOpportunity,
+    unsaveOpportunity,
+    getSavedOpportunities
 }

@@ -212,6 +212,118 @@ async function teacherHistoryInformation(req, res) {
     }
 }
 
+
+
+// Localize a função simulateHours e substitua pela versão abaixo
+
+async function simulateHours(req, res) {
+    try {
+        const { accessToken, hours, type } = req.body;
+        
+        if (!accessToken) {
+            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+        }
+        
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+        
+        // Busca informações do usuário incluindo o curso
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { studentRecord: true }
+        });
+        
+        if (!user || !user.studentRecord) {
+            return res.status(404).json({ error: 'Registro do estudante não encontrado' });
+        }
+        
+        // Define horas necessárias com base no tipo e curso
+        let currentHours = 0;
+        let requiredHours = 0;
+        
+        if (type === "EXTENSION") {
+            currentHours = user.studentRecord.extensionHours || 0;
+            
+            // Determina as horas necessárias com base no curso
+            const course = user.studentRecord.course;
+            switch (course) {
+                case "Ciência da Computação":
+                    requiredHours = 320;
+                    break;
+                case "Engenharia da Computação":
+                    requiredHours = 360;
+                    break;
+                case "Inteligência Artificial":
+                    requiredHours = 320;
+                    break;
+                case "Sistemas de Informação":
+                    requiredHours = 300;
+                    break;
+                default:
+                    // Valor padrão caso não encontre o curso específico
+                    requiredHours = 300;
+            }
+        } else if (type === "COMPLEMENTARY") {
+            currentHours = user.studentRecord.complementaryHours || 0;
+            
+            // Determina as horas complementares com base no curso
+            const course = user.studentRecord.course;
+            switch (course) {
+                case "Ciência da Computação":
+                    requiredHours = 320;
+                    break;
+                case "Engenharia da Computação":
+                    requiredHours = 360;
+                    break;
+                case "Inteligência Artificial":
+                    // Completar com o valor correto
+                    requiredHours = 320;
+                    break;
+                case "Sistemas de Informação":
+                    // Completar com o valor correto
+                    requiredHours = 300;
+                    break;
+                default:
+                    // Valor padrão
+                    requiredHours = 300;
+            }
+        } else if (type === "RESEARCH") {
+            currentHours = user.studentRecord.researchHours || 0;
+            requiredHours = 0; // Pesquisa não tem requisito mínimo obrigatório
+        } else {
+            return res.status(400).json({ error: 'Tipo de atividade inválido' });
+        }
+        
+        // Calcula simulação
+        const additionalHours = parseInt(hours) || 0;
+        const simulatedHours = currentHours + additionalHours;
+        const remainingHours = Math.max(0, requiredHours - simulatedHours);
+        const completionPercentage = requiredHours > 0 ? Math.min(100, (simulatedHours / requiredHours) * 100) : 100;
+        
+        res.status(200).json({
+            currentHours,
+            additionalHours,
+            simulatedHours,
+            requiredHours,
+            remainingHours,
+            completionPercentage,
+            course: user.studentRecord.course
+        });
+        
+    } catch (error) {
+        console.error('Erro ao simular horas:', error);
+        
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
 export default {
     getAllUsers,
     createUser,
@@ -219,5 +331,6 @@ export default {
     setStudentRecord,
     getSpecificStudent,
     studentOpportunityHistory,
-    teacherHistoryInformation
+    teacherHistoryInformation,
+    simulateHours
 }

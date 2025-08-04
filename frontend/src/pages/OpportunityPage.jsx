@@ -11,6 +11,8 @@ function OpportunityPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [showSimulatorModal, setShowSimulatorModal] = useState(false);
+  const [simulationResult, setSimulationResult] = useState(null);
 
   useEffect(() => {
     api
@@ -163,6 +165,31 @@ function OpportunityPage() {
       setShowModal(false);
     }
   };
+
+const handleSimulateHours = async () => {
+    try {
+      const response = await api.post('/student/simulate-hours', {
+        accessToken: token,
+        hours: information.hours,
+        type: information.type
+      });
+      
+      if (response.status === 200) {
+        setSimulationResult(response.data);
+        setShowSimulatorModal(true);
+      }
+    } catch (error) {
+      console.error("Erro ao simular horas:", error);
+      
+      if (error.response) {
+        const errorMessage = error.response.data.error || "Erro desconhecido";
+        alert(`Erro ao simular: ${errorMessage}`);
+      } else {
+        alert("Erro de conexão. Tente novamente.");
+      }
+    }
+  };
+  
 
   if (!information) {
     return (
@@ -358,7 +385,9 @@ function OpportunityPage() {
                 <p className="pb-1">horas</p>
               </div>
 
-              <button className="bg-red-600 text-white px-6 py-2 rounded-[15px] w-fit">
+              <button 
+              onClick={handleSimulateHours}
+              className="bg-red-600 text-white px-6 py-2 rounded-[15px] w-fit">
                 Adicionar ao simulador
               </button>
 
@@ -421,6 +450,78 @@ function OpportunityPage() {
           </p>
         </div>
       </div>
+
+      {/* Modal de simulação de horas */}
+      {showSimulatorModal && simulationResult && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h2 className="text-xl font-bold text-darkred mb-4">
+              Simulação de Horas
+            </h2>
+            {simulationResult.course && (
+              <p className="text-sm text-gray-600 mb-4">
+                Curso: {simulationResult.course}
+              </p>
+            )}
+            <div className="space-y-4 mb-6">
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">Horas atuais</p>
+                <p className="text-2xl font-bold">{simulationResult.currentHours}h</p>
+              </div>
+
+              <div className="flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-darkred" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">Horas adicionadas</p>
+                <p className="text-2xl font-bold text-darkred">{simulationResult.additionalHours}h</p>
+              </div>
+
+              <div className="border-t border-gray-300 pt-4">
+                <p className="text-sm text-gray-600">Total simulado</p>
+                <p className="text-3xl font-bold">{simulationResult.simulatedHours}h</p>
+                
+                <div className="mt-2">
+                  <div className="w-full bg-gray-300 rounded-full h-2.5 mb-1">
+                    <div 
+                      className="bg-darkred h-2.5 rounded-full" 
+                      style={{ width: `${simulationResult.completionPercentage}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-sm text-gray-600 text-right">
+                    {simulationResult.completionPercentage.toFixed(0)}% concluído
+                  </p>
+                </div>
+              </div>
+
+              {simulationResult.remainingHours > 0 && (
+                <p className="text-sm text-gray-600">
+                  Faltam {simulationResult.remainingHours}h para completar as {simulationResult.requiredHours}h necessárias.
+                </p>
+              )}
+
+              {simulationResult.completionPercentage >= 100 && (
+                <p className="text-sm text-green-600 font-medium">
+                  Parabéns! Você completou todas as horas necessárias para esta categoria.
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowSimulatorModal(false)}
+                className="bg-darkred text-white px-4 py-2 rounded font-bold hover:bg-primaryred"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }

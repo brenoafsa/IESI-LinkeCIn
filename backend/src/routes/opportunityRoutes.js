@@ -10,5 +10,9 @@ router.post('/post/apply', opportunityController.applyToOpportunity)
 router.delete('/post/:id', opportunityController.deleteOpportunity) 
 router.put('/post/:id', opportunityController.updateOpportunity)
 router.post('/reqcheck', opportunityController.CheckRequiredSubjects)
+router.post('/opportunity/save', opportunityController.saveOpportunity)
+router.post('/opportunity/unsave', opportunityController.unsaveOpportunity)
+router.post('/opportunities/saved', opportunityController.getSavedOpportunities)
+
 
 export default router
