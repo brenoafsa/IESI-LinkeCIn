@@ -11,7 +11,7 @@ const FeedPage = () => {
     const [posts, setPosts] = useState([])
     const [tipo, setTipo] = useState('');
     const [prazo, setPrazo] = useState('');
-    const [aluno, setAluno] = useState();
+    const [usuario, setUsuario] = useState();
     const token = userAuth.getAccessToken();
 
 
@@ -22,8 +22,8 @@ const FeedPage = () => {
 
         if (token) {
             api.post('/student/specific', { accessToken: token })
-                .then((res) => setAluno(res.data))
-                .catch((err) => console.error("Erro ao buscar informações do aluno", err))
+                .then((res) => setUsuario(res.data))
+                .catch((err) => console.error("Erro ao buscar informações do usuário", err))
         }
     }, [token]);
 
@@ -50,9 +50,13 @@ const FeedPage = () => {
                         <img src={imagem} alt="" className="object-cover w-full h-full" />
                     </div>
 
-                    <div className="absolute flex items-center justify-center text-white text-2xl bg-[darkred] w-16 h-16 font-bold rounded-full">{aluno?.fullName.charAt(0)}</div>
-                    <h3 className="text-xl font-bold text-darkred mt-5 text-center">{aluno?.fullName}</h3>
-                    <p className="text-gray-600 text-center">Estudante de {aluno?.studentRecord.course} - {aluno?.studentRecord.entrance} </p>
+                    <div className="absolute flex items-center justify-center text-white text-2xl bg-[darkred] w-16 h-16 font-bold rounded-full">{usuario?.fullName.charAt(0)}</div>
+                    <h3 className="text-xl font-bold text-darkred mt-5 text-center">{usuario?.fullName}</h3>
+                    <p className="text-gray-600 text-center">
+                        {usuario?.studentRecord
+                            ? `Estudante de ${usuario.studentRecord.course} - ${usuario.studentRecord.entrance}`
+                            : usuario?.role ? `Bem vindo professor!` : ""}
+                    </p>
                 </div>
 
                 <button onClick={() => navigate('/favorites')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
