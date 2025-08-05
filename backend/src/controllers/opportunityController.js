@@ -16,6 +16,12 @@ async function getAllPosts(req, res) {
                         role: true
                     }
                 },
+                participants: {
+                    select: {
+                        id: true,
+                        fullName: true
+                    }
+                },
                 candidates: {
                     select: {
                         id: true,
@@ -82,6 +88,12 @@ async function getAllClosedPosts(req, res) {
                         fullName: true,
                         email: true,
                         role: true
+                    }
+                },
+                participants: {
+                    select: {
+                        id: true,
+                        fullName: true
                     }
                 },
                 candidates: {
@@ -463,45 +475,119 @@ async function CheckRequiredSubjects(req, res) {
 }
 
 async function closePost(req, res) {
-    const { postId, tokenAcesso } = req.body;
-    const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
-    const userId = decoded.id;
+    const { postId, tokenAcesso, candidatesAccepted } = req.body;
+    try {
+        if (!postId || !tokenAcesso || !Array.isArray(candidatesAccepted)) {
+            return res.status(400).json({ error: "ID do post, token de acesso ou candidatos aceitos não foi fornecido corretamente" });
+        }
 
-    if (!(postId || tokenAcesso)){
-        return res.status(400).json("ID do post ou token de acesso não foi fornecido")
-    }
-    
-    const postagem = await prisma.opportunityPost.findUnique({
-        where: { id: postId },
-        include: {
-            publisher:{
-                select:{
-                    id: true,
-                    fullName: true,
-                    email: true,
-                    role: true
+        const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+
+        const postagem = await prisma.opportunityPost.findUnique({
+            where: { id: postId },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
                 }
             }
+        });
+
+        if (!postagem) {
+            return res.status(404).json({ error: "Oportunidade não encontrada" });
         }
-    })
 
-    if (!postagem) {
-        return res.status(404).json("Oportunidade não encontrada");
-    }
+        if (postagem.publisher.id !== userId) {
+            return res.status(403).json({ error: "Você não tem permissão para fazer isso" });
+        }
 
-    if (postagem.publisher.id != userId){
-        return res.status(403).json("Você não tem permissão para fazer isso")
-    }
-
-    try { 
         await prisma.opportunityPost.update({
             where: { id: postId },
-            data: { isClosed: true }
-        })
-        res.status(200).json("Post atualizado com sucesso!")
+            data: {
+                isClosed: true,
+                participants: {
+                    connect: candidatesAccepted.map(id => ({ id }))
+                }
+            }
+        });
+
+        res.status(200).json({ message: "Post atualizado com sucesso!" });
     } catch (err) {
         console.error('Erro ao fechar o post:', err);
+        if (err.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
         res.status(500).json({ error: 'Erro ao fechar o post' });
+    }
+}
+
+async function getPostCandidates(req, res) {
+    const { postId, tokenAcesso } = req.body;
+    
+    if (!postId || !tokenAcesso) {
+        return res.status(400).json({ error: "ID do post ou token de acesso não foi fornecido" });
+    }
+
+    try {
+        const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+
+        const post = await prisma.opportunityPost.findUnique({
+            where: { id: postId },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                }
+            }
+        });
+
+        if (!post) {
+            return res.status(404).json({ error: "Oportunidade não encontrada" });
+        }
+
+        if (post.publisher.id !== userId) {
+            return res.status(403).json({ error: "Você não tem permissão para ver os candidatos desta oportunidade" });
+        }
+
+        res.status(200).json({
+            message: "Candidatos recuperados com sucesso",
+            postTitle: post.tittle,
+            candidatesCount: post.candidates.length,
+            candidates: post.candidates
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar candidatos:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+
+        res.status(500).json({ error: 'Erro interno no servidor' });
     }
 }
 
@@ -515,5 +601,6 @@ export default {
     deleteOpportunity, // essa foi a func delete do crud :)
     updateOpportunity, // essa foi a func update do crud
     CheckRequiredSubjects,
-    closePost
+    closePost,
+    getPostCandidates
 }
