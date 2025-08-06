@@ -1,8 +1,8 @@
-import { Bookmark, Clock4, MapPin, Users } from 'lucide-react';
+import { Clock4, MapPin, Users } from 'lucide-react';
 import {useState, useEffect} from 'react';
 import api from '../services/api';
 import { userAuth } from '../services/userAuth';
-import { Heart, HeartOff} from 'lucide-react';
+import { Heart} from 'lucide-react';
 
 export default function Opportunity({ opportunity }) {
     const [favoritado, setFavoritado] = useState(false);
