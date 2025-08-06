@@ -13,5 +13,6 @@ router.delete('/post/:id', opportunityController.deleteOpportunity)
 router.put('/post/:id', opportunityController.updateOpportunity)
 router.post('/reqcheck', opportunityController.CheckRequiredSubjects)
 router.post('/post/close', opportunityController.closePost)
+router.get('/filtrar', opportunityController.listarOportunidadesFiltradas)
 
 export default router

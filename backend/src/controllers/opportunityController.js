@@ -505,6 +505,55 @@ async function closePost(req, res) {
     }
 }
 
+async function listarOportunidadesFiltradas(req, res) {
+    const { tipo, prazo } = req.query
+
+    try {
+        const filtros = {}
+
+        if (tipo) {
+            filtros.type = tipo.toUpperCase()
+        }
+
+        const hoje = new Date()
+        const inicioHoje = new Date()
+        inicioHoje.setHours(0, 0, 0, 0)
+
+        if (prazo === 'hj') {
+            const fimHoje = new Date()
+            fimHoje.setHours(23, 59, 59, 999)
+            filtros.createdAt = {
+                gte: inicioHoje,
+                lte: fimHoje
+            }
+        } else if (prazo === 'use') {
+            const seteDiasAtras = new Date()
+            seteDiasAtras.setDate(hoje.getDate() - 7)
+            filtros.createdAt = {
+                gte: seteDiasAtras
+            }
+        } else if (prazo === 'ume') {
+            const trintaDiasAtras = new Date()
+            trintaDiasAtras.setDate(hoje.getDate() - 30)
+            filtros.createdAt = {
+                gte: trintaDiasAtras
+            }
+        }
+
+        const oportunidades = await prisma.opportunityPost.findMany({
+            where: filtros,
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        res.status(200).json(oportunidades)
+    } catch (error) {
+        console.error('Erro ao filtrar oportunidades:', error)
+        res.status(500).json({ error: 'Erro ao filtrar oportunidades' })
+    }
+}
+
 export default {
     getAllPosts,
     getAllOpenPosts,
@@ -515,5 +564,6 @@ export default {
     deleteOpportunity, // essa foi a func delete do crud :)
     updateOpportunity, // essa foi a func update do crud
     CheckRequiredSubjects,
-    closePost
+    closePost,
+    listarOportunidadesFiltradas
 }
