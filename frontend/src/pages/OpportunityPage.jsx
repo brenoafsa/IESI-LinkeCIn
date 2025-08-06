@@ -11,6 +11,8 @@ function OpportunityPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [showSimulatorModal, setShowSimulatorModal] = useState(false);
+  const [simulationResult, setSimulationResult] = useState(null);
 
   useEffect(() => {
     api
@@ -164,6 +166,31 @@ function OpportunityPage() {
     }
   };
 
+const handleSimulateHours = async () => {
+    try {
+      const response = await api.post('/student/simulate-hours', {
+        accessToken: token,
+        hours: information.hours,
+        type: information.type
+      });
+      
+      if (response.status === 200) {
+        setSimulationResult(response.data);
+        setShowSimulatorModal(true);
+      }
+    } catch (error) {
+      console.error("Erro ao simular horas:", error);
+      
+      if (error.response) {
+        const errorMessage = error.response.data.error || "Erro desconhecido";
+        alert(`Erro ao simular: ${errorMessage}`);
+      } else {
+        alert("Erro de conexão. Tente novamente.");
+      }
+    }
+  };
+  
+
   if (!information) {
     return (
       <div className="bg-mainbg min-h-screen flex items-center justify-center">
@@ -201,7 +228,7 @@ function OpportunityPage() {
           </div>
         </div>
       )}
-      
+
       <div className="bg-mainbg min-h-screen">
         {/* botao voltar */}
         <div className="w-full">
@@ -334,8 +361,8 @@ function OpportunityPage() {
                 </div>
               </form>
             ) : (
-              /* SE NÃO ESTIVER EDITANDO, MOSTRA INFORMAÇÕES NORMAIS */
-              <>
+              <div>
+                {/* SE NÃO ESTIVER EDITANDO, MOSTRA INFORMAÇÕES NORMAIS */}
                 <h1 className="text-xl font-bold text-darkred mb-2">
                   {information.tittle}
                 </h1>
@@ -356,10 +383,11 @@ function OpportunityPage() {
                   <p className="pb-1">horas</p>
                 </div>
 
-                {/* botão que deve adicionar nas horas do sigaa */}
-                <div className='-mt-8'>
-                  <button className="bg-primaryred text-white px-6 py-2 rounded-[15px] w-fit hover:bg-darkred hover:shadow-lg hover:shadow-primaryred/40">Adicionar ao simulador</button>
-                </div>
+                <button 
+                  onClick={handleSimulateHours}
+                  className="bg-primaryred text-white px-6 py-2 rounded-[15px] w-fit hover:bg-darkred hover:shadow-lg hover:shadow-primaryred/40">
+                  Adicionar ao simulador
+                </button>
 
                 <h2 className="text-xl font-bold text-darkred mb-2">
                   Pré-Requisitos:
@@ -393,35 +421,105 @@ function OpportunityPage() {
                     Tenho Interesse
                   </button>
 
-                  
-                   <button
+                  <button
                     onClick={() => navigate(`/select/${id}`)}
                     className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
                   >
                     Fechar Inscrições
                   </button>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+          )}
+        </div>
 
-          {/* bloco da direita */}
-          <div className="w-[300px] bg-white rounded-[12px] p-6 shadow-md h-[50vh]">
-            <h1 className="text-xl font-bold text-darkred mb-2">Publicado Por:</h1>
-            <hr className="my-2 border-darkred border-t-3 rounded"></hr>
-            {/* nome do professor que adicionou */}
-            <p className="font-bold">{information.publisher.fullName}</p>
-            {/* seu email institucional*/}
-            <p className="text-sm text-darkred mt-2 font-bold">{information.publisher.email}</p>
-            {/* se for possivel, verificar pelo dia se está aberta ou encerrada*/}
-            <p className="text-sm mt-4 text-darkred font-bold">Status: <span className="text-gray-700 font-bold">
-              {isOpportunityOpen(information.deadline) ? 'Aberta' : 'Encerrada'}
-            </span></p>
-            <p className="text-sm text-darkred font-bold">Prazo para inscrição: <span className="text-gray-700 font-bold"> {formatDeadline(information.deadline)}</span></p>
-            <p className="text-sm text-darkred font-bold">Localização: <span className="text-gray-700 font-bold">{information.city}, {information.state}</span></p>
-          </div>
+        {/* bloco da direita */}
+        <div className="w-[300px] bg-white rounded-[12px] p-6 shadow-md h-[50vh]">
+          <h1 className="text-xl font-bold text-darkred mb-2">Publicado Por:</h1>
+          <hr className="my-2 border-darkred border-t-3 rounded"></hr>
+          {/* nome do professor que adicionou */}
+          <p className="font-bold">{information.publisher.fullName}</p>
+          {/* seu email institucional*/}
+          <p className="text-sm text-darkred mt-2 font-bold">{information.publisher.email}</p>
+          {/* se for possivel, verificar pelo dia se está aberta ou encerrada*/}
+          <p className="text-sm mt-4 text-darkred font-bold">Status: <span className="text-gray-700 font-bold">
+            {isOpportunityOpen(information.deadline) ? 'Aberta' : 'Encerrada'}
+          </span></p>
+          <p className="text-sm text-darkred font-bold">Prazo para inscrição: <span className="text-gray-700 font-bold"> {formatDeadline(information.deadline)}</span></p>
+          <p className="text-sm text-darkred font-bold">Localização: <span className="text-gray-700 font-bold">{information.city}, {information.state}</span></p>
         </div>
       </div>
+    </div>
+
+    {/* Modal de simulação de horas */}
+      {showSimulatorModal && simulationResult && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h2 className="text-xl font-bold text-darkred mb-4">
+              Simulação de Horas
+            </h2>
+            {simulationResult.course && (
+              <p className="text-sm text-gray-600 mb-4">
+                Curso: {simulationResult.course}
+              </p>
+            )}
+            <div className="space-y-4 mb-6">
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">Horas atuais</p>
+                <p className="text-2xl font-bold">{simulationResult.currentHours}h</p>
+              </div>
+
+              <div className="flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-darkred" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">Horas adicionadas</p>
+                <p className="text-2xl font-bold text-darkred">{simulationResult.additionalHours}h</p>
+              </div>
+
+              <div className="border-t border-gray-300 pt-4">
+                <p className="text-sm text-gray-600">Total simulado</p>
+                <p className="text-3xl font-bold">{simulationResult.simulatedHours}h</p>
+                
+                <div className="mt-2">
+                  <div className="w-full bg-gray-300 rounded-full h-2.5 mb-1">
+                    <div 
+                      className="bg-darkred h-2.5 rounded-full" 
+                      style={{ width: `${simulationResult.completionPercentage}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-sm text-gray-600 text-right">
+                    {simulationResult.completionPercentage.toFixed(0)}% concluído
+                  </p>
+                </div>
+              </div>
+
+              {simulationResult.remainingHours > 0 && (
+                <p className="text-sm text-gray-600">
+                  Faltam {simulationResult.remainingHours}h para completar as {simulationResult.requiredHours}h necessárias.
+                </p>
+              )}
+
+              {simulationResult.completionPercentage >= 100 && (
+                <p className="text-sm text-green-600 font-medium">
+                  Parabéns! Você completou todas as horas necessárias para esta categoria.
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowSimulatorModal(false)}
+                className="bg-darkred text-white px-4 py-2 rounded font-bold hover:bg-primaryred"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
