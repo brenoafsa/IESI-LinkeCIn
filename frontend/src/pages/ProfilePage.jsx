@@ -7,7 +7,7 @@ import imagem from "/src/assets/img_CInProfile.png"
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    const [aluno, setAluno] = useState()
+    const [usuario, setUsuario] = useState()
     const token = userAuth.getAccessToken();
     const [historico, setHistorico] = useState([]);
     const porcentagem = Math.min((30 / 60) * 100, 100) //aqui os valores 3 e 60 devem ser substituidos pelos valores que o aluno tem e o que o curso solicita
@@ -19,8 +19,8 @@ const ProfilePage = () => {
                 .catch((err) => console.error("Erro ao buscar histórico de oportunidades do usuário", err))
 			
 			api.post('/student/specific', { accessToken: token })
-				.then((res) => setAluno(res.data))
-				.catch((err) => console.error("Erro ao buscar informações do aluno", err))
+				.then((res) => setUsuario(res.data))
+				.catch((err) => console.error("Erro ao buscar informações do usuário", err))
         }
     }, [token])
 
@@ -29,7 +29,7 @@ const ProfilePage = () => {
         navigate('/')
     }
 
-    if (!aluno) {
+    if (!usuario) {
         return (
             <div className="min-h-screen bg-mainbg flex items-center justify-center">
                 <p>Carregando...</p>
@@ -39,19 +39,27 @@ const ProfilePage = () => {
 
     return (
         <div className="min-h-screen bg-mainbg lg:flex justify-center items-start">
+            {/* botao voltar */}
+       
+          <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
+            Voltar
+          </button>
+
            
-            <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white  p-2 mr-1 m-10 self-stretch rounded-xl ">
+            <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white p-2 mr-1 m-10 self-stretch rounded-xl ">
                 <div className="w-full h-40 bg-darkred rounded-lg">
                     <img src={imagem} alt="" className="object-cover w-full h-40 bg-darkred rounded-lg" />
 
                 </div>
                 <div className="pl-10">
                     <div className="flex items-center justify-center text-white text-2xl font-bold w-16 h-16 rounded-full bg-[darkred] -mt-18">
-                        {aluno.fullName.charAt(0)}
+                        {usuario.fullName.charAt(0)}
                     </div>
-                    <h1 className="text-2xl font-bold text-darkred">{aluno.fullName}</h1>
-                    <p className="text-gray-600">Estudante de {aluno.studentRecord.course} | {aluno.studentRecord.entrance} </p>
-                    <p className="text-gray-600 text-xs"> {aluno.email} </p>
+                    <h1 className="text-2xl font-bold text-darkred">{usuario.fullName}</h1>
+                     {usuario?.studentRecord
+                            ? `${usuario.studentRecord.course} | ${usuario.studentRecord.entrance}`
+                            : usuario?.role ? `Perfil de professor` : ""}
+                    <p className="text-gray-600 text-xs"> {usuario.email} </p>
 
                     <div className="flex mt-5 gap-10 mb-10">
 
@@ -60,7 +68,7 @@ const ProfilePage = () => {
                         <button onClick={LogOut} className="bg-[white] text-[darkred] border-3 border-indigo- border-t-indigo  w-50  rounded-full font-bold ">sair da conta</button>
                     </div>
                     <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
-                    <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
+                    <button type="button" onClick={() => navigate('/favorites')} class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
                     <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Relatório de Horas Complementares</button>
                 </div>
             </section>
@@ -76,7 +84,7 @@ const ProfilePage = () => {
                     </p>
                     <div className="flex justify-between items-center mb-1">
 
-                        <button className="text-xl font-bold text-darkred mt-2 mr-2">+</button>
+                        <button className="text-xl font-bold text-darkred mt-2 mr-2 hover:">+</button>
                         <div className="w-full bg-gray-300 rounded-full h-2 mt-2 relative">
                             <div
                                 className="bg-darkred h-2 rounded-full"

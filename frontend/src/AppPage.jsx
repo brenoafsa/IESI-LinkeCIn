@@ -10,6 +10,8 @@ import Header from './components/header';
 import OpportunityPage from './pages/OpportunityPage';
 import TeacherAnalyticsPage from './pages/TeacherAnalyticsPage'
 import Favorites from './pages/FavoritesPage';
+import MoreInfo from './pages/ViewMorePage';
+import SelectCandidates from './pages/SelectCandidates'
 
 const App = () => {
 	return (
@@ -26,6 +28,8 @@ const App = () => {
 				<Route path="/opportunity/:id" element={<OpportunityPage/>}/>
 				<Route path="/teacher/data" element={<TeacherAnalyticsPage/>}/>
 				<Route path="/favorites" element={<Favorites/>}/>
+				<Route path="/more-info" element={<MoreInfo/>}/>
+				<Route path='/select/:id' element={<SelectCandidates/>}/>
 			</Routes>
 		</BrowserRouter>
 	);

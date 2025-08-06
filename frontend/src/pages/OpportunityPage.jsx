@@ -133,7 +133,7 @@ function OpportunityPage() {
       if (error.response?.status === 403) {
         alert("Você não tem os requerimentos necessários");
       } else {
-        alert("Erro ao verificar pré-requisitos. Tente novamente.");
+        alert("Você é professor, não pode se candidatar!");
       }
     }
   };
@@ -229,229 +229,228 @@ const handleSimulateHours = async () => {
         </div>
       )}
 
-      {/* botao voltar */}
-      <div className="bg-mainbg w-full">
-        <button
-          onClick={() => navigate("/feed")}
-          className="px-10 ml-10 bg-white rounded-[15px] py-2 shadow text-xl font-bold text-darkred mt-5"
-        >
-          Voltar
-        </button>
-      </div>
+      <div className="bg-mainbg min-h-screen">
+        {/* botao voltar */}
+        <div className="w-full">
+          <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
+            Voltar
+          </button>
+        </div>
 
-      {/* Blocos lado a lado */}
-      <div className="bg-mainbg flex justify-center gap-8 px-10 mt-8">
-        {/* o bloco do meio */}
-        <div className="flex-1 flex flex-col space-y-10 bg-white rounded-[12px] p-6 shadow-md">
-          {/* SE ESTIVER EDITANDO, MOSTRA FORMULÁRIO */}
-          {isEditing ? (
-            <form onSubmit={handleEditOpportunity} className="space-y-4">
-              <h1 className="text-xl font-bold text-red-700 mb-4">
-                Editando Oportunidade
-              </h1>
-
-              {/* Campo Título */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Título:
-                </label>
-                <input
-                  type="text"
-                  value={editData.tittle || information.tittle}
-                  onChange={(e) =>
-                    setEditData({ ...editData, tittle: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-
-              {/* Campo Descrição */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Descrição:
-                </label>
-                <textarea
-                  value={editData.description || information.description}
-                  onChange={(e) =>
-                    setEditData({ ...editData, description: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded h-32"
-                />
-              </div>
-
-              {/* Campo Tipo */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Tipo:
-                </label>
-                <select
-                  value={editData.type || information.type}
-                  onChange={(e) =>
-                    setEditData({ ...editData, type: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded"
-                >
-                  <option value="EXTENSION">Extensão</option>
-                  <option value="RESEARCH">Pesquisa</option>
-                  <option value="COMPLEMENTARY">Atividade Complementar</option>
-                </select>
-              </div>
-
-              {/* Campo Horas */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Carga Horária:
-                </label>
-                <input
-                  type="number"
-                  value={editData.hours || information.hours}
-                  onChange={(e) =>
-                    setEditData({ ...editData, hours: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-
-              {/* Campo Cidade */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Cidade:
-                </label>
-                <input
-                  type="text"
-                  value={editData.city || information.city}
-                  onChange={(e) =>
-                    setEditData({ ...editData, city: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-
-              {/* Campo Estado */}
-              <div>
-                <label className="block text-sm font-bold text-red-700 mb-2">
-                  Estado:
-                </label>
-                <input
-                  type="text"
-                  value={editData.state || information.state}
-                  onChange={(e) =>
-                    setEditData({ ...editData, state: e.target.value })
-                  }
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-
-              {/* Botões do formulário */}
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  className="bg-red-600 text-white px-6 py-2 rounded-[15px] font-bold"
-                >
-                  Salvar Alterações
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setEditData({});
-                  }}
-                  className="bg-gray-500 text-white px-6 py-2 rounded-[15px] font-bold"
-                >
-                  Cancelar
-                </button>
-              </div>
-            </form>
-          ) : (
-            /* SE NÃO ESTIVER EDITANDO, MOSTRA INFORMAÇÕES NORMAIS */
-            <>
-              <h1 className="text-xl font-bold text-red-700 mb-2">
-                {information.tittle}
-              </h1>
-              <h2>{getTypeInPortuguese(information.type)}</h2>
-
-              <h2 className="text-xl font-bold text-red-700 mb-2">
-                Descrição Completa
-              </h2>
-              <p>{information.description}</p>
-
-              <h2 className="text-xl font-bold text-red-700 mb-2">
-                Carga horária estimada
-              </h2>
-              <div className="flex items-end space-x-1">
-                <h1 className="text-5xl font-bold text-black">
-                  {information.hours}
+        {/* Blocos lado a lado */}
+        <div className="bg-mainbg flex justify-center gap-8 px-10 mt-8">
+          {/* o bloco do meio */}
+          <div className="flex-1 flex flex-col space-y-10 bg-white rounded-[12px] p-6 shadow-md">
+            {/* SE ESTIVER EDITANDO, MOSTRA FORMULÁRIO */}
+            {isEditing ? (
+              <form onSubmit={handleEditOpportunity} className="space-y-4">
+                <h1 className="text-xl font-bold text-darkred mb-4">
+                  Editando Oportunidade
                 </h1>
-                <p className="pb-1">horas</p>
+
+                {/* Campo Título */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Título:
+                  </label>
+                  <input
+                    type="text"
+                    value={editData.tittle || information.tittle}
+                    onChange={(e) =>
+                      setEditData({ ...editData, tittle: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                {/* Campo Descrição */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Descrição:
+                  </label>
+                  <textarea
+                    value={editData.description || information.description}
+                    onChange={(e) =>
+                      setEditData({ ...editData, description: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded h-32"
+                  />
+                </div>
+
+                {/* Campo Tipo */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Tipo:
+                  </label>
+                  <select
+                    value={editData.type || information.type}
+                    onChange={(e) =>
+                      setEditData({ ...editData, type: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded"
+                  >
+                    <option value="EXTENSION">Extensão</option>
+                    <option value="RESEARCH">Pesquisa</option>
+                    <option value="COMPLEMENTARY">Atividade Complementar</option>
+                  </select>
+                </div>
+
+                {/* Campo Horas */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Carga Horária:
+                  </label>
+                  <input
+                    type="number"
+                    value={editData.hours || information.hours}
+                    onChange={(e) =>
+                      setEditData({ ...editData, hours: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                {/* Campo Cidade */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Cidade:
+                  </label>
+                  <input
+                    type="text"
+                    value={editData.city || information.city}
+                    onChange={(e) =>
+                      setEditData({ ...editData, city: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                {/* Campo Estado */}
+                <div>
+                  <label className="block text-sm font-bold text-darkred mb-2">
+                    Estado:
+                  </label>
+                  <input
+                    type="text"
+                    value={editData.state || information.state}
+                    onChange={(e) =>
+                      setEditData({ ...editData, state: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                {/* Botões do formulário */}
+                <div className="flex space-x-4">
+                  <button
+                    type="submit"
+                    className="bg-primaryred text-white px-6 py-2 rounded-[15px] w-fit hover:bg-darkred hover:shadow-lg hover:shadow-primaryred/40"
+                  >
+                    Salvar Alterações
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditing(false);
+                      setEditData({});
+                    }}
+                    className="bg-gray-500 text-white px-6 py-2 rounded-[15px] font-bold hover:bg-gray-700 hover:shadow-lg hover:shadow-black/40"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div>
+                {/* SE NÃO ESTIVER EDITANDO, MOSTRA INFORMAÇÕES NORMAIS */}
+                <h1 className="text-xl font-bold text-darkred mb-2">
+                  {information.tittle}
+                </h1>
+                <h2>{getTypeInPortuguese(information.type)}</h2>
+
+                <h2 className="text-xl font-bold text-darkred mb-2">
+                  Descrição Completa:
+                </h2>
+                <p>{information.description}</p>
+
+                <h2 className="text-xl font-bold text-darkred mb-2">
+                  Carga horária estimada:
+                </h2>
+                <div className="flex items-end space-x-1">
+                  <h1 className="text-5xl font-bold text-black">
+                    {information.hours}
+                  </h1>
+                  <p className="pb-1">horas</p>
+                </div>
+
+                <button 
+                  onClick={handleSimulateHours}
+                  className="bg-primaryred text-white px-6 py-2 rounded-[15px] w-fit hover:bg-darkred hover:shadow-lg hover:shadow-primaryred/40">
+                  Adicionar ao simulador
+                </button>
+
+                <h2 className="text-xl font-bold text-darkred mb-2">
+                  Pré-Requisitos:
+                </h2>
+                <p>A definir conforme necessário</p>
+                {(information.requiredSubjects).map((each, index) => (
+                  <p className="mb-2" key={index}>{each}</p>
+                ))}
+
+                <div className="flex space-x-4">
+                  {/* botão para editar as informações*/}
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:text-primaryred hover:shadow-lg hover:shadow-primaryred/40"
+                  >
+                    Editar Oportunidade
+                  </button>
+
+                  {/* botão para apagar a oportunidade! */}
+                  <button
+                    onClick={handleDeleteOpportunity}
+                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
+                  >
+                    Apagar Oportunidade
+                  </button>
+
+                  <button
+                    onClick={handleInterestClick}
+                    className="bg-darkred border border-primaryred text-white px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40 hover:bg-primaryred"
+                  >
+                    Tenho Interesse
+                  </button>
+
+                  <button
+                    onClick={() => navigate(`/select/${id}`)}
+                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
+                  >
+                    Fechar Inscrições
+                  </button>
+                </div>
               </div>
-
-              <button 
-              onClick={handleSimulateHours}
-              className="bg-red-600 text-white px-6 py-2 rounded-[15px] w-fit">
-                Adicionar ao simulador
-              </button>
-
-              <h2 className="text-xl font-bold text-red-700 mb-2">
-                Pré-Requisitos
-              </h2>
-              <p>A definir conforme necessário</p>
-              {(information.requiredSubjects).map((each, index) => (
-                <p className="mb-2" key={index}>{each}</p>
-              ))}
-
-              <div className="flex space-x-4">
-                {/* botão para editar as informações*/}
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="bg-white border border-red-600 text-darkred px-6 py-2 rounded-[15px] font-bold"
-                >
-                  Editar Oportunidade
-                </button>
-
-                {/* botão para apagar a oportunidade! */}
-                <button
-                  onClick={handleDeleteOpportunity}
-                  className="bg-white border border-red-600 text-darkred px-6 py-2 rounded-[15px] font-bold"
-                >
-                  Apagar Oportunidade
-                </button>
-
-                <button
-                  onClick={handleInterestClick}
-                  className="bg-darkred border border-red-600 text-white px-6 py-2 rounded-[15px] font-bold"
-                >
-                  Tenho Interesse
-                </button>
-              </div>
-            </>
           )}
         </div>
 
-        {/* bloco da direita - sempre visível */}
-        <div className="w-[300px] bg-white rounded-[12px] p-6 shadow-md">
-          <h1 className="text-xl font-bold text-red-700 mb-2">
-            Publicado Por:
-          </h1>
+        {/* bloco da direita */}
+        <div className="w-[300px] bg-white rounded-[12px] p-6 shadow-md h-[50vh]">
+          <h1 className="text-xl font-bold text-darkred mb-2">Publicado Por:</h1>
+          <hr className="my-2 border-darkred border-t-3 rounded"></hr>
+          {/* nome do professor que adicionou */}
           <p className="font-bold">{information.publisher.fullName}</p>
-          <p className="text-sm text-red-600 mt-2">
-            {information.publisher.email}
-          </p>
-          <p className="text-sm mt-4">
-            Status:{" "}
-            <span className="text-red-600">
-              {isOpportunityOpen(information.deadline) ? "Aberta" : "Encerrada"}
-            </span>
-          </p>
-          <p className="text-sm">
-            Prazo para inscrição: {formatDeadline(information.deadline)}
-          </p>
-          <p className="text-sm">
-            Localização: {information.city}, {information.state}
-          </p>
+          {/* seu email institucional*/}
+          <p className="text-sm text-darkred mt-2 font-bold">{information.publisher.email}</p>
+          {/* se for possivel, verificar pelo dia se está aberta ou encerrada*/}
+          <p className="text-sm mt-4 text-darkred font-bold">Status: <span className="text-gray-700 font-bold">
+            {isOpportunityOpen(information.deadline) ? 'Aberta' : 'Encerrada'}
+          </span></p>
+          <p className="text-sm text-darkred font-bold">Prazo para inscrição: <span className="text-gray-700 font-bold"> {formatDeadline(information.deadline)}</span></p>
+          <p className="text-sm text-darkred font-bold">Localização: <span className="text-gray-700 font-bold">{information.city}, {information.state}</span></p>
         </div>
       </div>
+    </div>
 
-      {/* Modal de simulação de horas */}
+    {/* Modal de simulação de horas */}
       {showSimulatorModal && simulationResult && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
@@ -521,7 +520,6 @@ const handleSimulateHours = async () => {
           </div>
         </div>
       )}
-
     </>
   );
 }

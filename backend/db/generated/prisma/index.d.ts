@@ -1083,12 +1083,14 @@ export namespace Prisma {
     publishedPosts: number
     appliedPosts: number
     savedPosts: number
+    participatedPosts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publishedPosts?: boolean | UserCountOutputTypeCountPublishedPostsArgs
     appliedPosts?: boolean | UserCountOutputTypeCountAppliedPostsArgs
     savedPosts?: boolean | UserCountOutputTypeCountSavedPostsArgs
+    participatedPosts?: boolean | UserCountOutputTypeCountParticipatedPostsArgs
   }
 
   // Custom InputTypes
@@ -1123,6 +1125,13 @@ export namespace Prisma {
     where?: OpportunityPostWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountParticipatedPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OpportunityPostWhereInput
+  }
+
 
   /**
    * Count Type OpportunityPostCountOutputType
@@ -1131,11 +1140,13 @@ export namespace Prisma {
   export type OpportunityPostCountOutputType = {
     candidates: number
     savedBy: number
+    participants: number
   }
 
   export type OpportunityPostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     candidates?: boolean | OpportunityPostCountOutputTypeCountCandidatesArgs
     savedBy?: boolean | OpportunityPostCountOutputTypeCountSavedByArgs
+    participants?: boolean | OpportunityPostCountOutputTypeCountParticipantsArgs
   }
 
   // Custom InputTypes
@@ -1160,6 +1171,13 @@ export namespace Prisma {
    * OpportunityPostCountOutputType without action
    */
   export type OpportunityPostCountOutputTypeCountSavedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+  /**
+   * OpportunityPostCountOutputType without action
+   */
+  export type OpportunityPostCountOutputTypeCountParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
   }
 
@@ -1336,6 +1354,7 @@ export namespace Prisma {
     publishedPosts?: boolean | User$publishedPostsArgs<ExtArgs>
     appliedPosts?: boolean | User$appliedPostsArgs<ExtArgs>
     savedPosts?: boolean | User$savedPostsArgs<ExtArgs>
+    participatedPosts?: boolean | User$participatedPostsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1369,6 +1388,7 @@ export namespace Prisma {
     publishedPosts?: boolean | User$publishedPostsArgs<ExtArgs>
     appliedPosts?: boolean | User$appliedPostsArgs<ExtArgs>
     savedPosts?: boolean | User$savedPostsArgs<ExtArgs>
+    participatedPosts?: boolean | User$participatedPostsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1381,6 +1401,7 @@ export namespace Prisma {
       publishedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
       appliedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
       savedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
+      participatedPosts: Prisma.$OpportunityPostPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1786,6 +1807,7 @@ export namespace Prisma {
     publishedPosts<T extends User$publishedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$publishedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     appliedPosts<T extends User$appliedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$appliedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedPosts<T extends User$savedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$savedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participatedPosts<T extends User$participatedPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$participatedPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OpportunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2278,6 +2300,30 @@ export namespace Prisma {
    * User.savedPosts
    */
   export type User$savedPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OpportunityPost
+     */
+    select?: OpportunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OpportunityPost
+     */
+    omit?: OpportunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OpportunityPostInclude<ExtArgs> | null
+    where?: OpportunityPostWhereInput
+    orderBy?: OpportunityPostOrderByWithRelationInput | OpportunityPostOrderByWithRelationInput[]
+    cursor?: OpportunityPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OpportunityPostScalarFieldEnum | OpportunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * User.participatedPosts
+   */
+  export type User$participatedPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OpportunityPost
      */
@@ -3447,6 +3493,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    isClosed: boolean | null
     publisherId: string | null
   }
 
@@ -3459,6 +3506,7 @@ export namespace Prisma {
     city: string | null
     state: string | null
     hours: number | null
+    isClosed: boolean | null
     publisherId: string | null
   }
 
@@ -3472,6 +3520,7 @@ export namespace Prisma {
     state: number
     hours: number
     requiredSubjects: number
+    isClosed: number
     publisherId: number
     _all: number
   }
@@ -3494,6 +3543,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    isClosed?: true
     publisherId?: true
   }
 
@@ -3506,6 +3556,7 @@ export namespace Prisma {
     city?: true
     state?: true
     hours?: true
+    isClosed?: true
     publisherId?: true
   }
 
@@ -3519,6 +3570,7 @@ export namespace Prisma {
     state?: true
     hours?: true
     requiredSubjects?: true
+    isClosed?: true
     publisherId?: true
     _all?: true
   }
@@ -3619,6 +3671,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects: string[]
+    isClosed: boolean
     publisherId: string
     _count: OpportunityPostCountAggregateOutputType | null
     _avg: OpportunityPostAvgAggregateOutputType | null
@@ -3651,10 +3704,12 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
     savedBy?: boolean | OpportunityPost$savedByArgs<ExtArgs>
+    participants?: boolean | OpportunityPost$participantsArgs<ExtArgs>
     _count?: boolean | OpportunityPostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
 
@@ -3668,6 +3723,7 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3682,6 +3738,7 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
     publisher?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["opportunityPost"]>
@@ -3696,14 +3753,16 @@ export namespace Prisma {
     state?: boolean
     hours?: boolean
     requiredSubjects?: boolean
+    isClosed?: boolean
     publisherId?: boolean
   }
 
-  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "requiredSubjects" | "publisherId", ExtArgs["result"]["opportunityPost"]>
+  export type OpportunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tittle" | "description" | "type" | "deadline" | "city" | "state" | "hours" | "requiredSubjects" | "isClosed" | "publisherId", ExtArgs["result"]["opportunityPost"]>
   export type OpportunityPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publisher?: boolean | UserDefaultArgs<ExtArgs>
     candidates?: boolean | OpportunityPost$candidatesArgs<ExtArgs>
     savedBy?: boolean | OpportunityPost$savedByArgs<ExtArgs>
+    participants?: boolean | OpportunityPost$participantsArgs<ExtArgs>
     _count?: boolean | OpportunityPostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OpportunityPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3719,6 +3778,7 @@ export namespace Prisma {
       publisher: Prisma.$UserPayload<ExtArgs>
       candidates: Prisma.$UserPayload<ExtArgs>[]
       savedBy: Prisma.$UserPayload<ExtArgs>[]
+      participants: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3730,6 +3790,7 @@ export namespace Prisma {
       state: string
       hours: number
       requiredSubjects: string[]
+      isClosed: boolean
       publisherId: string
     }, ExtArgs["result"]["opportunityPost"]>
     composites: {}
@@ -4128,6 +4189,7 @@ export namespace Prisma {
     publisher<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     candidates<T extends OpportunityPost$candidatesArgs<ExtArgs> = {}>(args?: Subset<T, OpportunityPost$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedBy<T extends OpportunityPost$savedByArgs<ExtArgs> = {}>(args?: Subset<T, OpportunityPost$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participants<T extends OpportunityPost$participantsArgs<ExtArgs> = {}>(args?: Subset<T, OpportunityPost$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4166,6 +4228,7 @@ export namespace Prisma {
     readonly state: FieldRef<"OpportunityPost", 'String'>
     readonly hours: FieldRef<"OpportunityPost", 'Int'>
     readonly requiredSubjects: FieldRef<"OpportunityPost", 'String[]'>
+    readonly isClosed: FieldRef<"OpportunityPost", 'Boolean'>
     readonly publisherId: FieldRef<"OpportunityPost", 'String'>
   }
     
@@ -4611,6 +4674,30 @@ export namespace Prisma {
   }
 
   /**
+   * OpportunityPost.participants
+   */
+  export type OpportunityPost$participantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
    * OpportunityPost without action
    */
   export type OpportunityPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4676,6 +4763,7 @@ export namespace Prisma {
     state: 'state',
     hours: 'hours',
     requiredSubjects: 'requiredSubjects',
+    isClosed: 'isClosed',
     publisherId: 'publisherId'
   };
 
@@ -4774,6 +4862,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -4803,6 +4898,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostListRelationFilter
     appliedPosts?: OpportunityPostListRelationFilter
     savedPosts?: OpportunityPostListRelationFilter
+    participatedPosts?: OpportunityPostListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4815,6 +4911,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostOrderByRelationAggregateInput
     appliedPosts?: OpportunityPostOrderByRelationAggregateInput
     savedPosts?: OpportunityPostOrderByRelationAggregateInput
+    participatedPosts?: OpportunityPostOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4830,6 +4927,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostListRelationFilter
     appliedPosts?: OpportunityPostListRelationFilter
     savedPosts?: OpportunityPostListRelationFilter
+    participatedPosts?: OpportunityPostListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4929,10 +5027,12 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
     savedBy?: UserListRelationFilter
+    participants?: UserListRelationFilter
   }
 
   export type OpportunityPostOrderByWithRelationInput = {
@@ -4945,10 +5045,12 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
     publisher?: UserOrderByWithRelationInput
     candidates?: UserOrderByRelationAggregateInput
     savedBy?: UserOrderByRelationAggregateInput
+    participants?: UserOrderByRelationAggregateInput
   }
 
   export type OpportunityPostWhereUniqueInput = Prisma.AtLeast<{
@@ -4964,10 +5066,12 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
     publisher?: XOR<UserScalarRelationFilter, UserWhereInput>
     candidates?: UserListRelationFilter
     savedBy?: UserListRelationFilter
+    participants?: UserListRelationFilter
   }, "id">
 
   export type OpportunityPostOrderByWithAggregationInput = {
@@ -4980,6 +5084,7 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
     _count?: OpportunityPostCountOrderByAggregateInput
     _avg?: OpportunityPostAvgOrderByAggregateInput
@@ -5001,6 +5106,7 @@ export namespace Prisma {
     state?: StringWithAggregatesFilter<"OpportunityPost"> | string
     hours?: IntWithAggregatesFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolWithAggregatesFilter<"OpportunityPost"> | boolean
     publisherId?: StringWithAggregatesFilter<"OpportunityPost"> | string
   }
 
@@ -5014,6 +5120,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -5026,6 +5133,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUpdateInput = {
@@ -5038,6 +5146,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5050,6 +5159,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUncheckedUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -5148,9 +5258,11 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
     savedBy?: UserCreateNestedManyWithoutSavedPostsInput
+    participants?: UserCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostUncheckedCreateInput = {
@@ -5163,9 +5275,11 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
     savedBy?: UserUncheckedCreateNestedManyWithoutSavedPostsInput
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostUpdateInput = {
@@ -5178,9 +5292,11 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
     savedBy?: UserUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateInput = {
@@ -5193,9 +5309,11 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
     savedBy?: UserUncheckedUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUncheckedUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostCreateManyInput = {
@@ -5208,6 +5326,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
   }
 
@@ -5221,6 +5340,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OpportunityPostUncheckedUpdateManyInput = {
@@ -5233,6 +5353,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5416,6 +5537,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -5436,6 +5562,7 @@ export namespace Prisma {
     state?: SortOrder
     hours?: SortOrder
     requiredSubjects?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5452,6 +5579,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5464,6 +5592,7 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     hours?: SortOrder
+    isClosed?: SortOrder
     publisherId?: SortOrder
   }
 
@@ -5495,6 +5624,14 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type StudentRecordCreateNestedOneWithoutStudentInput = {
     create?: XOR<StudentRecordCreateWithoutStudentInput, StudentRecordUncheckedCreateWithoutStudentInput>
     connectOrCreate?: StudentRecordCreateOrConnectWithoutStudentInput
@@ -5520,6 +5657,12 @@ export namespace Prisma {
     connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
   }
 
+  export type OpportunityPostCreateNestedManyWithoutParticipantsInput = {
+    create?: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput> | OpportunityPostCreateWithoutParticipantsInput[] | OpportunityPostUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: OpportunityPostCreateOrConnectWithoutParticipantsInput | OpportunityPostCreateOrConnectWithoutParticipantsInput[]
+    connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+  }
+
   export type StudentRecordUncheckedCreateNestedOneWithoutStudentInput = {
     create?: XOR<StudentRecordCreateWithoutStudentInput, StudentRecordUncheckedCreateWithoutStudentInput>
     connectOrCreate?: StudentRecordCreateOrConnectWithoutStudentInput
@@ -5542,6 +5685,12 @@ export namespace Prisma {
   export type OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput = {
     create?: XOR<OpportunityPostCreateWithoutSavedByInput, OpportunityPostUncheckedCreateWithoutSavedByInput> | OpportunityPostCreateWithoutSavedByInput[] | OpportunityPostUncheckedCreateWithoutSavedByInput[]
     connectOrCreate?: OpportunityPostCreateOrConnectWithoutSavedByInput | OpportunityPostCreateOrConnectWithoutSavedByInput[]
+    connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+  }
+
+  export type OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput = {
+    create?: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput> | OpportunityPostCreateWithoutParticipantsInput[] | OpportunityPostUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: OpportunityPostCreateOrConnectWithoutParticipantsInput | OpportunityPostCreateOrConnectWithoutParticipantsInput[]
     connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
   }
 
@@ -5603,6 +5752,19 @@ export namespace Prisma {
     deleteMany?: OpportunityPostScalarWhereInput | OpportunityPostScalarWhereInput[]
   }
 
+  export type OpportunityPostUpdateManyWithoutParticipantsNestedInput = {
+    create?: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput> | OpportunityPostCreateWithoutParticipantsInput[] | OpportunityPostUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: OpportunityPostCreateOrConnectWithoutParticipantsInput | OpportunityPostCreateOrConnectWithoutParticipantsInput[]
+    upsert?: OpportunityPostUpsertWithWhereUniqueWithoutParticipantsInput | OpportunityPostUpsertWithWhereUniqueWithoutParticipantsInput[]
+    set?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    disconnect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    delete?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    update?: OpportunityPostUpdateWithWhereUniqueWithoutParticipantsInput | OpportunityPostUpdateWithWhereUniqueWithoutParticipantsInput[]
+    updateMany?: OpportunityPostUpdateManyWithWhereWithoutParticipantsInput | OpportunityPostUpdateManyWithWhereWithoutParticipantsInput[]
+    deleteMany?: OpportunityPostScalarWhereInput | OpportunityPostScalarWhereInput[]
+  }
+
   export type StudentRecordUncheckedUpdateOneWithoutStudentNestedInput = {
     create?: XOR<StudentRecordCreateWithoutStudentInput, StudentRecordUncheckedCreateWithoutStudentInput>
     connectOrCreate?: StudentRecordCreateOrConnectWithoutStudentInput
@@ -5650,6 +5812,19 @@ export namespace Prisma {
     connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
     update?: OpportunityPostUpdateWithWhereUniqueWithoutSavedByInput | OpportunityPostUpdateWithWhereUniqueWithoutSavedByInput[]
     updateMany?: OpportunityPostUpdateManyWithWhereWithoutSavedByInput | OpportunityPostUpdateManyWithWhereWithoutSavedByInput[]
+    deleteMany?: OpportunityPostScalarWhereInput | OpportunityPostScalarWhereInput[]
+  }
+
+  export type OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput = {
+    create?: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput> | OpportunityPostCreateWithoutParticipantsInput[] | OpportunityPostUncheckedCreateWithoutParticipantsInput[]
+    connectOrCreate?: OpportunityPostCreateOrConnectWithoutParticipantsInput | OpportunityPostCreateOrConnectWithoutParticipantsInput[]
+    upsert?: OpportunityPostUpsertWithWhereUniqueWithoutParticipantsInput | OpportunityPostUpsertWithWhereUniqueWithoutParticipantsInput[]
+    set?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    disconnect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    delete?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    connect?: OpportunityPostWhereUniqueInput | OpportunityPostWhereUniqueInput[]
+    update?: OpportunityPostUpdateWithWhereUniqueWithoutParticipantsInput | OpportunityPostUpdateWithWhereUniqueWithoutParticipantsInput[]
+    updateMany?: OpportunityPostUpdateManyWithWhereWithoutParticipantsInput | OpportunityPostUpdateManyWithWhereWithoutParticipantsInput[]
     deleteMany?: OpportunityPostScalarWhereInput | OpportunityPostScalarWhereInput[]
   }
 
@@ -5706,6 +5881,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type UserCreateNestedManyWithoutParticipatedPostsInput = {
+    create?: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput> | UserCreateWithoutParticipatedPostsInput[] | UserUncheckedCreateWithoutParticipatedPostsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatedPostsInput | UserCreateOrConnectWithoutParticipatedPostsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutAppliedPostsInput = {
     create?: XOR<UserCreateWithoutAppliedPostsInput, UserUncheckedCreateWithoutAppliedPostsInput> | UserCreateWithoutAppliedPostsInput[] | UserUncheckedCreateWithoutAppliedPostsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutAppliedPostsInput | UserCreateOrConnectWithoutAppliedPostsInput[]
@@ -5715,6 +5896,12 @@ export namespace Prisma {
   export type UserUncheckedCreateNestedManyWithoutSavedPostsInput = {
     create?: XOR<UserCreateWithoutSavedPostsInput, UserUncheckedCreateWithoutSavedPostsInput> | UserCreateWithoutSavedPostsInput[] | UserUncheckedCreateWithoutSavedPostsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutSavedPostsInput | UserCreateOrConnectWithoutSavedPostsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutParticipatedPostsInput = {
+    create?: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput> | UserCreateWithoutParticipatedPostsInput[] | UserUncheckedCreateWithoutParticipatedPostsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatedPostsInput | UserCreateOrConnectWithoutParticipatedPostsInput[]
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
@@ -5729,6 +5916,10 @@ export namespace Prisma {
   export type OpportunityPostUpdaterequiredSubjectsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutPublishedPostsNestedInput = {
@@ -5765,6 +5956,19 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type UserUpdateManyWithoutParticipatedPostsNestedInput = {
+    create?: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput> | UserCreateWithoutParticipatedPostsInput[] | UserUncheckedCreateWithoutParticipatedPostsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatedPostsInput | UserCreateOrConnectWithoutParticipatedPostsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParticipatedPostsInput | UserUpsertWithWhereUniqueWithoutParticipatedPostsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParticipatedPostsInput | UserUpdateWithWhereUniqueWithoutParticipatedPostsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParticipatedPostsInput | UserUpdateManyWithWhereWithoutParticipatedPostsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutAppliedPostsNestedInput = {
     create?: XOR<UserCreateWithoutAppliedPostsInput, UserUncheckedCreateWithoutAppliedPostsInput> | UserCreateWithoutAppliedPostsInput[] | UserUncheckedCreateWithoutAppliedPostsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutAppliedPostsInput | UserCreateOrConnectWithoutAppliedPostsInput[]
@@ -5788,6 +5992,19 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
     update?: UserUpdateWithWhereUniqueWithoutSavedPostsInput | UserUpdateWithWhereUniqueWithoutSavedPostsInput[]
     updateMany?: UserUpdateManyWithWhereWithoutSavedPostsInput | UserUpdateManyWithWhereWithoutSavedPostsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutParticipatedPostsNestedInput = {
+    create?: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput> | UserCreateWithoutParticipatedPostsInput[] | UserUncheckedCreateWithoutParticipatedPostsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParticipatedPostsInput | UserCreateOrConnectWithoutParticipatedPostsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParticipatedPostsInput | UserUpsertWithWhereUniqueWithoutParticipatedPostsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParticipatedPostsInput | UserUpdateWithWhereUniqueWithoutParticipatedPostsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParticipatedPostsInput | UserUpdateManyWithWhereWithoutParticipatedPostsInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
@@ -5895,6 +6112,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumOpportunityTypesWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.OpportunityTypes | EnumOpportunityTypesFieldRefInput<$PrismaModel>
     in?: $Enums.OpportunityTypes[] | ListEnumOpportunityTypesFieldRefInput<$PrismaModel>
@@ -5917,6 +6139,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StudentRecordCreateWithoutStudentInput = {
@@ -5950,8 +6180,10 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
     savedBy?: UserCreateNestedManyWithoutSavedPostsInput
+    participants?: UserCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostUncheckedCreateWithoutPublisherInput = {
@@ -5964,8 +6196,10 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
     savedBy?: UserUncheckedCreateNestedManyWithoutSavedPostsInput
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostCreateOrConnectWithoutPublisherInput = {
@@ -5988,8 +6222,10 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
     savedBy?: UserCreateNestedManyWithoutSavedPostsInput
+    participants?: UserCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostUncheckedCreateWithoutCandidatesInput = {
@@ -6002,8 +6238,10 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
     savedBy?: UserUncheckedCreateNestedManyWithoutSavedPostsInput
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostCreateOrConnectWithoutCandidatesInput = {
@@ -6021,8 +6259,10 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisher: UserCreateNestedOneWithoutPublishedPostsInput
     candidates?: UserCreateNestedManyWithoutAppliedPostsInput
+    participants?: UserCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostUncheckedCreateWithoutSavedByInput = {
@@ -6035,13 +6275,52 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
     publisherId: string
     candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
+    participants?: UserUncheckedCreateNestedManyWithoutParticipatedPostsInput
   }
 
   export type OpportunityPostCreateOrConnectWithoutSavedByInput = {
     where: OpportunityPostWhereUniqueInput
     create: XOR<OpportunityPostCreateWithoutSavedByInput, OpportunityPostUncheckedCreateWithoutSavedByInput>
+  }
+
+  export type OpportunityPostCreateWithoutParticipantsInput = {
+    id?: string
+    tittle: string
+    description: string
+    type: $Enums.OpportunityTypes
+    deadline: Date | string
+    city: string
+    state: string
+    hours: number
+    requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
+    publisher: UserCreateNestedOneWithoutPublishedPostsInput
+    candidates?: UserCreateNestedManyWithoutAppliedPostsInput
+    savedBy?: UserCreateNestedManyWithoutSavedPostsInput
+  }
+
+  export type OpportunityPostUncheckedCreateWithoutParticipantsInput = {
+    id?: string
+    tittle: string
+    description: string
+    type: $Enums.OpportunityTypes
+    deadline: Date | string
+    city: string
+    state: string
+    hours: number
+    requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
+    publisherId: string
+    candidates?: UserUncheckedCreateNestedManyWithoutAppliedPostsInput
+    savedBy?: UserUncheckedCreateNestedManyWithoutSavedPostsInput
+  }
+
+  export type OpportunityPostCreateOrConnectWithoutParticipantsInput = {
+    where: OpportunityPostWhereUniqueInput
+    create: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput>
   }
 
   export type StudentRecordUpsertWithoutStudentInput = {
@@ -6100,6 +6379,7 @@ export namespace Prisma {
     state?: StringFilter<"OpportunityPost"> | string
     hours?: IntFilter<"OpportunityPost"> | number
     requiredSubjects?: StringNullableListFilter<"OpportunityPost">
+    isClosed?: BoolFilter<"OpportunityPost"> | boolean
     publisherId?: StringFilter<"OpportunityPost"> | string
   }
 
@@ -6135,6 +6415,22 @@ export namespace Prisma {
     data: XOR<OpportunityPostUpdateManyMutationInput, OpportunityPostUncheckedUpdateManyWithoutSavedByInput>
   }
 
+  export type OpportunityPostUpsertWithWhereUniqueWithoutParticipantsInput = {
+    where: OpportunityPostWhereUniqueInput
+    update: XOR<OpportunityPostUpdateWithoutParticipantsInput, OpportunityPostUncheckedUpdateWithoutParticipantsInput>
+    create: XOR<OpportunityPostCreateWithoutParticipantsInput, OpportunityPostUncheckedCreateWithoutParticipantsInput>
+  }
+
+  export type OpportunityPostUpdateWithWhereUniqueWithoutParticipantsInput = {
+    where: OpportunityPostWhereUniqueInput
+    data: XOR<OpportunityPostUpdateWithoutParticipantsInput, OpportunityPostUncheckedUpdateWithoutParticipantsInput>
+  }
+
+  export type OpportunityPostUpdateManyWithWhereWithoutParticipantsInput = {
+    where: OpportunityPostScalarWhereInput
+    data: XOR<OpportunityPostUpdateManyMutationInput, OpportunityPostUncheckedUpdateManyWithoutParticipantsInput>
+  }
+
   export type UserCreateWithoutStudentRecordInput = {
     id?: string
     fullName: string
@@ -6144,6 +6440,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUncheckedCreateWithoutStudentRecordInput = {
@@ -6155,6 +6452,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserCreateOrConnectWithoutStudentRecordInput = {
@@ -6182,6 +6480,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentRecordInput = {
@@ -6193,6 +6492,7 @@ export namespace Prisma {
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUncheckedUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserCreateWithoutPublishedPostsInput = {
@@ -6204,6 +6504,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUncheckedCreateWithoutPublishedPostsInput = {
@@ -6215,6 +6516,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
     savedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserCreateOrConnectWithoutPublishedPostsInput = {
@@ -6231,6 +6533,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     savedPosts?: OpportunityPostCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUncheckedCreateWithoutAppliedPostsInput = {
@@ -6242,6 +6545,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     savedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput
+    participatedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserCreateOrConnectWithoutAppliedPostsInput = {
@@ -6258,6 +6562,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
     publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
+    participatedPosts?: OpportunityPostCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserUncheckedCreateWithoutSavedPostsInput = {
@@ -6269,11 +6574,41 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
     publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
     appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
+    participatedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutParticipantsInput
   }
 
   export type UserCreateOrConnectWithoutSavedPostsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutSavedPostsInput, UserUncheckedCreateWithoutSavedPostsInput>
+  }
+
+  export type UserCreateWithoutParticipatedPostsInput = {
+    id?: string
+    fullName: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    studentRecord?: StudentRecordCreateNestedOneWithoutStudentInput
+    publishedPosts?: OpportunityPostCreateNestedManyWithoutPublisherInput
+    appliedPosts?: OpportunityPostCreateNestedManyWithoutCandidatesInput
+    savedPosts?: OpportunityPostCreateNestedManyWithoutSavedByInput
+  }
+
+  export type UserUncheckedCreateWithoutParticipatedPostsInput = {
+    id?: string
+    fullName: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    studentRecord?: StudentRecordUncheckedCreateNestedOneWithoutStudentInput
+    publishedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutPublisherInput
+    appliedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutCandidatesInput
+    savedPosts?: OpportunityPostUncheckedCreateNestedManyWithoutSavedByInput
+  }
+
+  export type UserCreateOrConnectWithoutParticipatedPostsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput>
   }
 
   export type UserUpsertWithoutPublishedPostsInput = {
@@ -6296,6 +6631,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPublishedPostsInput = {
@@ -6307,6 +6643,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
     savedPosts?: OpportunityPostUncheckedUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutAppliedPostsInput = {
@@ -6352,6 +6689,22 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutSavedPostsInput>
   }
 
+  export type UserUpsertWithWhereUniqueWithoutParticipatedPostsInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutParticipatedPostsInput, UserUncheckedUpdateWithoutParticipatedPostsInput>
+    create: XOR<UserCreateWithoutParticipatedPostsInput, UserUncheckedCreateWithoutParticipatedPostsInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutParticipatedPostsInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutParticipatedPostsInput, UserUncheckedUpdateWithoutParticipatedPostsInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutParticipatedPostsInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutParticipatedPostsInput>
+  }
+
   export type OpportunityPostCreateManyPublisherInput = {
     id?: string
     tittle: string
@@ -6362,6 +6715,7 @@ export namespace Prisma {
     state: string
     hours: number
     requiredSubjects?: OpportunityPostCreaterequiredSubjectsInput | string[]
+    isClosed?: boolean
   }
 
   export type OpportunityPostUpdateWithoutPublisherInput = {
@@ -6374,8 +6728,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
     savedBy?: UserUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateWithoutPublisherInput = {
@@ -6388,8 +6744,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
     savedBy?: UserUncheckedUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUncheckedUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateManyWithoutPublisherInput = {
@@ -6402,6 +6760,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OpportunityPostUpdateWithoutCandidatesInput = {
@@ -6414,8 +6773,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
     savedBy?: UserUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateWithoutCandidatesInput = {
@@ -6428,8 +6789,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
     savedBy?: UserUncheckedUpdateManyWithoutSavedPostsNestedInput
+    participants?: UserUncheckedUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateManyWithoutCandidatesInput = {
@@ -6442,6 +6805,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6455,8 +6819,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
     candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
+    participants?: UserUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateWithoutSavedByInput = {
@@ -6469,8 +6835,10 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
     candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
+    participants?: UserUncheckedUpdateManyWithoutParticipatedPostsNestedInput
   }
 
   export type OpportunityPostUncheckedUpdateManyWithoutSavedByInput = {
@@ -6483,6 +6851,53 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     hours?: IntFieldUpdateOperationsInput | number
     requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    publisherId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OpportunityPostUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tittle?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumOpportunityTypesFieldUpdateOperationsInput | $Enums.OpportunityTypes
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    hours?: IntFieldUpdateOperationsInput | number
+    requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    publisher?: UserUpdateOneRequiredWithoutPublishedPostsNestedInput
+    candidates?: UserUpdateManyWithoutAppliedPostsNestedInput
+    savedBy?: UserUpdateManyWithoutSavedPostsNestedInput
+  }
+
+  export type OpportunityPostUncheckedUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tittle?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumOpportunityTypesFieldUpdateOperationsInput | $Enums.OpportunityTypes
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    hours?: IntFieldUpdateOperationsInput | number
+    requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    publisherId?: StringFieldUpdateOperationsInput | string
+    candidates?: UserUncheckedUpdateManyWithoutAppliedPostsNestedInput
+    savedBy?: UserUncheckedUpdateManyWithoutSavedPostsNestedInput
+  }
+
+  export type OpportunityPostUncheckedUpdateManyWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tittle?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    type?: EnumOpportunityTypesFieldUpdateOperationsInput | $Enums.OpportunityTypes
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    hours?: IntFieldUpdateOperationsInput | number
+    requiredSubjects?: OpportunityPostUpdaterequiredSubjectsInput | string[]
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
     publisherId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6495,6 +6910,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     savedPosts?: OpportunityPostUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAppliedPostsInput = {
@@ -6506,6 +6922,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     savedPosts?: OpportunityPostUncheckedUpdateManyWithoutSavedByNestedInput
+    participatedPosts?: OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutAppliedPostsInput = {
@@ -6525,6 +6942,7 @@ export namespace Prisma {
     studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
     publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
+    participatedPosts?: OpportunityPostUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPostsInput = {
@@ -6536,9 +6954,42 @@ export namespace Prisma {
     studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
     publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
     appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
+    participatedPosts?: OpportunityPostUncheckedUpdateManyWithoutParticipantsNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutSavedPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  }
+
+  export type UserUpdateWithoutParticipatedPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    studentRecord?: StudentRecordUpdateOneWithoutStudentNestedInput
+    publishedPosts?: OpportunityPostUpdateManyWithoutPublisherNestedInput
+    appliedPosts?: OpportunityPostUpdateManyWithoutCandidatesNestedInput
+    savedPosts?: OpportunityPostUpdateManyWithoutSavedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutParticipatedPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    studentRecord?: StudentRecordUncheckedUpdateOneWithoutStudentNestedInput
+    publishedPosts?: OpportunityPostUncheckedUpdateManyWithoutPublisherNestedInput
+    appliedPosts?: OpportunityPostUncheckedUpdateManyWithoutCandidatesNestedInput
+    savedPosts?: OpportunityPostUncheckedUpdateManyWithoutSavedByNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutParticipatedPostsInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string

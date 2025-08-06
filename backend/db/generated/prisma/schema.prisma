@@ -33,9 +33,10 @@ model User {
 
   studentRecord StudentRecord?
 
-  publishedPosts OpportunityPost[] @relation("Publisher")
-  appliedPosts   OpportunityPost[] @relation("Candidates")
-  savedPosts     OpportunityPost[] @relation("UserSavedPosts")
+  publishedPosts    OpportunityPost[] @relation("Publisher")
+  appliedPosts      OpportunityPost[] @relation("Candidates")
+  savedPosts        OpportunityPost[] @relation("UserSavedPosts")
+  participatedPosts OpportunityPost[] @relation("PostParticipants")
 }
 
 model StudentRecord {
@@ -59,10 +60,12 @@ model OpportunityPost {
   state            String
   hours            Int
   requiredSubjects String[]
+  isClosed         Boolean          @default(false)
 
   publisher   User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId String
 
-  candidates User[] @relation("Candidates")
-  savedBy    User[] @relation("UserSavedPosts")
+  candidates   User[] @relation("Candidates")
+  savedBy      User[] @relation("UserSavedPosts")
+  participants User[] @relation("PostParticipants")
 }

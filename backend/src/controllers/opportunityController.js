@@ -4,9 +4,49 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-async function getAllOpportunities(req, res) {
+async function getAllPosts(req, res) {
     try {
         const opportunities = await prisma.opportunityPost.findMany({
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                participants: {
+                    select: {
+                        id: true,
+                        fullName: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true
+                    }
+                },
+                _count: {
+                    select: {
+                        candidates: true
+                    }
+                }
+            }
+        })
+        res.status(200).json(opportunities)
+    } catch (err) {
+        console.error('Erro ao buscar oportunidades:', err)
+        res.status(500).json({ error: 'Erro interno no servidor' })
+    }
+}
+
+async function getAllOpenPosts(req, res) {
+    try {
+        const opportunities = await prisma.opportunityPost.findMany({
+            where: { isClosed: false },
             include: {
                 publisher: {
                     select: {
@@ -33,6 +73,46 @@ async function getAllOpportunities(req, res) {
         res.status(200).json(opportunities)
     } catch (err) {
         console.error('Erro ao buscar oportunidades:', err)
+        res.status(500).json({ error: 'Erro interno no servidor' })
+    }
+}
+
+async function getAllClosedPosts(req, res) {
+    try {
+        const opportunities = await prisma.opportunityPost.findMany({
+            where: { isClosed: true },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                participants: {
+                    select: {
+                        id: true,
+                        fullName: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true
+                    }
+                },
+                _count: {
+                    select: {
+                        candidates: true
+                    }
+                }
+            }
+        })
+        res.status(200).json(opportunities)
+    } catch (err) {
+        console.error('Erro ao buscar oportunidades fechadas:', err)
         res.status(500).json({ error: 'Erro interno no servidor' })
     }
 }
@@ -530,12 +610,127 @@ async function getSavedOpportunities(req, res) {
     }
 }
 
+async function closePost(req, res) {
+    const { postId, tokenAcesso, candidatesAccepted } = req.body;
+    try {
+        if (!postId || !tokenAcesso || !Array.isArray(candidatesAccepted)) {
+            return res.status(400).json({ error: "ID do post, token de acesso ou candidatos aceitos não foi fornecido corretamente" });
+        }
 
+        const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
 
+        const postagem = await prisma.opportunityPost.findUnique({
+            where: { id: postId },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                }
+            }
+        });
 
+        if (!postagem) {
+            return res.status(404).json({ error: "Oportunidade não encontrada" });
+        }
+
+        if (postagem.publisher.id !== userId) {
+            return res.status(403).json({ error: "Você não tem permissão para fazer isso" });
+        }
+
+        await prisma.opportunityPost.update({
+            where: { id: postId },
+            data: {
+                isClosed: true,
+                participants: {
+                    connect: candidatesAccepted.map(id => ({ id }))
+                }
+            }
+        });
+
+        res.status(200).json({ message: "Post atualizado com sucesso!" });
+    } catch (err) {
+        console.error('Erro ao fechar o post:', err);
+        if (err.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        res.status(500).json({ error: 'Erro ao fechar o post' });
+    }
+}
+
+async function getPostCandidates(req, res) {
+    const { postId, tokenAcesso } = req.body;
+    
+    if (!postId || !tokenAcesso) {
+        return res.status(400).json({ error: "ID do post ou token de acesso não foi fornecido" });
+    }
+
+    try {
+        const decoded = jwt.verify(tokenAcesso, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+
+        const post = await prisma.opportunityPost.findUnique({
+            where: { id: postId },
+            include: {
+                publisher: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                },
+                candidates: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        email: true,
+                        role: true
+                    }
+                }
+            }
+        });
+
+        if (!post) {
+            return res.status(404).json({ error: "Oportunidade não encontrada" });
+        }
+
+        if (post.publisher.id !== userId) {
+            return res.status(403).json({ error: "Você não tem permissão para ver os candidatos desta oportunidade" });
+        }
+
+        res.status(200).json({
+            message: "Candidatos recuperados com sucesso",
+            postTitle: post.tittle,
+            candidatesCount: post.candidates.length,
+            candidates: post.candidates
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar candidatos:', error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
 
 export default {
-    getAllOpportunities,
+    getAllPosts,
+    getAllOpenPosts,
+    getAllClosedPosts,
     createOpportunity,
     getOpportunityById,
     applyToOpportunity,
@@ -544,5 +739,7 @@ export default {
     CheckRequiredSubjects,
     saveOpportunity,
     unsaveOpportunity,
-    getSavedOpportunities
+    getSavedOpportunities,
+    closePost,
+    getPostCandidates
 }
