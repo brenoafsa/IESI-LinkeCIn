@@ -1,14 +1,50 @@
-import { Bookmark, Clock4, MapPin, Users } from 'lucide-react';
-import {useState} from 'react';
-import { Heart, HeartOff} from 'lucide-react';
+import { Clock4, MapPin, Users } from 'lucide-react';
+import {useState, useEffect} from 'react';
+import api from '../services/api';
+import { userAuth } from '../services/userAuth';
+import { Heart} from 'lucide-react';
 
 export default function Opportunity({ opportunity }) {
     const [favoritado, setFavoritado] = useState(false);
+    const token = userAuth.getAccessToken();
 
-    const alternarFavoritado = () => {
-        setFavoritado(!favoritado);
+    useEffect(() => {
+        // Verificar se a oportunidade já está favoritada ao carregar o componente
+        if (token && opportunity?.id) {
+            api.post('/opportunities/saved', { accessToken: token })
+                .then(response => {
+                    const savedOpportunities = response.data;
+                    const isAlreadySaved = savedOpportunities.some(saved => saved.id === opportunity.id);
+                    setFavoritado(isAlreadySaved);
+                })
+                .catch(err => console.error("Erro ao verificar oportunidades salvas:", err));
+        }
+    }, [token, opportunity?.id]);
 
-        // backend adicionar logica para oportunidades marcadas com favoritado ir para pagina FavoritesPage
+    const alternarFavoritado = async() => {
+        if (!token) {
+            alert("Você precisa estar logado para salvar oportunidades!");
+            return;
+        }
+
+        try {
+            if (favoritado) {
+                await api.post('/opportunity/unsave', { 
+                    opportunityId: opportunity.id, 
+                    accessToken: token 
+                });
+                setFavoritado(false);
+            } else {
+                await api.post('/opportunity/save', { 
+                    opportunityId: opportunity.id, 
+                    accessToken: token 
+                });
+                setFavoritado(true);
+            }
+        } catch (error) {
+            console.error("Erro ao salvar/remover dos favoritos:", error);
+            alert("Ocorreu um erro. Tente novamente.");
+        }
     }
     const formataData = (dateString) => {
         const date = new Date(dateString);

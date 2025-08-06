@@ -70,3 +70,4 @@ model OpportunityPost {
   savedBy      User[] @relation("UserSavedPosts")
   participants User[] @relation("PostParticipants")
 }
+

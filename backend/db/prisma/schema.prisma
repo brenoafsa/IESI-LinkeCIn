@@ -35,6 +35,8 @@ model User {
   
   publishedPosts     OpportunityPost[] @relation("Publisher")
   appliedPosts       OpportunityPost[] @relation("Candidates")
+  savedPosts         OpportunityPost[] @relation("UserSavedPosts")
+  participatedPosts  OpportunityPost[] @relation("PostParticipants")
 }
 
 model StudentRecord {
@@ -65,4 +67,6 @@ model OpportunityPost {
   publisherId       String
 
   candidates        User[] @relation("Candidates")
+  savedBy           User[] @relation("UserSavedPosts")
+  participants      User[] @relation("PostParticipants")
 }
