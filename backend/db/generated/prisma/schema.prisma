@@ -33,8 +33,10 @@ model User {
 
   studentRecord StudentRecord?
 
-  publishedPosts OpportunityPost[] @relation("Publisher")
-  appliedPosts   OpportunityPost[] @relation("Candidates")
+  publishedPosts    OpportunityPost[] @relation("Publisher")
+  appliedPosts      OpportunityPost[] @relation("Candidates")
+  savedPosts        OpportunityPost[] @relation("UserSavedPosts")
+  participatedPosts OpportunityPost[] @relation("PostParticipants")
 }
 
 model StudentRecord {
@@ -50,7 +52,7 @@ model StudentRecord {
 
 model OpportunityPost {
   id               String           @id @default(uuid())
-  tittle           String
+  title            String
   description      String
   type             OpportunityTypes
   deadline         DateTime
@@ -64,5 +66,7 @@ model OpportunityPost {
   publisher   User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId String
 
-  candidates User[] @relation("Candidates")
+  candidates   User[] @relation("Candidates")
+  savedBy      User[] @relation("UserSavedPosts")
+  participants User[] @relation("PostParticipants")
 }
