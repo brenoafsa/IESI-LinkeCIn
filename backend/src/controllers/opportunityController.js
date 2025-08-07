@@ -670,7 +670,7 @@ async function listarOportunidadesFiltradas(req, res) {
 
     try {
         const filtros = {
-            isClosed: false // ✅ só traz oportunidades abertas
+            isClosed: false // só traz oportunidades abertas
         }
 
         if (tipo) {
