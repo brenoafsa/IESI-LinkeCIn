@@ -154,6 +154,49 @@ async function createOpportunity(req, res) {
     }
 }
 
+async function getCompatibleOpportunities(req, res) {
+    const token = req.headers.authorization?.split(' ')[1]
+
+    if (!token) {
+        return res.status(401).json({ error: 'Token não fornecido' })
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const email = decoded.email
+
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: {
+                studentRecord: true
+            }
+        })
+
+        if (!user || !user.studentRecord) {
+            return res.status(404).json({ error: 'Registro do aluno não encontrado' })
+        }
+
+        const finishedSubjects = user.studentRecord.finishedSubjects
+
+        const allOpportunities = await prisma.opportunityPost.findMany({
+            where: {
+                isClosed: false
+            }
+        })
+
+        const compatibles = allOpportunities.filter(opp => {
+            return opp.requiredSubjects.every(subject =>
+                finishedSubjects.includes(subject)
+            )
+        })
+
+        res.json(compatibles)
+    } catch (error) {
+        console.error('Erro ao buscar oportunidades compatíveis:', error)
+        res.status(500).json({ error: 'Erro interno do servidor' })
+    }
+}
+
 async function getOpportunityById(req, res) {
     const { id } = req.params
 
@@ -670,7 +713,7 @@ async function listarOportunidadesFiltradas(req, res) {
 
     try {
         const filtros = {
-            isClosed: false // ✅ só traz oportunidades abertas
+            isClosed: false // só traz oportunidades abertas
         }
 
         if (tipo) {
@@ -801,5 +844,6 @@ export default {
     closePost,
     getPostCandidates,
     closePost,
-    listarOportunidadesFiltradas
+    listarOportunidadesFiltradas,
+    getCompatibleOpportunities // adiciona aqui
 }
