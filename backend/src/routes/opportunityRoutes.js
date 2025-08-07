@@ -21,7 +21,6 @@ router.post('/opportunities/saved', opportunityController.getSavedOpportunities)
 router.post('/post/close', opportunityController.closePost)
 router.get('/filtrar', opportunityController.listarOportunidadesFiltradas)
 router.post('/post/candidates', opportunityController.getPostCandidates)
-router.post('/post/compatibles', opportunityController.getCompatibleOpportunities)
 
 
 export default router

@@ -56,8 +56,14 @@ const FeedPage = () => {
     const [ativo, setAtivo] = useState(false);
 
     const handleClick = () => {
-        setAtivo(!ativo);
-    };
+    const novoAtivo = !ativo;
+    setAtivo(novoAtivo);
+
+    // Aguarda a atualização do estado antes de aplicar os filtros
+    setTimeout(() => {
+        handleFiltros(new Event('submit'));
+    }, 0);
+};
 
     const navigate = useNavigate();
 
@@ -86,10 +92,17 @@ const FeedPage = () => {
         params.prazo = prazo;
     }
 
+    if (ativo) {
+        params.compativeis = true;
+    }
+
     // Se tiver filtros, usa a rota /filtrar, senão busca todos os posts abertos
     const rota = Object.keys(params).length > 0 ? '/filtrar' : '/post/open';
 
-    api.get(rota, { params })
+    api.get(rota, { params, 
+                    headers: {
+                        Authorization: `Bearer ${token}`
+            } })
         .then((res) => setPosts(res.data))
         .catch((err) => console.error('Erro ao filtrar posts:', err));
 };
