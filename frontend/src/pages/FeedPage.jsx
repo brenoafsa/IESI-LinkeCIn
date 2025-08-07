@@ -27,6 +27,32 @@ const FeedPage = () => {
         }
     }, [token]);
 
+    useEffect(() => {
+    const params = {};
+
+    if (tipo && tipo !== 'tipo') {
+        const tipoMap = {
+            mon: "COMPLEMENTARY",
+            pex: "EXTENSION",
+            ppe: "RESEARCH",
+            est: "INTERNSHIP",
+            eve: "EVENT"
+        };
+        params.tipo = tipoMap[tipo];
+    }
+
+    if (prazo && prazo !== 'prazo' && prazo !== 'todas') {
+        params.prazo = prazo;
+    }
+
+    const rota = Object.keys(params).length > 0 ? '/filtrar' : '/post/open';
+
+    api.get(rota, { params })
+        .then((res) => setPosts(res.data))
+        .catch((err) => console.error('Erro ao filtrar posts:', err));
+}, [tipo, prazo]);
+
+
     const [ativo, setAtivo] = useState(false);
 
     const handleClick = () => {
@@ -39,7 +65,36 @@ const FeedPage = () => {
         navigate("/publish");
     };
 
+    // Função para lidar com os filtros
 
+    const handleFiltros = (e) => {
+    e.preventDefault();
+    
+    const params = {};
+    if (tipo && tipo !== 'tipo') {
+        // Mapeia os valores do frontend para os valores do backend
+        const tipoMap = {
+            mon: "COMPLEMENTARY",
+            pex: "EXTENSION",
+            ppe: "RESEARCH",
+            est: "INTERNSHIP",
+            eve: "EVENT"
+        };
+        params.tipo = tipoMap[tipo];
+    }
+    if (prazo && prazo !== 'prazo' && prazo !== 'todas') {
+        params.prazo = prazo;
+    }
+
+    // Se tiver filtros, usa a rota /filtrar, senão busca todos os posts abertos
+    const rota = Object.keys(params).length > 0 ? '/filtrar' : '/post/open';
+
+    api.get(rota, { params })
+        .then((res) => setPosts(res.data))
+        .catch((err) => console.error('Erro ao filtrar posts:', err));
+};
+
+    //encerra função pra lidar com filtros
 
     return (
         <div className="min-h-screen bg-mainbg lg:flex">
@@ -62,17 +117,27 @@ const FeedPage = () => {
                 <button onClick={() => navigate('/favorites')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
                     Oportunidades Favoritadas
                 </button>
-                <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
+                <button onClick={() => navigate('/history')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
                     Histórico de Participação
                 </button>
-                <button className="bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors">
-                    Relatório de Horas Complementares
-                </button>
+                {usuario?.studentRecord
+                    ?   <Link
+                            to={'/student/data'}
+                            className="block bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors text-center"
+                        >
+                            Relatório de Horas Complementares
+                        </Link>
+                    :   <Link
+                            to={'/teacher/data'}
+                            className="block bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors text-center"
+                        >
+                            Relatório das Oportunidades
+                        </Link>}
             </section>
             <div className="lg:w-2/3 w-full flex flex-col gap-4  mt-10 ">
                 <section className="flex rounded-xl">
                     <div className="w-3/4 bg-white rounded-xl flex p-3">
-                        <form className="flex items-center gap-2 w-full">
+                        <form onSubmit={handleFiltros} className="flex items-center gap-2 w-full">
                             <Folder size={16} className="text-black inline-block" />
                             <select className="text-darkred font-normal w-32" value={tipo}
                                 onChange={(e) => setTipo(e.target.value)}

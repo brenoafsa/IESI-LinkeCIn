@@ -121,6 +121,7 @@ exports.Prisma.OpportunityPostScalarFieldEnum = {
   hours: 'hours',
   requiredSubjects: 'requiredSubjects',
   isClosed: 'isClosed',
+  createdAt: 'createdAt',
   publisherId: 'publisherId'
 };
 
@@ -198,6 +199,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  STUDENT\n  TEACHER\n}\n\nenum OpportunityTypes {\n  EXTENSION\n  COMPLEMENTARY\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  fullName String\n  email    String   @unique\n  password String\n  role     UserRole\n\n  studentRecord StudentRecord?\n\n  publishedPosts    OpportunityPost[] @relation(\"Publisher\")\n  appliedPosts      OpportunityPost[] @relation(\"Candidates\")\n  savedPosts        OpportunityPost[] @relation(\"UserSavedPosts\")\n  participatedPosts OpportunityPost[] @relation(\"PostParticipants\")\n}\n\nmodel StudentRecord {\n  id        String @id @default(uuid())\n  student   User   @relation(fields: [studentId], references: [id])\n  studentId String @unique\n\n  complementaryHours Int\n  extensionHours     Int      @default(0)\n  course             String\n  entrance           String\n  finishedSubjects   String[]\n}\n\nmodel OpportunityPost {\n  id               String           @id @default(uuid())\n  tittle           String\n  description      String\n  type             OpportunityTypes\n  deadline         DateTime\n  city             String\n  state            String\n  hours            Int\n  requiredSubjects String[]\n  isClosed         Boolean          @default(false)\n\n  publisher   User   @relation(\"Publisher\", fields: [publisherId], references: [id])\n  publisherId String\n\n  candidates   User[] @relation(\"Candidates\")\n  savedBy      User[] @relation(\"UserSavedPosts\")\n  participants User[] @relation(\"PostParticipants\")\n}\n",
   "inlineSchemaHash": "e1d578423be408d0bcb4e308521ba1faf984d61e8935de32ef2258bf7c39f932",
+
   "copyEngine": true
 }
 config.dirname = '/'
