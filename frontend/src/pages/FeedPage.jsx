@@ -8,6 +8,7 @@ import { userAuth } from "../services/userAuth"
 import imagem from "/src/assets/img_CInProfile.png";
 
 const FeedPage = () => {
+    
     const [posts, setPosts] = useState([])
     const [tipo, setTipo] = useState('');
     const [prazo, setPrazo] = useState('');
