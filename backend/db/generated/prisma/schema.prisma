@@ -52,7 +52,7 @@ model StudentRecord {
 
 model OpportunityPost {
   id               String           @id @default(uuid())
-  tittle           String
+  title            String
   description      String
   type             OpportunityTypes
   deadline         DateTime
@@ -61,6 +61,7 @@ model OpportunityPost {
   hours            Int
   requiredSubjects String[]
   isClosed         Boolean          @default(false)
+  createdAt        DateTime         @default(now())
 
   publisher   User   @relation("Publisher", fields: [publisherId], references: [id])
   publisherId String
@@ -69,3 +70,4 @@ model OpportunityPost {
   savedBy      User[] @relation("UserSavedPosts")
   participants User[] @relation("PostParticipants")
 }
+

@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.10.1
- * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+ * Prisma Client JS version: 6.13.0
+ * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
  */
 Prisma.prismaVersion = {
-  client: "6.10.1",
-  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
+  client: "6.13.0",
+  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -120,6 +120,7 @@ exports.Prisma.OpportunityPostScalarFieldEnum = {
   hours: 'hours',
   requiredSubjects: 'requiredSubjects',
   isClosed: 'isClosed',
+  createdAt: 'createdAt',
   publisherId: 'publisherId'
 };
 
@@ -158,7 +159,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\monke\\Documents\\GitHub\\IESI-LinkeCIn\\backend\\db\\generated\\prisma",
+      "value": "C:\\Users\\anaju\\OneDrive\\Documentos\\GitHub\\IESI-LinkeCIn\\backend\\db\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -172,15 +173,15 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\monke\\Documents\\GitHub\\IESI-LinkeCIn\\backend\\db\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\anaju\\OneDrive\\Documentos\\GitHub\\IESI-LinkeCIn\\backend\\db\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
     "rootEnvPath": null
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.10.1",
-  "engineVersion": "9b628578b3b7cae625e8c927178f15a170e74a9c",
+  "clientVersion": "6.13.0",
+  "engineVersion": "361e86d0ea4987e9f53a565309b3eed797a6bcbd",
   "datasourceNames": [
     "db"
   ],
@@ -194,8 +195,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  STUDENT\n  TEACHER\n}\n\nenum OpportunityTypes {\n  EXTENSION\n  COMPLEMENTARY\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  fullName String\n  email    String   @unique\n  password String\n  role     UserRole\n\n  studentRecord StudentRecord?\n\n  publishedPosts    OpportunityPost[] @relation(\"Publisher\")\n  appliedPosts      OpportunityPost[] @relation(\"Candidates\")\n  savedPosts        OpportunityPost[] @relation(\"UserSavedPosts\")\n  participatedPosts OpportunityPost[] @relation(\"PostParticipants\")\n}\n\nmodel StudentRecord {\n  id        String @id @default(uuid())\n  student   User   @relation(fields: [studentId], references: [id])\n  studentId String @unique\n\n  complementaryHours Int\n  course             String\n  entrance           String\n  finishedSubjects   String[]\n}\n\nmodel OpportunityPost {\n  id               String           @id @default(uuid())\n  tittle           String\n  description      String\n  type             OpportunityTypes\n  deadline         DateTime\n  city             String\n  state            String\n  hours            Int\n  requiredSubjects String[]\n  isClosed         Boolean          @default(false)\n\n  publisher   User   @relation(\"Publisher\", fields: [publisherId], references: [id])\n  publisherId String\n\n  candidates   User[] @relation(\"Candidates\")\n  savedBy      User[] @relation(\"UserSavedPosts\")\n  participants User[] @relation(\"PostParticipants\")\n}\n",
-  "inlineSchemaHash": "fd6cc018971fa269478ce69ae87ccfc7277db587cb853bc7033a4750a3d46cd5",
+"inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  STUDENT\n  TEACHER\n}\n\nenum OpportunityTypes {\n  EXTENSION\n  COMPLEMENTARY\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  fullName String\n  email    String   @unique\n  password String\n  role     UserRole\n\n  studentRecord StudentRecord?\n\n  publishedPosts    OpportunityPost[] @relation(\"Publisher\")\n  appliedPosts      OpportunityPost[] @relation(\"Candidates\")\n  savedPosts        OpportunityPost[] @relation(\"UserSavedPosts\")\n  participatedPosts OpportunityPost[] @relation(\"PostParticipants\")\n}\n\nmodel StudentRecord {\n  id        String @id @default(uuid())\n  student   User   @relation(fields: [studentId], references: [id])\n  studentId String @unique\n\n  complementaryHours Int\n  course             String\n  entrance           String\n  finishedSubjects   String[]\n}\n\nmodel OpportunityPost {\n  id               String           @id @default(uuid())\n  tittle           String\n  description      String\n  type             OpportunityTypes\n  deadline         DateTime\n  city             String\n  state            String\n  hours            Int\n  requiredSubjects String[]\n  isClosed         Boolean          @default(false)\n\n  publisher   User   @relation(\"Publisher\", fields: [publisherId], references: [id])\n  publisherId String\n\n  candidates   User[] @relation(\"Candidates\")\n  savedBy      User[] @relation(\"UserSavedPosts\")\n  participants User[] @relation(\"PostParticipants\")\n}\n",
+"inlineSchemaHash": "fd6cc018971fa269478ce69ae87ccfc7277db587cb853bc7033a4750a3d46cd5",
   "copyEngine": true
 }
 config.dirname = '/'
