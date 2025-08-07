@@ -10,6 +10,7 @@ router.post('/login', userController.checkUserExists)
 router.post('/student', userController.setStudentRecord)
 router.post('/student/specific', userController.getSpecificStudent)
 router.post('/student/posts', userController.studentOpportunityHistory)
+router.post('/student/participations', userController.studentParticipationHistory)
 
 router.post('/teacher/posts', userController.teacherHistoryInformation)
 

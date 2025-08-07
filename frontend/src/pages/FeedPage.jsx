@@ -65,9 +65,19 @@ const FeedPage = () => {
                 <button onClick={() => navigate('/history')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
                     Histórico de Participação
                 </button>
-                <button className="bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors">
-                    Relatório de Horas Complementares
-                </button>
+                {usuario?.studentRecord
+                    ?   <Link
+                            to={'/student/data'}
+                            className="block bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors text-center"
+                        >
+                            Relatório de Horas Complementares
+                        </Link>
+                    :   <Link
+                            to={'/teacher/data'}
+                            className="block bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors text-center"
+                        >
+                            Relatório das Oportunidades
+                        </Link>}
             </section>
             <div className="lg:w-2/3 w-full flex flex-col gap-4  mt-10 ">
                 <section className="flex rounded-xl">
