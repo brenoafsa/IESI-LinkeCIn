@@ -62,7 +62,7 @@ const FeedPage = () => {
                 <button onClick={() => navigate('/favorites')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-darkred transition-colors">
                     Oportunidades Favoritadas
                 </button>
-                <button className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
+                <button onClick={() => navigate('/history')} className="bg-primaryred text-white font-semibold px-4 py-2 rounded-lg mt-2 hover:bg-darkred transition-colors">
                     Histórico de Participação
                 </button>
                 <button className="bg-primaryred text-white font-semibold py-4 rounded-lg mt-2 hover:bg-darkred transition-colors">
