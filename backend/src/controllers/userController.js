@@ -265,22 +265,22 @@ async function simulateHours(req, res) {
             const course = user.studentRecord.course;
             switch (course) {
                 case "Ciência da Computação":
-                    requiredHours = 320;
+                    requiredHours = 240;
                     break;
                 case "Engenharia da Computação":
-                    requiredHours = 360;
+                    requiredHours = 120;
                     break;
                 case "Inteligência Artificial":
                     // Completar com o valor correto
-                    requiredHours = 320;
+                    requiredHours = 270;
                     break;
                 case "Sistemas de Informação":
                     // Completar com o valor correto
-                    requiredHours = 300;
+                    requiredHours = 150;
                     break;
                 default:
                     // Valor padrão
-                    requiredHours = 300;
+                    requiredHours = 150;
             }
         } else if (type === "RESEARCH") {
             currentHours = user.studentRecord.researchHours || 0;

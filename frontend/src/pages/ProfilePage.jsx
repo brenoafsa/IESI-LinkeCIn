@@ -10,17 +10,81 @@ const ProfilePage = () => {
     const [usuario, setUsuario] = useState()
     const token = userAuth.getAccessToken();
     const [historico, setHistorico] = useState([]);
-    const porcentagem = Math.min((30 / 60) * 100, 100) //aqui os valores 3 e 60 devem ser substituidos pelos valores que o aluno tem e o que o curso solicita
+
+
+    //const porcentagem = Math.min((30 / 60) * 100, 100) //aqui os valores 3 e 60 devem ser substituidos pelos valores que o aluno tem e o que o curso solicita
+
+
+
+    const getHoursData = () => {
+        if (!usuario?.studentRecord) {
+            return { 
+                complementary: { current: 0, required: 150 },
+                extension: { current: 0, required: 300 }
+            };
+        }
+        
+        const course = usuario.studentRecord.course;
+        let requiredComplementary = 150;
+        let requiredExtension = 300;
+        
+        // Valores CORRETOS baseados no ViewMorePage.jsx
+        switch (course) {
+            case "Ciência da Computação":
+                requiredComplementary = 240;
+                requiredExtension = 320;
+                break;
+            case "Engenharia da Computação":
+                requiredComplementary = 120;
+                requiredExtension = 360;
+                break;
+            case "Inteligência Artificial":
+                requiredComplementary = 270;
+                requiredExtension = 320;
+                break;
+            case "Sistemas de Informação":
+                requiredComplementary = 150;
+                requiredExtension = 300;
+                break;
+        }
+        
+        return {
+            complementary: {
+                current: usuario.studentRecord.complementaryHours || 0,
+                required: requiredComplementary
+            },
+            extension: {
+                current: usuario.studentRecord.extensionHours || 0,
+                required: requiredExtension
+            }
+        };
+    };
+
+    // Calcular dados e porcentagens
+    const hoursData = getHoursData();
+    const complementaryPercentage = Math.min((hoursData.complementary.current / hoursData.complementary.required) * 100, 100);
+    const extensionPercentage = Math.min((hoursData.extension.current / hoursData.extension.required) * 100, 100);
+
 
     useEffect(() => {
-        if (token) {
+           if (token) {
+            // Buscar dados do usuário
+            const fetchUserData = () => {
+                api.post('/student/specific', { accessToken: token })
+                    .then((res) => setUsuario(res.data))
+                    .catch((err) => console.error("Erro ao buscar informações do usuário", err));
+            };
+
+            fetchUserData();
+            
             api.post('/student/posts', { accessToken: token })
                 .then((res) => setHistorico(res.data))
-                .catch((err) => console.error("Erro ao buscar histórico de oportunidades do usuário", err))
-			
-			api.post('/student/specific', { accessToken: token })
-				.then((res) => setUsuario(res.data))
-				.catch((err) => console.error("Erro ao buscar informações do usuário", err))
+                .catch((err) => console.error("Erro ao buscar histórico de oportunidades do usuário", err));
+
+            // Atualizar a cada 30 segundos para mostrar progresso em tempo real
+            const interval = setInterval(fetchUserData, 30000);
+            
+            return () => clearInterval(interval);
         }
     }, [token])
 
@@ -72,42 +136,88 @@ const ProfilePage = () => {
                     <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Relatório de Horas Complementares</button>
                 </div>
             </section>
-            <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
+           <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
                 <div className="p-4">
-                    <h2 className="text-xl font-bold text-darkred mt-5">Simulador de Horas - SIGAA</h2>
-                    <hr class="h-px mt-2 bg-gray-200 border-1 dark:bg-gray-700"></hr>
+                    <h2 className="text-xl font-bold text-darkred mt-5">Relatório de Horas - SIGAA</h2>
+                    <hr className="h-px mt-2 bg-gray-200 border-1 dark:bg-gray-700"></hr>
 
-
+                    {/* Dashboard Atividades Complementares */}
                     <h2 className="font-bold mt-10">Atividades Complementares</h2>
                     <p className="text-sm">
-                        <span className="text-darkred font-semibold">30h</span> de 60h
+                        <span className="text-darkred font-semibold">{hoursData.complementary.current}h</span> de {hoursData.complementary.required}h
                     </p>
                     <div className="flex justify-between items-center mb-1">
-
-                        <button className="text-xl font-bold text-darkred mt-2 mr-2 hover:">+</button>
-                        <div className="w-full bg-gray-300 rounded-full h-2 mt-2 relative">
+                        <div className="w-full bg-gray-300 rounded-full h-3 mt-2 relative">
                             <div
-                                className="bg-darkred h-2 rounded-full"
-                                style={{ width: `${porcentagem}%` }}
+                                className="bg-darkred h-3 rounded-full transition-all duration-500"
+                                style={{ width: `${complementaryPercentage}%` }}
                             />
+                            {/* Percentual na barra */}
+                            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                                {complementaryPercentage.toFixed(0)}%
+                            </span>
                         </div>
                     </div>
+                    
+                    {/* Status complementares */}
+                    <div className="mt-2">
+                        {complementaryPercentage >= 100 ? (
+                            <p className="text-xs text-green-600 font-bold">✅ Requisito cumprido!</p>
+                        ) : (
+                            <p className="text-xs text-gray-600">
+                                Faltam {hoursData.complementary.required - hoursData.complementary.current}h para completar
+                            </p>
+                        )}
+                    </div>
 
-                    <h2 className="font-bold mt-10">Atividades de Extensão</h2>
+                    {/* Dashboard Atividades de Extensão */}
+                    <h2 className="font-bold mt-8">Atividades de Extensão</h2>
                     <p className="text-sm">
-                        <span className="text-darkred font-semibold">30h</span> de 60h
+                        <span className="text-darkred font-semibold">{hoursData.extension.current}h</span> de {hoursData.extension.required}h
                     </p>
                     <div className="flex justify-between items-center mb-1">
-
-                        <button className="text-xl font-bold text-darkred mt-2 mr-3">+</button>
-                        <div className="w-full bg-gray-300 rounded-full h-2 mt-2 relative">
+                        <div className="w-full bg-gray-300 rounded-full h-3 mt-2 relative">
                             <div
-                                className="bg-darkred h-2 rounded-full"
-                                style={{ width: `${porcentagem}%` }}
+                                className="bg-darkred h-3 rounded-full transition-all duration-500"
+                                style={{ width: `${extensionPercentage}%` }}
                             />
+                            {/* Percentual na barra */}
+                            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                                {extensionPercentage.toFixed(0)}%
+                            </span>
                         </div>
                     </div>
+                    
+                    {/* Status extensão */}
+                    <div className="mt-2">
+                        {extensionPercentage >= 100 ? (
+                            <p className="text-xs text-green-600 font-bold">✅ Requisito cumprido!</p>
+                        ) : (
+                            <p className="text-xs text-gray-600">
+                                Faltam {hoursData.extension.required - hoursData.extension.current}h para completar
+                            </p>
+                        )}
+                    </div>
 
+                    {/* Resumo Geral */}
+                    <div className="mt-6 p-3 bg-gray-50 rounded-lg">
+                        <h3 className="font-bold text-darkred text-sm mb-2">Resumo do Curso</h3>
+                        <p className="text-xs text-gray-600">
+                            <strong>Curso:</strong> {usuario?.studentRecord?.course || "N/A"}
+                        </p>
+                        <p className="text-xs text-gray-600">
+                            <strong>Progresso Geral:</strong> {((complementaryPercentage + extensionPercentage) / 2).toFixed(0)}%
+                        </p>
+                        
+                        {complementaryPercentage >= 100 && extensionPercentage >= 100 && (
+                            <div className="mt-2 p-2 bg-green-100 rounded">
+                                <p className="text-xs text-green-700 font-bold text-center">
+                                    🎉 Todos os requisitos cumpridos!
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                    
                     <figure class="max-w-screen-md mx-auto">
                         <svg class="w-10 mt-10 h-10 mx-auto mb-3 text-gray-400 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                             <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
