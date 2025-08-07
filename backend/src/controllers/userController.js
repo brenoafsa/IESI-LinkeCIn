@@ -7,22 +7,22 @@ import tokenController from './tokenController.js'
 
 dotenv.config();
 
-async function getAllUsers (req, res) {
+async function getAllUsers(req, res) {
     try {
-		const users = await prisma.user.findMany({
+        const users = await prisma.user.findMany({
             include: { studentRecord: true }
         })
-		res.status(200).json(users)
-	} catch (err) {
-		console.error('Erro ao buscar usuários:', err)
-	}
+        res.status(200).json(users)
+    } catch (err) {
+        console.error('Erro ao buscar usuários:', err)
+    }
 }
 
 // criar usuário, recebe o email, nome, senha e o role
-async function createUser(req, res){
+async function createUser(req, res) {
     const { fullName, email, password, role } = req.body;
 
-    try{
+    try {
         // Verifique se o email já existe
         const existingUser = await prisma.user.findUnique({
             where: { email }
@@ -38,8 +38,8 @@ async function createUser(req, res){
         });
 
         const token = tokenController.generateAccessToken(novoUsuario.id, novoUsuario.email)
-        
-        if (role === "STUDENT"){
+
+        if (role === "STUDENT") {
             res.status(201).json(novoUsuario); // Retorna status 201 (Created) para criação bem-sucedida
         } else {
             res.status(200).json({
@@ -87,12 +87,12 @@ async function checkUserExists(req, res) {
     }
 }
 
-async function setStudentRecord(req, res){
+async function setStudentRecord(req, res) {
     const { userId, horas, curso, entrada, disciplinas } = req.body;
 
     try {
         await prisma.studentRecord.create({
-            data: { studentId: userId, complementaryHours: horas, course: curso, entrance: entrada, finishedSubjects: disciplinas}
+            data: { studentId: userId, complementaryHours: horas, course: curso, entrance: entrada, finishedSubjects: disciplinas }
         })
 
         const estudante = await prisma.user.findUnique({
@@ -107,17 +107,17 @@ async function setStudentRecord(req, res){
     }
 }
 
-async function getSpecificStudent (req, res) {
+async function getSpecificStudent(req, res) {
     const { accessToken } = req.body;
 
     if (!accessToken) {
-            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
-        }
+        return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+    }
 
     const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
     try {
-		const specificUser = await prisma.user.findFirst({
+        const specificUser = await prisma.user.findFirst({
             where: {
                 id: decodificado.id
             },
@@ -125,21 +125,21 @@ async function getSpecificStudent (req, res) {
                 studentRecord: true
             }
         })
-		res.status(200).json(specificUser)
-	} catch (err) {
-		console.error('Erro ao buscar usuário específico:', err)
-	}
+        res.status(200).json(specificUser)
+    } catch (err) {
+        console.error('Erro ao buscar usuário específico:', err)
+    }
 }
 
 async function studentOpportunityHistory(req, res) {
     try {
         const { accessToken } = req.body;
-        
+
         if (!accessToken) {
             return res.status(400).json({ error: 'Token de acesso é obrigatório' });
         }
         const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        
+
         const userComCandidatura = await prisma.user.findUnique({
             where: { id: decodificado.id },
             include: {
@@ -172,7 +172,7 @@ async function studentOpportunityHistory(req, res) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ error: 'Token expirado' });
         }
-        
+
         res.status(500).json({ error: 'Erro interno no servidor' });
     }
 }
@@ -180,21 +180,25 @@ async function studentOpportunityHistory(req, res) {
 async function teacherHistoryInformation(req, res) {
     try {
         const { accessToken } = req.body;
-        
+
         if (!accessToken) {
             return res.status(400).json({ error: 'Token de acesso é obrigatório' });
         }
         const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        
+
         const information = await prisma.user.findFirst({
             where: { id: decodificado.id },
-            include: { publishedPosts: { 
-                include: { candidates: {
+            include: {
+                publishedPosts: {
                     include: {
-                        studentRecord: true
+                        candidates: {
+                            include: {
+                                studentRecord: true
+                            }
+                        }
                     }
-                }}
-            }}
+                }
+            }
         })
 
         res.status(200).json(information);
@@ -207,7 +211,7 @@ async function teacherHistoryInformation(req, res) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ error: 'Token expirado' });
         }
-        
+
         res.status(500).json({ error: 'Erro interno no servidor' });
     }
 }
@@ -215,31 +219,31 @@ async function teacherHistoryInformation(req, res) {
 async function simulateHours(req, res) {
     try {
         const { accessToken, hours, type } = req.body;
-        
+
         if (!accessToken) {
             return res.status(400).json({ error: 'Token de acesso é obrigatório' });
         }
-        
+
         const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
         const userId = decoded.id;
-        
+
         // Busca informações do usuário incluindo o curso
         const user = await prisma.user.findUnique({
             where: { id: userId },
             include: { studentRecord: true }
         });
-        
+
         if (!user || !user.studentRecord) {
             return res.status(404).json({ error: 'Registro do estudante não encontrado' });
         }
-        
+
         // Define horas necessárias com base no tipo e curso
         let currentHours = 0;
         let requiredHours = 0;
-        
+
         if (type === "EXTENSION") {
             currentHours = user.studentRecord.extensionHours || 0;
-            
+
             // Determina as horas necessárias com base no curso
             const course = user.studentRecord.course;
             switch (course) {
@@ -260,7 +264,7 @@ async function simulateHours(req, res) {
             }
         } else if (type === "COMPLEMENTARY") {
             currentHours = user.studentRecord.complementaryHours || 0;
-            
+
             // Determina as horas complementares com base no curso
             const course = user.studentRecord.course;
             switch (course) {
@@ -288,13 +292,13 @@ async function simulateHours(req, res) {
         } else {
             return res.status(400).json({ error: 'Tipo de atividade inválido' });
         }
-        
+
         // Calcula simulação
         const additionalHours = parseInt(hours) || 0;
         const simulatedHours = currentHours + additionalHours;
         const remainingHours = Math.max(0, requiredHours - simulatedHours);
         const completionPercentage = requiredHours > 0 ? Math.min(100, (simulatedHours / requiredHours) * 100) : 100;
-        
+
         res.status(200).json({
             currentHours,
             additionalHours,
@@ -304,21 +308,61 @@ async function simulateHours(req, res) {
             completionPercentage,
             course: user.studentRecord.course
         });
-        
+
     } catch (error) {
         console.error('Erro ao simular horas:', error);
-        
+
         if (error.name === 'JsonWebTokenError') {
             return res.status(401).json({ error: 'Token inválido' });
         }
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ error: 'Token expirado' });
         }
-        
+
         res.status(500).json({ error: 'Erro interno no servidor' });
     }
 }
+async function editUserProfile(req, res) {
+    const { accessToken, fullName, email, course, entrance } = req.body;
 
+    if (!accessToken) {
+        return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+    }
+
+    try {
+        const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const userId = decoded.id;
+
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                fullName,
+                email,
+                studentRecord: {
+                    update: {
+                        course,
+                        entrance
+                    }
+                }
+            },
+            include: { studentRecord: true }
+        });
+
+        res.status(200).json({ student: updatedUser });
+
+    } catch (error) {
+        console.error("Erro ao atualizar perfil do usuário:", error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+
+        res.status(500).json({ error: 'Erro interno ao editar perfil' });
+    }
+}
 export default {
     getAllUsers,
     createUser,
@@ -327,5 +371,6 @@ export default {
     getSpecificStudent,
     studentOpportunityHistory,
     teacherHistoryInformation,
-    simulateHours
-}
+    simulateHours,
+    editUserProfile,
+};

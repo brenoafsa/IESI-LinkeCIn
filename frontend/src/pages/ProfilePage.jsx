@@ -11,16 +11,18 @@ const ProfilePage = () => {
     const token = userAuth.getAccessToken();
     const [historico, setHistorico] = useState([]);
     const porcentagem = Math.min((30 / 60) * 100, 100) //aqui os valores 3 e 60 devem ser substituidos pelos valores que o aluno tem e o que o curso solicita
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState({});
 
     useEffect(() => {
         if (token) {
             api.post('/student/posts', { accessToken: token })
                 .then((res) => setHistorico(res.data))
                 .catch((err) => console.error("Erro ao buscar histórico de oportunidades do usuário", err))
-			
-			api.post('/student/specific', { accessToken: token })
-				.then((res) => setUsuario(res.data))
-				.catch((err) => console.error("Erro ao buscar informações do usuário", err))
+
+            api.post('/student/specific', { accessToken: token })
+                .then((res) => setUsuario(res.data))
+                .catch((err) => console.error("Erro ao buscar informações do usuário", err))
         }
     }, [token])
 
@@ -37,15 +39,41 @@ const ProfilePage = () => {
         );
     }
 
+    const handleEditProfile = async (e) => {
+        e.preventDefault();
+        try {
+            
+            const updatedData = {
+                fullName: editData.fullName || usuario.fullName,
+                email: editData.email || usuario.email,
+                course: editData.course || usuario.studentRecord?.course,
+                entrance: editData.entrance || usuario.studentRecord?.entrance,
+                accessToken: token,
+            };
+
+            const response = await api.put('/user/edit', updatedData);
+            console.log("Resposta da API:", response.data);
+            
+            if (response.status === 200) {
+                
+                setUsuario(response.data.student); // ou o campo que sua API retorna
+                setIsEditing(false);
+                setEditData({});
+            }
+        } catch (error) {
+            console.error("Erro ao editar perfil:", error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-mainbg lg:flex justify-center items-start">
             {/* botao voltar */}
-       
-          <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
-            Voltar
-          </button>
 
-           
+            <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
+                Voltar
+            </button>
+
+
             <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white p-2 mr-1 m-10 self-stretch rounded-xl ">
                 <div className="w-full h-40 bg-darkred rounded-lg">
                     <img src={imagem} alt="" className="object-cover w-full h-40 bg-darkred rounded-lg" />
@@ -55,15 +83,88 @@ const ProfilePage = () => {
                     <div className="flex items-center justify-center text-white text-2xl font-bold w-16 h-16 rounded-full bg-[darkred] -mt-18">
                         {usuario.fullName.charAt(0)}
                     </div>
-                    <h1 className="text-2xl font-bold text-darkred">{usuario.fullName}</h1>
-                     {usuario?.studentRecord
-                            ? `${usuario.studentRecord.course} | ${usuario.studentRecord.entrance}`
-                            : usuario?.role ? `Perfil de professor` : ""}
-                    <p className="text-gray-600 text-xs"> {usuario.email} </p>
+                    {isEditing ? (
+                        <form onSubmit={handleEditProfile} className="flex flex-col gap-2 mt-4">
+                            <input
+                                type="text"
+                                placeholder="Nome"
+                                value={editData.fullName || usuario.fullName}
+                                onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
+                                className="border rounded p-2"
+                            />
+
+                            {usuario.studentRecord && (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="Curso"
+                                        value={editData.course || usuario.studentRecord.course}
+                                        onChange={(e) =>
+                                            setEditData({ ...editData, course: e.target.value })
+                                        }
+                                        className="border rounded p-2"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Entrada"
+                                        value={editData.entrance || usuario.studentRecord.entrance}
+                                        onChange={(e) =>
+                                            setEditData({ ...editData, entrance: e.target.value })
+                                        }
+                                        className="border rounded p-2"
+                                    />
+                                </>
+                            )}
+
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={editData.email || usuario.email}
+                                onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                                className="border rounded p-2"
+                            />
+
+                            <div className="flex gap-4 mt-2">
+                                <button
+                                    type="submit"
+                                    className="bg-darkred text-white px-4 py-2 rounded-full"
+                                >
+                                    Salvar Alterações
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsEditing(false);
+                                        setEditData({});
+                                    }}
+                                    className="bg-gray-300 text-darkred px-4 py-2 rounded-full"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    ) : (
+                        <>
+                            <h1 className="text-2xl font-bold text-darkred">{usuario.fullName}</h1>
+                            {usuario?.studentRecord
+                                ? `${usuario.studentRecord.course} | ${usuario.studentRecord.entrance}`
+                                : usuario?.role
+                                    ? `Perfil de professor`
+                                    : ""}
+                            <p className="text-gray-600 text-xs">{usuario.email}</p>
+                        </>
+                    )}
+
 
                     <div className="flex mt-5 gap-10 mb-10">
 
-                        <button type="button" className="bg-[darkred] text-white w-50 rounded-full font-bold ">editar perfil</button>
+                        <button
+                            type="button"
+                            onClick={() => setIsEditing(true)}
+                            className="bg-[darkred] text-white w-50 rounded-full font-bold"
+                        >
+                            Editar Perfil
+                        </button>
 
                         <button onClick={LogOut} className="bg-[white] text-[darkred] border-3 border-indigo- border-t-indigo  w-50  rounded-full font-bold ">sair da conta</button>
                     </div>
@@ -126,9 +227,9 @@ const ProfilePage = () => {
 
             </section>
 
-            
+
         </div>
-        
+
 
     );
 }

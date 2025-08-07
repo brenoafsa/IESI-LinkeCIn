@@ -15,4 +15,6 @@ router.post('/teacher/posts', userController.teacherHistoryInformation)
 
 router.post('/student/simulate-hours', userController.simulateHours)
 
+router.put('/user/edit', userController.editUserProfile)
+
 export default router
