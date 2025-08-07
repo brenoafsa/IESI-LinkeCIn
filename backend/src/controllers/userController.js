@@ -177,6 +177,52 @@ async function studentOpportunityHistory(req, res) {
     }
 }
 
+async function studentParticipationHistory(req, res) {
+    try {
+        const { accessToken } = req.body;
+        
+        if (!accessToken) {
+            return res.status(400).json({ error: 'Token de acesso é obrigatório' });
+        }
+        const decodificado = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        
+        const userComParticipacoes = await prisma.user.findUnique({
+            where: { id: decodificado.id },
+            include: {
+                participatedPosts: {
+                    include: {
+                        publisher: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                                email: true,
+                                role: true
+                            }
+                        }
+                    },
+                    orderBy: {
+                        deadline: 'desc'
+                    }
+                }
+            }
+        });
+        const participacoesUser = userComParticipacoes?.participatedPosts || [];
+
+        res.status(200).json(participacoesUser);
+    } catch (error) {
+        console.error("Erro ao buscar histórico de participações do usuário:", error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+
+        res.status(500).json({ error: 'Erro interno no servidor' });
+    }
+}
+
 async function teacherHistoryInformation(req, res) {
     try {
         const { accessToken } = req.body;
@@ -326,6 +372,7 @@ export default {
     setStudentRecord,
     getSpecificStudent,
     studentOpportunityHistory,
+    studentParticipationHistory,
     teacherHistoryInformation,
     simulateHours
 }
