@@ -669,7 +669,9 @@ async function listarOportunidadesFiltradas(req, res) {
     const { tipo, prazo } = req.query
 
     try {
-        const filtros = {}
+        const filtros = {
+            isClosed: false // ✅ só traz oportunidades abertas
+        }
 
         if (tipo) {
             filtros.type = tipo.toUpperCase()
@@ -704,8 +706,15 @@ async function listarOportunidadesFiltradas(req, res) {
             where: filtros,
             orderBy: {
                 createdAt: 'desc'
-            }
-        })
+            },
+            include: {
+                publisher: {
+                    select: {
+                        fullName: true,  // ou "name" se o campo for chamado assim
+                        },
+                    },
+                },
+            })
 
         res.status(200).json(oportunidades)
     } catch (error) {
