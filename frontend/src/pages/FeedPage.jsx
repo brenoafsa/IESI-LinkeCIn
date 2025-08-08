@@ -28,37 +28,12 @@ const FeedPage = () => {
         }
     }, [token]);
 
-    useEffect(() => {
-    const params = {};
-
-    if (tipo && tipo !== 'tipo') {
-        const tipoMap = {
-            mon: "COMPLEMENTARY",
-            pex: "EXTENSION",
-            ppe: "RESEARCH",
-            est: "INTERNSHIP",
-            eve: "EVENT"
-        };
-        params.tipo = tipoMap[tipo];
-    }
-
-    if (prazo && prazo !== 'prazo' && prazo !== 'todas') {
-        params.prazo = prazo;
-    }
-
-    const rota = Object.keys(params).length > 0 ? '/filtrar' : '/post/open';
-
-    api.get(rota, { params })
-        .then((res) => setPosts(res.data))
-        .catch((err) => console.error('Erro ao filtrar posts:', err));
-}, [tipo, prazo]);
-
-
     const [ativo, setAtivo] = useState(false);
 
     const handleClick = () => {
-        setAtivo(!ativo);
-    };
+    const novoAtivo = !ativo;
+    setAtivo(novoAtivo);
+};
 
     const navigate = useNavigate();
 
@@ -87,14 +62,24 @@ const FeedPage = () => {
         params.prazo = prazo;
     }
 
+    if (ativo) {
+        params.compativeis = true;
+    }
+
     // Se tiver filtros, usa a rota /filtrar, senão busca todos os posts abertos
     const rota = Object.keys(params).length > 0 ? '/filtrar' : '/post/open';
 
-    api.get(rota, { params })
+    api.get(rota, { params, 
+                    headers: {
+                        Authorization: `Bearer ${token}`
+            } })
         .then((res) => setPosts(res.data))
         .catch((err) => console.error('Erro ao filtrar posts:', err));
 };
 
+    useEffect(() => {
+    handleFiltros(new Event('submit'));
+}, [tipo, prazo, ativo]);
     //encerra função pra lidar com filtros
 
     return (
@@ -162,7 +147,7 @@ const FeedPage = () => {
                                 <option value="ume">Último mês</option>
                                 <option value="todas">Todas as Oportunidades</option>
                             </select>
-                            <button type="button" onClick={handleClick} className={`text-darkred px-4 py-2 rounded-lg transition-colors ${ativo ? 'bg-red-100' : ''}`}>
+                            <button type="button" onClick={handleClick} className={`text-darkred px-4 py-2 rounded-lg transition-colors ${ativo ? 'bg-red-100' : 'bg-white'}`}>
                                 <Check size={16} className="text-black inline-block" />
                                 Apenas Compatíveis
                             </button>

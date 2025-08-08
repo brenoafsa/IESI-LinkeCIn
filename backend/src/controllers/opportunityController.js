@@ -154,6 +154,7 @@ async function createOpportunity(req, res) {
     }
 }
 
+
 async function getOpportunityById(req, res) {
     const { id } = req.params
 
@@ -666,43 +667,44 @@ async function closePost(req, res) {
 }
 
 async function listarOportunidadesFiltradas(req, res) {
-    const { tipo, prazo } = req.query
+    const { tipo, prazo, compativeis } = req.query
+    const filtros = {
+        isClosed: false
+    }
+
+    // Filtro por tipo
+    if (tipo) {
+        filtros.type = tipo.toUpperCase()
+    }
+
+    // Filtro por prazo
+    const hoje = new Date()
+    const inicioHoje = new Date()
+    inicioHoje.setHours(0, 0, 0, 0)
+
+    if (prazo === 'hj') {
+        const fimHoje = new Date()
+        fimHoje.setHours(23, 59, 59, 999)
+        filtros.createdAt = {
+            gte: inicioHoje,
+            lte: fimHoje
+        }
+    } else if (prazo === 'use') {
+        const seteDiasAtras = new Date()
+        seteDiasAtras.setDate(hoje.getDate() - 7)
+        filtros.createdAt = {
+            gte: seteDiasAtras
+        }
+    } else if (prazo === 'ume') {
+        const trintaDiasAtras = new Date()
+        trintaDiasAtras.setDate(hoje.getDate() - 30)
+        filtros.createdAt = {
+            gte: trintaDiasAtras
+        }
+    }
 
     try {
-        const filtros = {
-            isClosed: false // ✅ só traz oportunidades abertas
-        }
-
-        if (tipo) {
-            filtros.type = tipo.toUpperCase()
-        }
-
-        const hoje = new Date()
-        const inicioHoje = new Date()
-        inicioHoje.setHours(0, 0, 0, 0)
-
-        if (prazo === 'hj') {
-            const fimHoje = new Date()
-            fimHoje.setHours(23, 59, 59, 999)
-            filtros.createdAt = {
-                gte: inicioHoje,
-                lte: fimHoje
-            }
-        } else if (prazo === 'use') {
-            const seteDiasAtras = new Date()
-            seteDiasAtras.setDate(hoje.getDate() - 7)
-            filtros.createdAt = {
-                gte: seteDiasAtras
-            }
-        } else if (prazo === 'ume') {
-            const trintaDiasAtras = new Date()
-            trintaDiasAtras.setDate(hoje.getDate() - 30)
-            filtros.createdAt = {
-                gte: trintaDiasAtras
-            }
-        }
-
-        const oportunidades = await prisma.opportunityPost.findMany({
+        let oportunidades = await prisma.opportunityPost.findMany({
             where: filtros,
             orderBy: {
                 createdAt: 'desc'
@@ -710,16 +712,45 @@ async function listarOportunidadesFiltradas(req, res) {
             include: {
                 publisher: {
                     select: {
-                        fullName: true,  // ou "name" se o campo for chamado assim
-                        },
-                    },
-                },
+                        fullName: true
+                    }
+                }
+            }
+        })
+
+        // Se for pra filtrar por oportunidades compatíveis
+        if (compativeis === 'true') {
+            const token = req.headers.authorization?.split(' ')[1]
+
+            if (!token) {
+                return res.status(401).json({ error: 'Token não fornecido' })
+            }
+
+            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+            const email = decoded.email
+
+            const user = await prisma.user.findUnique({
+                where: { email },
+                include: { studentRecord: true }
             })
+
+            if (!user || !user.studentRecord) {
+                return res.status(404).json({ error: 'Registro do aluno não encontrado' })
+            }
+
+            const finishedSubjects = user.studentRecord.finishedSubjects
+
+            oportunidades = oportunidades.filter(opp => {
+                return opp.requiredSubjects.every(subject =>
+                    finishedSubjects.includes(subject)
+                )
+            })
+        }
 
         res.status(200).json(oportunidades)
     } catch (error) {
-        console.error('Erro ao filtrar oportunidades:', error)
-        res.status(500).json({ error: 'Erro ao filtrar oportunidades' })
+        console.error('Erro ao listar oportunidades:', error)
+        res.status(500).json({ error: 'Erro ao listar oportunidades' })
     }
 }
 
