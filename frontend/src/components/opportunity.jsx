@@ -95,11 +95,13 @@ export default function Opportunity({ opportunity }) {
                         {opportunity?.city && opportunity?.state ? `${opportunity.city}/${opportunity.state}` : 'Cidade/Estado'}
                     </p>
                 </div>
-                {opportunity?.hours && (
-                    <div className="mt-2">
-                        <p className='text-darkred text-sm'>Carga horária: {opportunity.hours}h</p>
-                    </div>
-                )}
+                <div className="mt-2">
+                    <p className='text-darkred text-sm'>
+                        {opportunity?.hours && opportunity.hours > 0
+                            ? `Carga horária: ${opportunity.hours}h`
+                            : 'Sem carga horária definida'}
+                    </p>
+                </div>
             </div>
             <div className='right-4 flex flex-col lg:w-1/3 w-full lg:flex xl:flex h-full self-stretch rounded-xl ml-auto'>
                 <span className='bg-whitered p-2 rounded-bl-xl rounded-tr-xl flex items-center justify-between'>
