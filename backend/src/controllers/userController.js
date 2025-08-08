@@ -88,11 +88,11 @@ async function checkUserExists(req, res) {
 }
 
 async function setStudentRecord(req, res) {
-    const { userId, horas, curso, entrada, disciplinas } = req.body;
+    const { userId, horasComplementares, horasExtensao, curso, entrada, disciplinas } = req.body;
 
     try {
         await prisma.studentRecord.create({
-            data: { studentId: userId, complementaryHours: horas, course: curso, entrance: entrada, finishedSubjects: disciplinas }
+            data: { studentId: userId, complementaryHours: horasComplementares, extensionHours: horasExtensao, course: curso, entrance: entrada, finishedSubjects: disciplinas }
         })
 
         const estudante = await prisma.user.findUnique({

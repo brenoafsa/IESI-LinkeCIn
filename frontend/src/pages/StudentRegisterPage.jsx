@@ -11,7 +11,8 @@ const StudentRegisterPage = () => {
     const [entrada, setEntrada] = useState('');
     const [aberto, setAberto] = useState(false);
     const [selecionadas, setSelecionadas] = useState([]);
-    const [horas, setHoras] = useState(0);
+    const [horasC, setHoras] = useState(0);
+    const [horasExtensao, setHorasExtensao] = useState(0);
     const disciplinas = ["Concepção dos Artefatos Digitais", "Sistemas Digitais", "Matemática Discreta", "Introdução à Programação", "Cálculo 1", "Estrutura de Dados Orientadas a Objetos", "Desenvolvimento de Software", "Arquitetura de Computadores e Sistemas Operacionais", "Banco de Dados", "Algoritmos", "Álgebra Vetorial e Linear para Computação"];
 
     const dropdownRef = useRef(null);
@@ -38,7 +39,7 @@ const StudentRegisterPage = () => {
     const handleStudentSignUp = async (event) => {
         event.preventDefault();
 
-        const formData = { userId: id, horas: horas, curso: curso, entrada: entrada, disciplinas: selecionadas }
+        const formData = { userId: id, horasComplementares: horasC, horasExtensao: horasExtensao, curso: curso, entrada: entrada, disciplinas: selecionadas }
 
         try {
             const response = await api.post("/student", formData);
@@ -132,8 +133,19 @@ const StudentRegisterPage = () => {
                                 id="horas"
                                 className="rounded-2xl w-full h-10 border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg focus:outline-none bg-darkred text-white"
                                 placeholder="Adicione aqui suas horas. Ex: 60"
-                                value={horas}
+                                value={horasC}
                                 onChange={(e) => setHoras(Number(e.target.value))}
+                            />
+                        </div>
+                        <p className="text-bold text-center mt-3">Quantas horas de extensão você já cumpriu?</p>
+                        <div className="flex items-center mt-2">
+                            <input
+                                type="number"
+                                id="horasExtensao"
+                                className="rounded-2xl w-full h-10 border-3 pl-2 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg focus:outline-none bg-darkred text-white"
+                                placeholder="Adicione aqui suas horas de extensão. Ex: 40"
+                                value={horasExtensao}
+                                onChange={(e) => setHorasExtensao(Number(e.target.value))}
                             />
                         </div>
                         <button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 mt-4">Continuar</button>
