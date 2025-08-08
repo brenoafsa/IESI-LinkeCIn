@@ -5231,7 +5231,7 @@ export namespace Prisma {
 
   export type StudentRecordCreateInput = {
     id?: string
-    complementaryHours: number
+    complementaryHours?: number
     extensionHours?: number
     course: string
     entrance: string
@@ -5242,7 +5242,7 @@ export namespace Prisma {
   export type StudentRecordUncheckedCreateInput = {
     id?: string
     studentId: string
-    complementaryHours: number
+    complementaryHours?: number
     extensionHours?: number
     course: string
     entrance: string
@@ -5272,7 +5272,7 @@ export namespace Prisma {
   export type StudentRecordCreateManyInput = {
     id?: string
     studentId: string
-    complementaryHours: number
+    complementaryHours?: number
     extensionHours?: number
     course: string
     entrance: string
@@ -6216,7 +6216,7 @@ export namespace Prisma {
 
   export type StudentRecordCreateWithoutStudentInput = {
     id?: string
-    complementaryHours: number
+    complementaryHours?: number
     extensionHours?: number
     course: string
     entrance: string
@@ -6225,7 +6225,7 @@ export namespace Prisma {
 
   export type StudentRecordUncheckedCreateWithoutStudentInput = {
     id?: string
-    complementaryHours: number
+    complementaryHours?: number
     extensionHours?: number
     course: string
     entrance: string

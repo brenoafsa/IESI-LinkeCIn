@@ -45,7 +45,7 @@ model StudentRecord {
   student            User @relation(fields: [studentId], references: [id])
   studentId          String @unique
 
-  complementaryHours Int
+  complementaryHours Int @default(0)
   extensionHours     Int @default(0)
   course             String
   entrance           String 
