@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Opportunity from '../components/opportunity';
 import api from '../services/api';
-import { userAuth } from '../services/userAuth'; 
+import { userAuth } from '../services/userAuth';
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -22,7 +22,13 @@ function HistoryPage() {
                     accessToken: token
                 });
 
-                setOportunidades(response.data);
+                // ordena do mais recente para o mais antigo
+                const oportunidadesOrdenadas = [...response.data].sort((a, b) => {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
+
+                setOportunidades(oportunidadesOrdenadas);
+
             } catch (error) {
                 console.error('Erro ao buscar oportunidades:', error);
             }
