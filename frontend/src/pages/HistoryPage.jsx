@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Opportunity from '../components/opportunity';
 import api from '../services/api';
-import { userAuth } from '../services/userAuth'; // garante que está importando corretamente
+import { userAuth } from '../services/userAuth'; 
 
 function HistoryPage() {
     const navigate = useNavigate();
@@ -18,7 +18,6 @@ function HistoryPage() {
                     return;
                 }
 
-                // envia o token no body, como na página de analytics
                 const response = await api.post('/student/posts', {
                     accessToken: token
                 });
@@ -44,14 +43,16 @@ function HistoryPage() {
                 </button>
             </div>
 
-            <h1 className='text-2xl font-bold text-red-700 mb-8'>Seu histórico de participação</h1>
+            <h1 className='text-2xl font-bold text-red-700 mb-8 text-center'>Seu histórico de participação</h1>
 
-            <div className="w-full max-w-5xl flex flex-col gap-4">
+            <div className="w-full max-w-5xl flex flex-col items-center gap-4">
                 {oportunidades.length === 0 ? (
-                    <p className="text-gray-500">Você ainda não se interessou por nenhuma oportunidade.</p>
+                    <p className="text-gray-500 text-center text-base">
+                      Você ainda não se interessou por nenhuma oportunidade.
+                    </p>
                 ) : (
                     oportunidades.map((op) => (
-                        <Opportunity key={op.id} data={op} />
+                        <Opportunity key={op.id} opportunity={op} />
                         
                     ))
                 )}
