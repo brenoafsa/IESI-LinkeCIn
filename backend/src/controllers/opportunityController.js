@@ -643,6 +643,36 @@ async function closePost(req, res) {
             return res.status(403).json({ error: "Você não tem permissão para fazer isso" });
         }
 
+
+        for (const candidateId of candidatesAccepted) {
+            const student = await prisma.user.findFirst({
+                where: { id: candidateId },
+                include: { studentRecord: true }
+            });
+            
+            if (student?.studentRecord) {
+                if (postagem.type === 'EXTENSION') {
+                    await prisma.studentRecord.update({
+                        where: { id: student.studentRecord.id },
+                        data: {
+                            extensionHours: {
+                                increment: postagem.hours
+                            }
+                        }
+                    });
+                } else if (postagem.type === 'COMPLEMENTARY') {
+                    await prisma.studentRecord.update({
+                        where: { id: student.studentRecord.id },
+                        data: {
+                            complementaryHours: {
+                                increment: postagem.hours
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
         await prisma.opportunityPost.update({
             where: { id: postId },
             data: {
@@ -653,7 +683,12 @@ async function closePost(req, res) {
             }
         });
 
-        res.status(200).json({ message: "Post atualizado com sucesso!" });
+        res.status(200).json({ 
+            message: "Post fechado e horas creditadas com sucesso!",
+            horasCreditadas: postagem.hours,
+            tipoAtividade: postagem.type,
+            candidatosAceitos: candidatesAccepted.length
+        });
     } catch (err) {
         console.error('Erro ao fechar o post:', err);
         if (err.name === 'JsonWebTokenError') {

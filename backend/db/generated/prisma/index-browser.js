@@ -132,6 +132,7 @@ exports.Prisma.StudentRecordScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   complementaryHours: 'complementaryHours',
+  extensionHours: 'extensionHours',
   course: 'course',
   entrance: 'entrance',
   finishedSubjects: 'finishedSubjects'

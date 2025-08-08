@@ -2390,16 +2390,19 @@ export namespace Prisma {
 
   export type StudentRecordAvgAggregateOutputType = {
     complementaryHours: number | null
+    extensionHours: number | null
   }
 
   export type StudentRecordSumAggregateOutputType = {
     complementaryHours: number | null
+    extensionHours: number | null
   }
 
   export type StudentRecordMinAggregateOutputType = {
     id: string | null
     studentId: string | null
     complementaryHours: number | null
+    extensionHours: number | null
     course: string | null
     entrance: string | null
   }
@@ -2408,6 +2411,7 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     complementaryHours: number | null
+    extensionHours: number | null
     course: string | null
     entrance: string | null
   }
@@ -2416,6 +2420,7 @@ export namespace Prisma {
     id: number
     studentId: number
     complementaryHours: number
+    extensionHours: number
     course: number
     entrance: number
     finishedSubjects: number
@@ -2425,16 +2430,19 @@ export namespace Prisma {
 
   export type StudentRecordAvgAggregateInputType = {
     complementaryHours?: true
+    extensionHours?: true
   }
 
   export type StudentRecordSumAggregateInputType = {
     complementaryHours?: true
+    extensionHours?: true
   }
 
   export type StudentRecordMinAggregateInputType = {
     id?: true
     studentId?: true
     complementaryHours?: true
+    extensionHours?: true
     course?: true
     entrance?: true
   }
@@ -2443,6 +2451,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     complementaryHours?: true
+    extensionHours?: true
     course?: true
     entrance?: true
   }
@@ -2451,6 +2460,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     complementaryHours?: true
+    extensionHours?: true
     course?: true
     entrance?: true
     finishedSubjects?: true
@@ -2547,6 +2557,7 @@ export namespace Prisma {
     id: string
     studentId: string
     complementaryHours: number
+    extensionHours: number
     course: string
     entrance: string
     finishedSubjects: string[]
@@ -2575,6 +2586,7 @@ export namespace Prisma {
     id?: boolean
     studentId?: boolean
     complementaryHours?: boolean
+    extensionHours?: boolean
     course?: boolean
     entrance?: boolean
     finishedSubjects?: boolean
@@ -2585,6 +2597,7 @@ export namespace Prisma {
     id?: boolean
     studentId?: boolean
     complementaryHours?: boolean
+    extensionHours?: boolean
     course?: boolean
     entrance?: boolean
     finishedSubjects?: boolean
@@ -2595,6 +2608,7 @@ export namespace Prisma {
     id?: boolean
     studentId?: boolean
     complementaryHours?: boolean
+    extensionHours?: boolean
     course?: boolean
     entrance?: boolean
     finishedSubjects?: boolean
@@ -2605,12 +2619,13 @@ export namespace Prisma {
     id?: boolean
     studentId?: boolean
     complementaryHours?: boolean
+    extensionHours?: boolean
     course?: boolean
     entrance?: boolean
     finishedSubjects?: boolean
   }
 
-  export type StudentRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "complementaryHours" | "course" | "entrance" | "finishedSubjects", ExtArgs["result"]["studentRecord"]>
+  export type StudentRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "complementaryHours" | "extensionHours" | "course" | "entrance" | "finishedSubjects", ExtArgs["result"]["studentRecord"]>
   export type StudentRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2630,6 +2645,7 @@ export namespace Prisma {
       id: string
       studentId: string
       complementaryHours: number
+      extensionHours: number
       course: string
       entrance: string
       finishedSubjects: string[]
@@ -3060,6 +3076,7 @@ export namespace Prisma {
     readonly id: FieldRef<"StudentRecord", 'String'>
     readonly studentId: FieldRef<"StudentRecord", 'String'>
     readonly complementaryHours: FieldRef<"StudentRecord", 'Int'>
+    readonly extensionHours: FieldRef<"StudentRecord", 'Int'>
     readonly course: FieldRef<"StudentRecord", 'String'>
     readonly entrance: FieldRef<"StudentRecord", 'String'>
     readonly finishedSubjects: FieldRef<"StudentRecord", 'String[]'>
@@ -4771,6 +4788,7 @@ export namespace Prisma {
     id: 'id',
     studentId: 'studentId',
     complementaryHours: 'complementaryHours',
+    extensionHours: 'extensionHours',
     course: 'course',
     entrance: 'entrance',
     finishedSubjects: 'finishedSubjects'
@@ -4986,6 +5004,7 @@ export namespace Prisma {
     id?: StringFilter<"StudentRecord"> | string
     studentId?: StringFilter<"StudentRecord"> | string
     complementaryHours?: IntFilter<"StudentRecord"> | number
+    extensionHours?: IntFilter<"StudentRecord"> | number
     course?: StringFilter<"StudentRecord"> | string
     entrance?: StringFilter<"StudentRecord"> | string
     finishedSubjects?: StringNullableListFilter<"StudentRecord">
@@ -4996,6 +5015,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
     course?: SortOrder
     entrance?: SortOrder
     finishedSubjects?: SortOrder
@@ -5009,6 +5029,7 @@ export namespace Prisma {
     OR?: StudentRecordWhereInput[]
     NOT?: StudentRecordWhereInput | StudentRecordWhereInput[]
     complementaryHours?: IntFilter<"StudentRecord"> | number
+    extensionHours?: IntFilter<"StudentRecord"> | number
     course?: StringFilter<"StudentRecord"> | string
     entrance?: StringFilter<"StudentRecord"> | string
     finishedSubjects?: StringNullableListFilter<"StudentRecord">
@@ -5019,6 +5040,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
     course?: SortOrder
     entrance?: SortOrder
     finishedSubjects?: SortOrder
@@ -5036,6 +5058,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"StudentRecord"> | string
     studentId?: StringWithAggregatesFilter<"StudentRecord"> | string
     complementaryHours?: IntWithAggregatesFilter<"StudentRecord"> | number
+    extensionHours?: IntWithAggregatesFilter<"StudentRecord"> | number
     course?: StringWithAggregatesFilter<"StudentRecord"> | string
     entrance?: StringWithAggregatesFilter<"StudentRecord"> | string
     finishedSubjects?: StringNullableListFilter<"StudentRecord">
@@ -5221,6 +5244,7 @@ export namespace Prisma {
   export type StudentRecordCreateInput = {
     id?: string
     complementaryHours: number
+    extensionHours?: number
     course: string
     entrance: string
     finishedSubjects?: StudentRecordCreatefinishedSubjectsInput | string[]
@@ -5231,6 +5255,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     complementaryHours: number
+    extensionHours?: number
     course: string
     entrance: string
     finishedSubjects?: StudentRecordCreatefinishedSubjectsInput | string[]
@@ -5239,6 +5264,7 @@ export namespace Prisma {
   export type StudentRecordUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
@@ -5249,6 +5275,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
@@ -5258,6 +5285,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     complementaryHours: number
+    extensionHours?: number
     course: string
     entrance: string
     finishedSubjects?: StudentRecordCreatefinishedSubjectsInput | string[]
@@ -5266,6 +5294,7 @@ export namespace Prisma {
   export type StudentRecordUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
@@ -5275,6 +5304,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
@@ -5513,6 +5543,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
     course?: SortOrder
     entrance?: SortOrder
     finishedSubjects?: SortOrder
@@ -5520,12 +5551,14 @@ export namespace Prisma {
 
   export type StudentRecordAvgOrderByAggregateInput = {
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
   }
 
   export type StudentRecordMaxOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
     course?: SortOrder
     entrance?: SortOrder
   }
@@ -5534,12 +5567,14 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
     course?: SortOrder
     entrance?: SortOrder
   }
 
   export type StudentRecordSumOrderByAggregateInput = {
     complementaryHours?: SortOrder
+    extensionHours?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -6194,6 +6229,7 @@ export namespace Prisma {
   export type StudentRecordCreateWithoutStudentInput = {
     id?: string
     complementaryHours: number
+    extensionHours?: number
     course: string
     entrance: string
     finishedSubjects?: StudentRecordCreatefinishedSubjectsInput | string[]
@@ -6202,6 +6238,7 @@ export namespace Prisma {
   export type StudentRecordUncheckedCreateWithoutStudentInput = {
     id?: string
     complementaryHours: number
+    extensionHours?: number
     course: string
     entrance: string
     finishedSubjects?: StudentRecordCreatefinishedSubjectsInput | string[]
@@ -6383,6 +6420,7 @@ export namespace Prisma {
   export type StudentRecordUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]
@@ -6391,6 +6429,7 @@ export namespace Prisma {
   export type StudentRecordUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     complementaryHours?: IntFieldUpdateOperationsInput | number
+    extensionHours?: IntFieldUpdateOperationsInput | number
     course?: StringFieldUpdateOperationsInput | string
     entrance?: StringFieldUpdateOperationsInput | string
     finishedSubjects?: StudentRecordUpdatefinishedSubjectsInput | string[]

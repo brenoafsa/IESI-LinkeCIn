@@ -45,6 +45,7 @@ model StudentRecord {
   studentId String @unique
 
   complementaryHours Int
+  extensionHours     Int      @default(0)
   course             String
   entrance           String
   finishedSubjects   String[]
