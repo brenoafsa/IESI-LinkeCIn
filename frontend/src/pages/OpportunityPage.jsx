@@ -361,7 +361,7 @@ const handleSimulateHours = async () => {
                 </div>
               </form>
             ) : (
-              <div>
+              <div className="space-y-10">
                 {/* SE NÃO ESTIVER EDITANDO, MOSTRA INFORMAÇÕES NORMAIS */}
                 <h1 className="text-xl font-bold text-darkred mb-2">
                   {information.tittle}
@@ -392,7 +392,7 @@ const handleSimulateHours = async () => {
                 <h2 className="text-xl font-bold text-darkred mb-2">
                   Pré-Requisitos:
                 </h2>
-                <p>A definir conforme necessário</p>
+            
                 {(information.requiredSubjects).map((each, index) => (
                   <p className="mb-2" key={index}>{each}</p>
                 ))}

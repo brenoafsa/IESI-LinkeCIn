@@ -3,18 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import api from "../services/api";
 import { userAuth } from "../services/userAuth";
 import imagem from "/src/assets/img_CInProfile.png"
-
+import { Link } from "react-router-dom"
 
 const ProfilePage = () => {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState()
     const token = userAuth.getAccessToken();
     const [historico, setHistorico] = useState([]);
-
-
-    //const porcentagem = Math.min((30 / 60) * 100, 100) //aqui os valores 3 e 60 devem ser substituidos pelos valores que o aluno tem e o que o curso solicita
-
-
 
     const getHoursData = () => {
         if (!usuario?.studentRecord) {
@@ -28,7 +23,7 @@ const ProfilePage = () => {
         let requiredComplementary = 150;
         let requiredExtension = 300;
         
-        // Valores CORRETOS baseados no ViewMorePage.jsx
+       
         switch (course) {
             case "Ciência da Computação":
                 requiredComplementary = 240;
@@ -66,6 +61,7 @@ const ProfilePage = () => {
     const extensionPercentage = Math.min((hoursData.extension.current / hoursData.extension.required) * 100, 100);
 
 
+
     useEffect(() => {
            if (token) {
             // Buscar dados do usuário
@@ -85,6 +81,7 @@ const ProfilePage = () => {
             const interval = setInterval(fetchUserData, 30000);
             
             return () => clearInterval(interval);
+
         }
     }, [token])
 
@@ -101,15 +98,41 @@ const ProfilePage = () => {
         );
     }
 
+    const handleEditProfile = async (e) => {
+        e.preventDefault();
+        try {
+            
+            const updatedData = {
+                fullName: editData.fullName || usuario.fullName,
+                email: editData.email || usuario.email,
+                course: editData.course || usuario.studentRecord?.course,
+                entrance: editData.entrance || usuario.studentRecord?.entrance,
+                accessToken: token,
+            };
+
+            const response = await api.put('/user/edit', updatedData);
+            console.log("Resposta da API:", response.data);
+            
+            if (response.status === 200) {
+                
+                setUsuario(response.data.student); // ou o campo que sua API retorna
+                setIsEditing(false);
+                setEditData({});
+            }
+        } catch (error) {
+            console.error("Erro ao editar perfil:", error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-mainbg lg:flex justify-center items-start">
             {/* botao voltar */}
-       
-          <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
-            Voltar
-          </button>
 
-           
+            <button onClick={() => navigate('/feed')} className="px-10 ml-10 bg-white rounded-xl py-2 font-bold text-darkred mt-5 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">
+                Voltar
+            </button>
+
+
             <section className="lg:w-1/2 w-full lg:flex xl:flex h-full flex-col gap-10 bg-white p-2 mr-1 m-10 self-stretch rounded-xl ">
                 <div className="w-full h-40 bg-darkred rounded-lg">
                     <img src={imagem} alt="" className="object-cover w-full h-40 bg-darkred rounded-lg" />
@@ -119,21 +142,109 @@ const ProfilePage = () => {
                     <div className="flex items-center justify-center text-white text-2xl font-bold w-16 h-16 rounded-full bg-[darkred] -mt-18">
                         {usuario.fullName.charAt(0)}
                     </div>
-                    <h1 className="text-2xl font-bold text-darkred">{usuario.fullName}</h1>
-                     {usuario?.studentRecord
-                            ? `${usuario.studentRecord.course} | ${usuario.studentRecord.entrance}`
-                            : usuario?.role ? `Perfil de professor` : ""}
-                    <p className="text-gray-600 text-xs"> {usuario.email} </p>
+                    {isEditing ? (
+                        <form onSubmit={handleEditProfile} className="flex flex-col gap-2 mt-4">
+                            <input
+                                type="text"
+                                placeholder="Nome"
+                                value={editData.fullName || usuario.fullName}
+                                onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
+                                className="border rounded p-2"
+                            />
+
+                            {usuario.studentRecord && (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="Curso"
+                                        value={editData.course || usuario.studentRecord.course}
+                                        onChange={(e) =>
+                                            setEditData({ ...editData, course: e.target.value })
+                                        }
+                                        className="border rounded p-2"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Entrada"
+                                        value={editData.entrance || usuario.studentRecord.entrance}
+                                        onChange={(e) =>
+                                            setEditData({ ...editData, entrance: e.target.value })
+                                        }
+                                        className="border rounded p-2"
+                                    />
+                                </>
+                            )}
+
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={editData.email || usuario.email}
+                                onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                                className="border rounded p-2"
+                            />
+
+                            <div className="flex gap-4 mt-2">
+                                <button
+                                    type="submit"
+                                    className="bg-darkred text-white px-4 py-2 rounded-full"
+                                >
+                                    Salvar Alterações
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsEditing(false);
+                                        setEditData({});
+                                    }}
+                                    className="bg-gray-300 text-darkred px-4 py-2 rounded-full"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    ) : (
+                        <>
+                            <h1 className="text-2xl font-bold text-darkred">{usuario.fullName}</h1>
+                            {usuario?.studentRecord
+                                ? `${usuario.studentRecord.course} | ${usuario.studentRecord.entrance}`
+                                : usuario?.role
+                                    ? `Perfil de professor`
+                                    : ""}
+                            <p className="text-gray-600 text-xs">{usuario.email}</p>
+                        </>
+                    )}
+
 
                     <div className="flex mt-5 gap-10 mb-10">
 
-                        <button type="button" className="bg-[darkred] text-white w-50 rounded-full font-bold ">editar perfil</button>
+                        <button
+                            type="button"
+                            onClick={() => setIsEditing(true)}
+                            className="bg-[darkred] text-white w-50 rounded-full font-bold"
+                        >
+                            Editar Perfil
+                        </button>
 
                         <button onClick={LogOut} className="bg-[white] text-[darkred] border-3 border-indigo- border-t-indigo  w-50  rounded-full font-bold ">sair da conta</button>
                     </div>
-                    <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
+                    <button type="button" onClick={() => navigate('/history')}class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
                     <button type="button" onClick={() => navigate('/favorites')} class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
-                    <button type="button" class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Relatório de Horas Complementares</button>
+                    {usuario?.studentRecord
+                    ?   <Link
+                            to={'/student/data'}
+                            className="text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900"
+                        >
+                            Relatório de Horas Complementares
+                        </Link>
+                    :   <Link
+                            to={'/teacher/data'}
+                            className="text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900"
+                        >
+                            Relatório das Oportunidades
+                        </Link>}
+                    
+                    
+                    
                 </div>
             </section>
            <section className="lg:w-1/4 w-full flex h-full flex-col gap-1 bg-white p-2 m-10 self-stretch rounded-xl">
@@ -236,9 +347,9 @@ const ProfilePage = () => {
 
             </section>
 
-            
+
         </div>
-        
+
 
     );
 }
