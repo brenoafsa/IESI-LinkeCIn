@@ -332,9 +332,9 @@ async function simulateHours(req, res) {
                     // Valor padrão
                     requiredHours = 150;
             }
-        } else if (type === "RESEARCH") {
+        } else if (type === "INTERNSHIP") {
             currentHours = user.studentRecord.researchHours || 0;
-            requiredHours = 0; // Pesquisa não tem requisito mínimo obrigatório
+            requiredHours = 0;
         } else {
             return res.status(400).json({ error: 'Tipo de atividade inválido' });
         }

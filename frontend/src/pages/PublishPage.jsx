@@ -8,6 +8,7 @@ const PublishPage = () => {
     const [tokenAcesso, setTokenAcesso] = useState("")
     const [aberto, setAberto] = useState(false);
     const [preRequisitos, setPreRequisitos] = useState([]);
+    const [tipoSelecionado, setTipoSelecionado] = useState("");
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
@@ -47,10 +48,23 @@ const PublishPage = () => {
         const prazo = new Date(prazoInput).toISOString();
         const cidade = document.getElementById("cidade-inscricao").value;
         const estado = document.getElementById("estado-inscricao").value;
-        const horas = parseInt(document.getElementById("carga-horaria").value, 10)
+        
+        // Para estágios, definir horas como 0, caso contrário pegar do input
+        let horas;
+        if (tipo === "INTERNSHIP") {
+            horas = 0;
+        } else {
+            horas = parseInt(document.getElementById("carga-horaria").value, 10);
+        }
 
-        if (!titulo || !descricao || !tipo || !prazoInput || !cidade || !estado || !horas) {
-            alert("Por favor, preencha todos os campos e selecione um cargo.");
+        if (!titulo || !descricao || !tipo || !prazoInput || !cidade || !estado) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        // Validar carga horária apenas para tipos que não sejam estágio
+        if (tipo !== "INTERNSHIP" && (!horas || horas <= 0)) {
+            alert("Por favor, informe uma carga horária válida.");
             return;
         }
 
@@ -100,9 +114,15 @@ const PublishPage = () => {
 
                             {/* Tipo da Oportunidade */}
                             <div className="relative z-0 w-1/2">
-                                <select id="tipo-oportunidade" defaultValue="" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-darkred appearance-none focus:outline-none focus:ring-0 focus:border-darkred peer">
+                                <select 
+                                    id="tipo-oportunidade" 
+                                    defaultValue="" 
+                                    onChange={(e) => setTipoSelecionado(e.target.value)}
+                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-darkred appearance-none focus:outline-none focus:ring-0 focus:border-darkred peer"
+                                >
                                     <option value="EXTENSION">Extensão</option>
                                     <option value="COMPLEMENTARY">Complementar</option>
+                                    <option value="INTERNSHIP">Estágio</option>
                                 </select>
                                 <label htmlFor="tipo-oportunidade" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:scale-75 peer-focus:-translate-y-6">Tipo da Oportunidade</label>
                             </div>
@@ -173,11 +193,13 @@ const PublishPage = () => {
                             <label htmlFor="descricao" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Descrição</label>
                         </div>
 
-                        {/* Carga Horária */}
-                        <div className="relative z-0">
-                            <input type="number" id="carga-horaria" placeholder=" " className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-darkred appearance-none focus:outline-none focus:ring-0 focus:border-darkred peer" />
-                            <label htmlFor="carga-horaria" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carga horária estimada</label>
-                        </div>
+                        {/* Carga Horária - Só aparece se não for estágio */}
+                        {tipoSelecionado !== "INTERNSHIP" && (
+                            <div className="relative z-0">
+                                <input type="number" id="carga-horaria" placeholder=" " className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-darkred appearance-none focus:outline-none focus:ring-0 focus:border-darkred peer" />
+                                <label htmlFor="carga-horaria" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carga horária estimada</label>
+                            </div>
+                        )}
 
                         {/* Botão */}
                         <button type="submit" className="bg-white text-darkred rounded-xl font-black w-full h-9 sm:h-10 md:h-12 lg:h-14 mt-4 shadow-md hover:bg-primaryred hover:text-white transition hover:shadow-primaryred/40">

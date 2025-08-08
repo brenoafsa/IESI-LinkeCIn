@@ -10,6 +10,8 @@ const ProfilePage = () => {
     const [usuario, setUsuario] = useState()
     const token = userAuth.getAccessToken();
     const [historico, setHistorico] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState({});
 
     const getHoursData = () => {
         if (!usuario?.studentRecord) {
@@ -227,8 +229,8 @@ const ProfilePage = () => {
 
                         <button onClick={LogOut} className="bg-[white] text-[darkred] border-3 border-indigo- border-t-indigo  w-50  rounded-full font-bold ">sair da conta</button>
                     </div>
-                    <button type="button" onClick={() => navigate('/history')}class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
-                    <button type="button" onClick={() => navigate('/favorites')} class=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
+                    <button type="button" onClick={() => navigate('/history')} className=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">Histórico de Participação Completo</button>
+                    <button type="button" onClick={() => navigate('/favorites')} className=" text-[darkred] hover:text-white border border-[darkred]-700 hover:bg-[darkred] focus:ring-4 focus:outline-none focus:ring-[darkred]-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-[darkred]-500 dark:text-[darkred]-500 dark:hover:text-white dark:hover:bg-[darkred]-600 dark:focus:ring-red-900">oportunidades favoritadas</button>
                     {usuario?.studentRecord
                     ?   <Link
                             to={'/student/data'}
@@ -329,17 +331,17 @@ const ProfilePage = () => {
                         )}
                     </div>
                     
-                    <figure class="max-w-screen-md mx-auto">
-                        <svg class="w-10 mt-10 h-10 mx-auto mb-3 text-gray-400 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
+                    <figure className="max-w-screen-md mx-auto">
+                        <svg className="w-10 mt-10 h-10 mx-auto mb-3 text-gray-400 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                             <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
                         </svg>
                         <blockquote>
-                            <p class="text-1xl italic font-medium text-gray-900 dark:text-black ">"Tudo acontece na hora certa. Tudo acontece, exatamente quando deve acontecer."</p>
+                            <p className="text-1xl italic font-medium text-gray-900 dark:text-black ">"Tudo acontece na hora certa. Tudo acontece, exatamente quando deve acontecer."</p>
                         </blockquote>
-                        <figcaption class="flex mt-6 space-x-3 rtl:space-x-reverse">
+                        <figcaption className="flex mt-6 space-x-3 rtl:space-x-reverse">
 
-                            <div class="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500 dark:divide-gray-700">
-                                <cite class="pe-3 font-bold text-gray-900 dark:text-[darkred]">Albert Einstein</cite>
+                            <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500 dark:divide-gray-700">
+                                <cite className="pe-3 font-bold text-gray-900 dark:text-[darkred]">Albert Einstein</cite>
                             </div>
                         </figcaption>
                     </figure>

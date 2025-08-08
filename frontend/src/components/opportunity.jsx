@@ -59,6 +59,7 @@ export default function Opportunity({ opportunity }) {
         const tipoDicionario = {
             'EXTENSION': 'EXTENSÃO',
             'COMPLEMENTARY': 'COMPLEMENTAR',
+            'INTERNSHIP': 'ESTÁGIO'
         };
         return tipoDicionario[tipo] || tipo;
     };

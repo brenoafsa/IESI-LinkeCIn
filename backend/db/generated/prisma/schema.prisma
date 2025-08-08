@@ -22,6 +22,7 @@ enum UserRole {
 enum OpportunityTypes {
   EXTENSION
   COMPLEMENTARY
+  INTERNSHIP
 }
 
 model User {
@@ -53,7 +54,7 @@ model StudentRecord {
 
 model OpportunityPost {
   id               String           @id @default(uuid())
-  title            String
+  tittle           String
   description      String
   type             OpportunityTypes
   deadline         DateTime
@@ -71,4 +72,3 @@ model OpportunityPost {
   savedBy      User[] @relation("UserSavedPosts")
   participants User[] @relation("PostParticipants")
 }
-
