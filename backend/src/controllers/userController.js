@@ -409,6 +409,48 @@ async function editUserProfile(req, res) {
         res.status(500).json({ error: 'Erro interno ao editar perfil' });
     }
 }
+
+async function checkPostCreator(req, res){
+    const { token, postId } = req.body;
+
+    if (!token || !postId) {
+        return res.status(400).json({ error: "Token ou ID do post não foram fornecidos"});
+    }
+
+    try {
+        const decodificado = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const userId = decodificado.id;
+
+        const postagem = await prisma.opportunityPost.findUnique({
+            where: { id: postId},
+            include: {
+                publisher: true
+            }
+        })
+
+        if (!postagem) {
+            return res.status(404).json({ error: "Post não encontrado" });
+        }
+
+        if (postagem.publisher.id !== userId){
+            return res.status(403).json({ error: "Você não é o dono do post!"})
+        } else {
+            return res.status(200).json({ message: "Você é o criador do post" })
+        }
+    } catch (error) {
+        console.error('Erro ao verificar criador do post:', error);
+        
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Token inválido' });
+        }
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expirado' });
+        }
+        
+        return res.status(500).json({ error: "Erro interno no servidor" });
+    }
+}
+
 export default {
     getAllUsers,
     createUser,
@@ -420,4 +462,5 @@ export default {
     teacherHistoryInformation,
     simulateHours,
     editUserProfile,
+    checkPostCreator,
 };

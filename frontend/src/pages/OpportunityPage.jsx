@@ -8,11 +8,31 @@ function OpportunityPage() {
   const [information, setInformation] = useState(null);
   const { id } = useParams();
   const token = userAuth.getAccessToken();
+  const [isCreator, setIsCreator] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showSimulatorModal, setShowSimulatorModal] = useState(false);
   const [simulationResult, setSimulationResult] = useState(null);
+
+useEffect(() => {
+  if (token && id) {
+    api.post('/isPostCreator', { token: token, postId: id })
+      .then((res) => {
+        if (res.status === 200) {
+          setIsCreator(true);
+        } else {
+          setIsCreator(false);
+        }
+      })
+      .catch((err) => {
+        setIsCreator(false);
+        console.error({ error: "Erro ao verificar criador do post", err });
+      });
+    } else {
+      setIsCreator(false);
+    }
+  }, [id])
 
   useEffect(() => {
     api
@@ -398,35 +418,39 @@ const handleSimulateHours = async () => {
                 ))}
 
                 <div className="flex space-x-4">
-                  {/* botão para editar as informações*/}
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:text-primaryred hover:shadow-lg hover:shadow-primaryred/40"
-                  >
-                    Editar Oportunidade
-                  </button>
+                  {isCreator ? (
+                    <>
+                      {/* botão para editar as informações*/}
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:text-primaryred hover:shadow-lg hover:shadow-primaryred/40"
+                      >
+                        Editar Oportunidade
+                      </button>
 
-                  {/* botão para apagar a oportunidade! */}
-                  <button
-                    onClick={handleDeleteOpportunity}
-                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
-                  >
-                    Apagar Oportunidade
-                  </button>
+                      {/* botão para apagar a oportunidade! */}
+                      <button
+                        onClick={handleDeleteOpportunity}
+                        className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
+                      >
+                        Apagar Oportunidade
+                      </button>
 
-                  <button
-                    onClick={handleInterestClick}
-                    className="bg-darkred border border-primaryred text-white px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40 hover:bg-primaryred"
-                  >
-                    Tenho Interesse
-                  </button>
-
-                  <button
-                    onClick={() => navigate(`/select/${id}`)}
-                    className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
-                  >
-                    Fechar Inscrições
-                  </button>
+                      <button
+                        onClick={() => navigate(`/select/${id}`)}
+                        className="bg-white border border-primaryred text-darkred px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40"
+                      >
+                        Fechar Inscrições
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={handleInterestClick}
+                      className="bg-darkred border border-primaryred text-white px-6 py-2 rounded-[15px] font-bold hover:shadow-lg hover:shadow-primaryred/40 hover:bg-primaryred"
+                    >
+                      Tenho Interesse
+                    </button>
+                  )}
                 </div>
               </div>
           )}
