@@ -104,8 +104,8 @@ function OpportunityPage() {
         return "Atividade Complementar";
       case "EXTENSION":
         return "Extensão";
-      case "RESEARCH":
-        return "Pesquisa";
+      case "INTERNSHIP":
+        return "Estágio";
       default:
         return type;
     }

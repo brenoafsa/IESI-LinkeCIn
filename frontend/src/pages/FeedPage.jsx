@@ -50,11 +50,9 @@ const FeedPage = () => {
     if (tipo && tipo !== 'tipo') {
         // Mapeia os valores do frontend para os valores do backend
         const tipoMap = {
-            mon: "COMPLEMENTARY",
+            ac: "COMPLEMENTARY",
             pex: "EXTENSION",
-            ppe: "RESEARCH",
             est: "INTERNSHIP",
-            eve: "EVENT"
         };
         params.tipo = tipoMap[tipo];
     }
@@ -129,12 +127,10 @@ const FeedPage = () => {
                                 onChange={(e) => setTipo(e.target.value)}
                                 id="tipo-select"
                             >
-                                <option value="tipo">Tipo</option>
-                                <option value="mon">Monitoria</option>
-                                <option value="pex">Projeto de Extensão</option>
-                                <option value="ppe">Projeto de Pesquisa</option>
+                                <option value="tipo">Todos</option>
+                                <option value="pex">Extensão</option>
+                                <option value="ac">Complementar</option>
                                 <option value="est">Estágio</option>
-                                <option value="eve">Evento</option>
                             </select>
                             <Clock size={16} className="text-black inline-block" />
                             <select className="text-darkred font-normal" value={prazo}

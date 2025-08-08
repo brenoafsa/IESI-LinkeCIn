@@ -23,7 +23,7 @@ function StudentAnalyticsPage() {
   const mapearTipo = (tipo) => {
     switch(tipo) {
       case 'EXTENSION': return 'Extensão';
-      case 'RESEARCH': return 'Pesquisa';
+      case 'INTERNSHIP': return 'Estágio';
       case 'COMPLEMENTARY': return 'Complementar';
       default: return tipo;
     }
