@@ -18,7 +18,7 @@ function HistoryPage() {
                     return;
                 }
 
-                const response = await api.post('/student/posts', {
+                const response = await api.post('/student/participations', {
                     accessToken: token
                 });
 
